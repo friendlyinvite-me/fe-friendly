@@ -8,3 +8,11 @@ export const fetchUserEvents = async (userId: string) => {
     }
   })
 }
+
+export const fetchEventInfo = async (eventId: string) => {
+  return axios.get(formatApiUrl('geteventinfo'), {
+    params: {
+      'event-id': eventId
+    }
+  })
+}

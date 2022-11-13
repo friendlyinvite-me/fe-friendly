@@ -3,6 +3,7 @@ import { fetchUserEvents } from '../../api/events';
 import { auth, signOut } from '../../utils/firebase'
 import useAsyncEffect from 'use-async-effect';
 import { FriendlyEvent } from '../../utils/types';
+import { Navigate } from 'react-router-dom'
 
 export const Home = () => {
   const user = auth.currentUser;
@@ -19,6 +20,7 @@ export const Home = () => {
     }
   }, [user]);
 
+
   const logOut = async () => {
     signOut();
   }
@@ -29,7 +31,14 @@ export const Home = () => {
       <div>your name is {user?.displayName}</div>
       <div>your events are</div>
       <div>
-        {events.map(e => e.name)}
+        <div>{events.map(e => {
+          return (
+            <div>
+              <div>{e.name}</div>
+              <a href={`/events/${e.id}`}>Open event page</a>
+            </div>
+          )
+        })}</div>
       </div>
       <button onClick={logOut}>Logout</button>
     </div>

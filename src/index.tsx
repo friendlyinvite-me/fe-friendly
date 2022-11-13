@@ -1,17 +1,40 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import Dashboard from './App';
 import reportWebVitals from './reportWebVitals';
-
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+} from "react-router-dom";
 import './utils/firebase.ts'
+import { EventInfo } from './pages/event-info/EventInfo';
+import { fetchEventInfo } from './api/events';
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Dashboard />,
+    
+  },
+  {
+    path: "/events/:id",
+    element: <EventInfo />,
+    loader: async (data) => {
+      const id = data.params.id;
+      return fetchEventInfo(id as string);
+    }
+  }
+]);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 

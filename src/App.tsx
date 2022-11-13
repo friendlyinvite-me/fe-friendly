@@ -1,23 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
+import { User } from 'firebase/auth';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import { Home } from './pages/home/Home';
+import { Login } from './pages/login/Login';
+import { onAuthStateChange } from './utils/firebase';
 
 function App() {
+  
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const checkUserSession = onAuthStateChange(response => {
+      if (response.loggedIn) {
+        setCurrentUser(response.user);
+      } else {
+        setCurrentUser(null);
+      }
+    });
+
+    // when we unmount, check again
+    return () => {
+      checkUserSession();
+    }
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+       {
+        currentUser ?  <Home /> : <Login />
+       }
+       
       </header>
     </div>
   );

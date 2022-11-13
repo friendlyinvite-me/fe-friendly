@@ -52,3 +52,7 @@ export const signInWithGoogle = async () => {
     alert(err.message);
   }
 };
+
+export const signOut = async () => {
+  await auth.signOut();
+}

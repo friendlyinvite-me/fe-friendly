@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchUserEvents } from '../../api/events';
-import { auth } from '../../utils/firebase'
+import { auth, signOut } from '../../utils/firebase'
 import useAsyncEffect from 'use-async-effect';
 import { FriendlyEvent } from '../../utils/types';
 
@@ -18,6 +18,10 @@ export const Home = () => {
       
     }
   }, [user]);
+
+  const logOut = async () => {
+    signOut();
+  }
   
 
   return (
@@ -27,6 +31,7 @@ export const Home = () => {
       <div>
         {events.map(e => e.name)}
       </div>
+      <button onClick={logOut}>Logout</button>
     </div>
   )
 }

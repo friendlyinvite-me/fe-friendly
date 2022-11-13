@@ -1,20 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { fetchUserEvents } from '../../api/events';
 import { auth, signOut } from '../../utils/firebase'
 import useAsyncEffect from 'use-async-effect';
-import { FriendlyEvent } from '../../utils/types';
-import { Navigate } from 'react-router-dom'
+import { FriendlyEventRow } from '../../utils/types';
 
 export const Home = () => {
   const user = auth.currentUser;
-  const [events, setEvents] = useState<FriendlyEvent[]>([]);
+  const [events, setEvents] = useState<FriendlyEventRow[]>([]);
 
   useAsyncEffect(async () => {
     if (user) {
       const events = await fetchUserEvents(user?.uid)
-      console.log(events);
       if (events.data) {
-        setEvents(events.data as FriendlyEvent[]);
+        setEvents(events.data as FriendlyEventRow[]);
       }
       
     }
@@ -33,7 +31,7 @@ export const Home = () => {
       <div>
         <div>{events.map(e => {
           return (
-            <div>
+            <div key={e.id}>
               <div>{e.name}</div>
               <a href={`/events/${e.id}`}>Open event page</a>
             </div>

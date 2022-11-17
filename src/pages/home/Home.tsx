@@ -1,32 +1,26 @@
 import { useState } from 'react';
 import { fetchUserEvents } from '../../api/events';
-import { auth, signOut } from '../../utils/firebase'
 import useAsyncEffect from 'use-async-effect';
 import { FriendlyEventRow } from '../../utils/types';
+import { useAuth } from '../../hooks/use-auth';
 
 export const Home = () => {
-  const user = auth.currentUser;
+  const { logOut } = useAuth();
   const [events, setEvents] = useState<FriendlyEventRow[]>([]);
 
-  useAsyncEffect(async () => {
-    if (user) {
-      const events = await fetchUserEvents(user?.uid)
-      if (events.data) {
-        setEvents(events.data as FriendlyEventRow[]);
-      }
+  // useAsyncEffect(async () => {
+  //   if (currentUser) {
+  //     const events = await fetchUserEvents(currentUser?.uid)
+  //     if (events.data) {
+  //       setEvents(events.data as FriendlyEventRow[]);
+  //     }
       
-    }
-  }, [user]);
-
-
-  const logOut = async () => {
-    signOut();
-  }
-  
+  //   }
+  // }, [currentUser]);
 
   return (
     <div>
-      <div>your name is {user?.displayName}</div>
+      {/* <div>your name is {currentUser?.displayName}</div> */}
       <div>your events are</div>
       <div>
         <div>{events.map(e => {

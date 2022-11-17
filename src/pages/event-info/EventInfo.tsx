@@ -5,7 +5,11 @@ import { FriendlyEventData, FriendlyEventResponseAction } from '../../utils/type
 export const EventInfo = () => {
   const data = useLoaderData() as FriendlyEventData;
   console.log(data);
-  const [tab, setTab ] = useState<'datetime' | 'location' | 'history'>('datetime');
+  const [tab, setTab] = useState<'datetime' | 'location' | 'history'>('datetime');
+  // const { currentUser } = useAuth();
+
+  // const isCreatedByUser = data.createdBy.uid === currentUser?.uid;
+  const isCreatedByUser = false;
   
   const locations = useMemo(() => {
     const locationItems: FriendlyEventResponseAction[] = [];
@@ -33,10 +37,12 @@ export const EventInfo = () => {
   return (
     <>
       <div>{data.name}</div>
-      <div>Created by {data.createdBy}</div>
+      {
+        isCreatedByUser ? <div>you created</div> : <div>Created by {data.createdBy.name}</div>
+      }
       <div>
         <button onClick={() => setTab('datetime')}>date time</button>
-        <button onClick={() => setTab('location')}>locatoni</button>
+        <button onClick={() => setTab('location')}>location</button>
         <button onClick={() => setTab('history')}>history</button>
       </div>
       {

@@ -6,7 +6,10 @@ export interface FriendlyEventRow {
 
 export interface FriendlyEventData extends FriendlyEventRow {
   responses: FriendlyEventResponse[];
-  createdBy: string;
+  createdBy: {
+    name: string;
+    uid: string;
+  };
 }
 
 export interface FriendlyEventResponse {

@@ -1,31 +1,44 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Dashboard from './App';
 import reportWebVitals from './reportWebVitals';
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
 } from "react-router-dom";
 import './utils/firebase.ts'
 import { EventInfo } from './pages/event-info/EventInfo';
 import { fetchEventInfo } from './api/events';
+import { Login } from './pages/login/Login';
+import { Landing } from './pages/landing/Landing';
+import { Dashboard } from './pages/dashboard/Dashboard';
+import App from './App';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Dashboard />,
-    
+    element: <App />,
+    children: [
+      {
+        path: 'login',
+        element: <Login />
+      },
+
+      {
+        path: "/dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "/events/:id",
+        element: <EventInfo />,
+        loader: async (data) => {
+          const id = data.params.id;
+          return fetchEventInfo(id as string);
+        }
+      }
+    ]
   },
-  {
-    path: "/events/:id",
-    element: <EventInfo />,
-    loader: async (data) => {
-      const id = data.params.id;
-      return fetchEventInfo(id as string);
-    }
-  }
+  
 ]);
 
 const root = ReactDOM.createRoot(

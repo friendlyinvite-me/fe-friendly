@@ -1,11 +1,20 @@
-import { signInWithGoogle } from '../../utils/firebase';
+import { Nav } from '../../components/Nav';
+import { useAuth } from '../../hooks/use-auth';
+import { Navigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from '../../contexts/auth-context';
 
 export const Login = () => {
+  const { logInWithGoogle } = useAuth();
+  const {user, isLoading} = useContext(UserContext);  
 
-  const signIn = () => {
-    signInWithGoogle();
+  if (user) {
+    return <Navigate to='/dashboard' />
   }
+  
   return (
-    <button onClick={signIn}>click here to login</button>
+    <>
+      <button onClick={logInWithGoogle}>click here to login</button>
+    </>
   )
 }

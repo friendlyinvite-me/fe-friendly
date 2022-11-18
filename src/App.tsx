@@ -1,11 +1,11 @@
 import { User } from 'firebase/auth';
-import { Routes, Route } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import { onAuthStateChange } from './utils/firebase';
 import { Outlet } from "react-router-dom";
 import { UserContext } from './contexts/auth-context';
 import { Nav } from './components/Nav';
+import { styled } from './styles';
 
 function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -35,10 +35,25 @@ function App() {
         isLoading
       }
     }>
-      <Nav />
-     <Outlet />
+      <AppWrapper>
+        <Nav />
+        <Outlet />
+      </AppWrapper>
     </UserContext.Provider>
   );
 }
+
+const AppWrapper = styled('div', {
+  paddingInline: '5%',
+  paddingBlock: '3%',
+  paddingBlockEnd: '0',
+  backgroundColor: '$appBackground',
+  minHeight: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '$5'
+})
+
+
 
 export default App;

@@ -1,10 +1,9 @@
-import { Nav } from '../../components/Nav'
+import { Card } from '../../components/Card'
 
 export const Landing = () => {
   return (
-    <>
-      <Nav />
+    <Card>
       <div>Landing</div>
-    </>
+    </Card>
   )
 }

@@ -10,9 +10,9 @@ import './utils/firebase.ts'
 import { EventInfo } from './pages/event-info/EventInfo';
 import { fetchEventInfo } from './api/events';
 import { Login } from './pages/login/Login';
-import { Landing } from './pages/landing/Landing';
 import { Dashboard } from './pages/dashboard/Dashboard';
 import App from './App';
+import { Landing } from './pages/landing/Landing';
 
 const router = createBrowserRouter([
   {
@@ -20,7 +20,11 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: 'login',
+        path: '/',
+        element: <Landing />
+      },
+      {
+        path: '/login',
         element: <Login />
       },
 

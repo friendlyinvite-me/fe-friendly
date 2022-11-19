@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
+import { Card } from '../../components/Card';
 import { FriendlyEventData, FriendlyEventResponseAction } from '../../utils/types';
 
 export const EventInfo = () => {
@@ -35,7 +36,7 @@ export const EventInfo = () => {
     return dateTimeItems;
   }, [data]);
   return (
-    <>
+    <Card>
       <div>{data.name}</div>
       {
         isCreatedByUser ? <div>you created</div> : <div>Created by {data.createdBy.name}</div>
@@ -98,6 +99,6 @@ export const EventInfo = () => {
           </div>
         )
       }
-    </>
+    </Card>
   )
 }

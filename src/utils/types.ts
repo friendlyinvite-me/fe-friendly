@@ -8,7 +8,7 @@ export interface FriendlyEventData extends FriendlyEventRow {
   responses: FriendlyEventResponse[];
   createdBy: {
     name: string;
-    uid: string;
+    userId: string;
   };
 }
 

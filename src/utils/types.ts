@@ -4,6 +4,7 @@ export interface FriendlyEventRow {
   name: string;
   id: string;
   createdAt: Date;
+  status: 'draft' | 'created' | 'planning' | 'finalized'
 }
 
 export interface FriendlyEventData extends FriendlyEventRow {

@@ -49,6 +49,7 @@ export const Dashboard = () => {
               return (
                 <div key={e.id}>
                   <div>{e.name}</div>
+                  <div>status: {e.status}</div>
                   <a href={`/events/${e.id}`}>Open event page</a>
                 </div>
               )

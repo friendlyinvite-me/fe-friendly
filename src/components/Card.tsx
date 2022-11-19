@@ -11,7 +11,7 @@ export const Card = (props: Props) => {
 
 const CardWrapper = styled('div', {
   backgroundColor: 'white',
-  borderRadius: '25px 25px 0 0',
+  borderRadius: '20px 20px 0 0',
   padding: '$5',
   flex: 1,
   display: 'flex'

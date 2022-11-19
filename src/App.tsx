@@ -36,8 +36,10 @@ function App() {
       }
     }>
       <AppWrapper>
-        <Nav />
-        <Outlet />
+        <AppContent>
+          <Nav />
+          <Outlet />
+        </AppContent>
       </AppWrapper>
     </UserContext.Provider>
   );
@@ -50,8 +52,26 @@ const AppWrapper = styled('div', {
   backgroundColor: '$appBackground',
   minHeight: '100vh',
   display: 'flex',
+
+  '&:after': {
+    content: '',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: '100%',
+    height: '70%',
+    backgroundColor: '#d8d8d8',
+    zIndex: 0
+  }
+});
+
+const AppContent = styled('div', {
+  display: 'flex',
   flexDirection: 'column',
-  gap: '$5'
+  position: 'relative',
+  gap: '$5',
+  flex: 1,
+  zIndex: 1
 })
 
 

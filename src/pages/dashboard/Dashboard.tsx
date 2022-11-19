@@ -2,6 +2,9 @@ import { useContext } from 'react'
 import { UserContext } from '../../contexts/auth-context'
 import { Navigate} from 'react-router-dom';
 import { Card } from '../../components/Card';
+import { styled } from '../../styles';
+import { Text } from '../../components/Text';
+import { Button } from '../../components/Button';
 
 export const Dashboard = () => {
   const {user, isLoading} = useContext(UserContext);  
@@ -10,10 +13,75 @@ export const Dashboard = () => {
   }
   return (
     <>
-      <div>Some tabs</div>
+      <DashboardHeader>
+        <Tabs>
+          <Tab sentiment='selected'>Home</Tab>
+        </Tabs>
+        <Button>Create a new event</Button>
+      </DashboardHeader>
       <Card>
         <div>Dashboard</div>
       </Card>
     </>
   )
 }
+
+const DashboardHeader = styled('div', {
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '$4',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+})
+
+
+const Tabs = styled('div', {
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '$4',
+  alignItems: 'center',
+  justifyContent: 'start',
+  marginBlock: '$6'
+})
+
+
+const Tab = styled('button', {
+  display: 'inline-block',
+  typography: 'h4',
+  color: 'white',
+  margin: 0,
+  backgroundColor: 'transparent',
+  padding: 0,
+  border: 0,
+  outline: 0,
+  cursor: 'pointer',
+  position: 'relative',
+
+  '&:after': {
+    top: 'calc(100% + 10px)',
+    left: 0,
+    width: '15px',
+    height: '5px',
+    borderRadius: '15px',
+    backgroundColor: '$yellow500',
+    content: '',
+    position: 'absolute'
+  },
+
+  variants: {
+    sentiment: {
+      default: {
+        fontWeight: 400,
+        opacity: 0.5,
+        
+        '&:after': {
+          backgroundColor: 'transparent'
+        }
+      },
+      selected: {
+        fontWeight: 700,
+
+      }
+    }
+  }
+})

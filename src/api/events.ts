@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { formatApiUrl } from '../utils/api';
-import { FriendlyEventData, FriendlyEventRow } from '../utils/types';
+import { FriendlyEventData, FriendlyEventRow, NewEventData } from '../utils/types';
 
 export const fetchUserEvents = async (userId: string) => {
   const response = await axios.get(formatApiUrl('getuserevents'), {
@@ -18,4 +18,9 @@ export const fetchEventInfo = async (eventId: string) => {
     }
   })
   return eventInfoData.data as FriendlyEventData;
+}
+
+export const createEvent = async (data: NewEventData) => {
+  const event = await axios.post(formatApiUrl('createevent'), data)
+  return event.data as FriendlyEventData;
 }

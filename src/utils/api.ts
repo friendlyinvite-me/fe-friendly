@@ -1,7 +1,7 @@
 let env: 'dev' | 'prod';
 env = 'dev';
 
-type FirestoreFunctionNames = 'getuserevents' | 'geteventinfo' | 'getuser'
+type FirestoreFunctionNames = 'getuserevents' | 'geteventinfo' | 'getuser' | 'createevent'
 
 export const formatApiUrl = (functionName: FirestoreFunctionNames) => {
   switch (env) {

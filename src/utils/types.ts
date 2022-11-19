@@ -32,3 +32,8 @@ export interface FriendlyUser {
 }
 
 export type User = FirebaseUser & FriendlyUser;
+
+export interface NewEventData {
+  name: string;
+  userId: string;
+}

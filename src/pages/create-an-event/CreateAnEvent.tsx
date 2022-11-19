@@ -6,6 +6,8 @@ import { Text } from '../../components/Text';
 import { styled } from '../../styles';
 import { TextInput } from '../../components/TextInput';
 import { Button } from '../../components/Button';
+import { NewEventData } from '../../utils/types';
+import { createEvent } from '../../api';
 
 export const  CreateAnEvent = () => {
   const {user, isLoading} = useContext(UserContext); 
@@ -19,21 +21,23 @@ export const  CreateAnEvent = () => {
     }
   ]
 
-  interface NewEventData {
-    name: string;
-  }
 
   const [stepIndex, setStepIndex] = useState(0);
   const [eventData, setEventData] = useState<NewEventData>({
-    name: ''
+    name: '',
+    userId: user?.id ?? ''
   })
 
   const onPrev = () => {
     // 
   }
 
-  const onNext = () => {
-    // 
+  const onNext = async () => {
+    switch (stepIndex) {
+      case 0:
+        const event = await createEvent(eventData);
+        debugger;
+    }
   }
 
   const stepIsValid = useMemo(() => {

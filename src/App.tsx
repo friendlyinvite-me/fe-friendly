@@ -1,21 +1,36 @@
-import { User } from 'firebase/auth';
+import { User as FirebaseUser } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import { onAuthStateChange } from './utils/firebase';
 import { Outlet } from "react-router-dom";
 import { UserContext } from './contexts/auth-context';
 import { Nav } from './components/Nav';
+import useAsyncEffect from 'use-async-effect';
 import { styled } from './styles';
+import { fetchUser } from './api';
+import { User } from './utils/types';
 
 function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const checkUserSession = onAuthStateChange(response => {
-      if (response.loggedIn) {
-        
-        setCurrentUser(response.user);
+  console.log(currentUser);
+  
+
+  useAsyncEffect(async () => {
+    const checkUserSession = onAuthStateChange(async (response: {
+      loggedIn: boolean;
+      user: FirebaseUser | null
+    }) => {
+      if (response.loggedIn && response.user) {
+        let friendlyUser = null;
+        if (response.user?.email) {
+          friendlyUser = await fetchUser(response.user.email);
+        }
+        setCurrentUser({
+          ...response.user,
+          id: friendlyUser?.id as string
+        });
       } else {
         setCurrentUser(null);
       }

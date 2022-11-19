@@ -1,16 +1,31 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { UserContext } from '../../contexts/auth-context'
 import { Navigate} from 'react-router-dom';
 import { Card } from '../../components/Card';
 import { styled } from '../../styles';
 import { Text } from '../../components/Text';
 import { Button } from '../../components/Button';
+import useAsyncEffect from 'use-async-effect';
+import { fetchUserEvents } from '../../api';
+import { FriendlyEventRow } from '../../utils/types';
 
 export const Dashboard = () => {
-  const {user, isLoading} = useContext(UserContext);  
+  const {user, isLoading} = useContext(UserContext); 
+  const [events, setEvents] = useState<FriendlyEventRow[]>([]);
+  
+  useAsyncEffect(async () => {
+    if (user) {
+      const events = await fetchUserEvents(user.id);
+      if (events.length) {
+        setEvents(events);
+      }
+      
+    }
+  }, [user]);
   if (!isLoading && !user) {
     return <Navigate to="/login" />
   }
+  
   return (
     <>
       <DashboardHeader>
@@ -20,7 +35,20 @@ export const Dashboard = () => {
         <Button>Create a new event</Button>
       </DashboardHeader>
       <Card>
-        <div>Dashboard</div>
+        <div>
+          <div>your name is {user?.displayName}</div>
+          <div>your events are</div>
+          <div>
+            <div>{events.map(e => {
+              return (
+                <div key={e.id}>
+                  <div>{e.name}</div>
+                  <a href={`/events/${e.id}`}>Open event page</a>
+                </div>
+              )
+            })}</div>
+          </div>
+        </div>
       </Card>
     </>
   )

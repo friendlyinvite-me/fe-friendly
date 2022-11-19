@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import './utils/firebase.ts'
 import { EventInfo } from './pages/event-info/EventInfo';
-import { fetchEventInfo } from './api/events';
+import { fetchEventInfo } from './api';
 import { Login } from './pages/login/Login';
 import { Dashboard } from './pages/dashboard/Dashboard';
 import App from './App';

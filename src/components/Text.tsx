@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { styled, Typography } from '../styles'
+import { styled, Typography, css } from '../styles'
 
 interface Props {
   typography: Typography;

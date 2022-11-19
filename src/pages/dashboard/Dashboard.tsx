@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import { UserContext } from '../../contexts/auth-context'
-import { Navigate} from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Card } from '../../components/Card';
 import { styled } from '../../styles';
 import { Text } from '../../components/Text';
@@ -12,6 +12,8 @@ import { FriendlyEventRow } from '../../utils/types';
 export const Dashboard = () => {
   const {user, isLoading} = useContext(UserContext); 
   const [events, setEvents] = useState<FriendlyEventRow[]>([]);
+  const navigate = useNavigate();
+
   
   useAsyncEffect(async () => {
     if (user) {
@@ -19,11 +21,15 @@ export const Dashboard = () => {
       if (events.length) {
         setEvents(events);
       }
-      
     }
   }, [user]);
+  
   if (!isLoading && !user) {
     return <Navigate to="/login" />
+  }
+
+  const createAnEvent = () => {
+    navigate('/create-an-event');
   }
   
   return (
@@ -32,7 +38,7 @@ export const Dashboard = () => {
         <Tabs>
           <Tab sentiment='selected'>Home</Tab>
         </Tabs>
-        <Button>Create a new event</Button>
+        <Button onClick={createAnEvent}>Create a new event</Button>
       </DashboardHeader>
       <Card>
         <div>

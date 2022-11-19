@@ -13,6 +13,7 @@ import { Login } from './pages/login/Login';
 import { Dashboard } from './pages/dashboard/Dashboard';
 import App from './App';
 import { Landing } from './pages/landing/Landing';
+import { CreateAnEvent } from './pages/create-an-event/CreateAnEvent';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: '/create-an-event',
+        element: <CreateAnEvent />
       },
       {
         path: "/events/:id",

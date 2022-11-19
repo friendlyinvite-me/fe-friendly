@@ -3,10 +3,11 @@ import { styled } from '../styles';
 
 interface Props {
   children: ReactNode;
+  onClick: () => any;
 }
 
 export const Button = (props: Props) => {
-  return <ButtonWrapper>{props.children}</ButtonWrapper>
+  return <ButtonWrapper onClick={props.onClick}>{props.children}</ButtonWrapper>
 }
 
 const ButtonWrapper = styled('button', {

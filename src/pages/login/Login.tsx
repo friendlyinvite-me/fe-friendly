@@ -1,13 +1,13 @@
-import { Nav } from '../../components/Nav';
+import { Nav } from '../../components';
 import { useAuth } from '../../hooks/use-auth';
 import { Navigate } from 'react-router-dom';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { UserContext } from '../../contexts/auth-context';
-import { Text } from '../../components/Text';
+import { Text } from '../../components';
 import { styled } from '../../styles';
-import { Card } from '../../components/Card';
+import { Card } from '../../components';
 
-export const Login = () => {
+export const Login: React.FC = () => {
   const { logInWithGoogle } = useAuth();
   const {user} = useContext(UserContext);  
 

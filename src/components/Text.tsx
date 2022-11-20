@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { styled, Typography, css } from '../styles'
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const Text = (props: Props) => {
+export const Text: React.FC<Props> = (props: Props) => {
   return (
     <TextWrapper css={{
       color: props.color || 'White'

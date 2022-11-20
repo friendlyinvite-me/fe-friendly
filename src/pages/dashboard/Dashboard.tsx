@@ -1,15 +1,15 @@
-import { useContext, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { UserContext } from '../../contexts/auth-context'
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Card } from '../../components/Card';
+import { Card } from '../../components';
 import { styled } from '../../styles';
-import { Text } from '../../components/Text';
-import { Button } from '../../components/Button';
+import { Text } from '../../components';
+import { Button } from '../../components';
 import useAsyncEffect from 'use-async-effect';
 import { fetchUserEvents } from '../../api';
 import { FriendlyEventRow } from '../../utils/types';
 
-export const Dashboard = () => {
+export const Dashboard: React.FC = () => {
   const {user, isLoading} = useContext(UserContext); 
   const [events, setEvents] = useState<FriendlyEventRow[]>([]);
   const navigate = useNavigate();

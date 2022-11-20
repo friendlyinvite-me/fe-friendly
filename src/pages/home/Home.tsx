@@ -1,10 +1,8 @@
-import { useState } from 'react';
-import { fetchUserEvents } from '../../api/events';
-import useAsyncEffect from 'use-async-effect';
+import React, { useState } from 'react';
 import { FriendlyEventRow } from '../../utils/types';
 import { useAuth } from '../../hooks/use-auth';
 
-export const Home = () => {
+export const Home: React.FC = () => {
   const { logOut } = useAuth();
   const [events, setEvents] = useState<FriendlyEventRow[]>([]);
 

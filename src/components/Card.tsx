@@ -1,11 +1,11 @@
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { styled } from '../styles';
 
 interface Props { 
   children: ReactNode;
 }
 
-export const Card = (props: Props) => {
+export const Card: React.FC<Props> = (props: Props) => {
   return <CardWrapper>{props.children}</CardWrapper>
 }
 

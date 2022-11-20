@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import { useAuth } from '../hooks/use-auth';
 import { useNavigate, useLocation } from "react-router-dom";
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { UserContext } from '../contexts/auth-context';
 import { styled } from '../styles';
 import { Text } from './Text';
 
-export const Nav = () => {
+export const Nav: React.FC = () => {
   const { logOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();

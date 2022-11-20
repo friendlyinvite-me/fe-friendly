@@ -1,17 +1,16 @@
-import { useContext, useMemo, useState } from 'react';
-import { Card } from '../../components/Card'
+import React, { useContext, useMemo, useState } from 'react';
 import { UserContext } from '../../contexts/auth-context';
 import { Navigate } from 'react-router-dom';
-import { Text } from '../../components/Text';
+import { Text } from '../../components';
 import { styled } from '../../styles';
-import { TextInput } from '../../components/TextInput';
-import { Button } from '../../components/Button';
+import { Button } from '../../components';
 import { NewEventData } from '../../utils/types';
 import { createEvent } from '../../api';
 import { EventNameStep } from './steps/EventNameStep';
 import { DateTimeStep } from './steps/DateTimeStep';
+import { Card } from '../../components';
 
-export const  CreateAnEvent = () => {
+export const  CreateAnEvent: React.FC = () => {
   const {user, isLoading} = useContext(UserContext); 
   
   const steps = [
@@ -45,19 +44,20 @@ export const  CreateAnEvent = () => {
 
   const onNext = async () => {
     switch (stepIndex) {
-      case 0:
-        const event = await createEvent(eventData);
-        if (event) {
-          setStepIndex(stepIndex+1)
-        }
-        break;
+    case 0: {
+      const event = await createEvent(eventData);
+      if (event) {
+        setStepIndex(stepIndex+1)
+      }
+      break;
+    }
     }
   }
 
   const stepIsValid = useMemo(() => {
     switch (stepIndex) {
-      case 0:
-        return Boolean(eventData.name);
+    case 0:
+      return Boolean(eventData.name);
     }
   }, [stepIndex, eventData]);
 

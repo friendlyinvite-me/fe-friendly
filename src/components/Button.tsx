@@ -1,15 +1,15 @@
-import { ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { styled } from '../styles';
 
 interface Props {
   children: ReactNode;
-  onClick: () => any;
+  onClick: () => void;
   sentiment?: 'primary' | 'secondary';
   disabled?: boolean;
   size?: 'medium' | 'large'
 }
 
-export const Button = (props: Props) => {
+export const Button: React.FC<Props> = (props: Props) => {
   return <ButtonWrapper size={props.size ?? 'medium'} disabled={props.disabled ?? false} sentiment={props.sentiment} onClick={props.onClick}>{props.children}</ButtonWrapper>
 }
 

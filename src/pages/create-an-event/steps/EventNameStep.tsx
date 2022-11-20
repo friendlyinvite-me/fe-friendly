@@ -1,4 +1,5 @@
-import { TextInput } from '../../../components/TextInput'
+import React from 'react';
+import { TextInput } from '../../../components'
 import { NewEventData } from '../../../utils/types';
 
 interface Props {
@@ -6,7 +7,7 @@ interface Props {
   eventData: NewEventData;
 }
 
-export const EventNameStep = (props: Props) => {
+export const EventNameStep: React.FC<Props> = (props: Props) => {
   return (
     <TextInput placeholder='Name of the event' onChange={props.onChangeName} value={props.eventData.name}/>
   )

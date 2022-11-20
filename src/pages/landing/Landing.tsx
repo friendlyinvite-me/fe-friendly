@@ -1,6 +1,7 @@
-import { Card } from '../../components/Card'
+import React from 'react'
+import { Card } from '../../components'
 
-export const Landing = () => {
+export const Landing: React.FC = () => {
   return (
     <Card>
       <div>Landing</div>

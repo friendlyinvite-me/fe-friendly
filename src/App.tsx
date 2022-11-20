@@ -4,7 +4,7 @@ import './App.css';
 import { onAuthStateChange } from './utils/firebase';
 import { Outlet } from "react-router-dom";
 import { UserContext } from './contexts/auth-context';
-import { Nav } from './components/Nav';
+import { Nav } from './components';
 import useAsyncEffect from 'use-async-effect';
 import { styled } from './styles';
 import { fetchUser } from './api';

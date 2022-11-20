@@ -1,3 +1,4 @@
+import React from 'react';
 import { styled } from '../styles';
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
   value: string;
 }
 
-export const TextInput = (props: Props) => {
+export const TextInput: React.FC<Props> = (props: Props) => {
   return (
     <StyledInput {...props} onChange={(e) => props.onChange(e.currentTarget.value)} />
   )

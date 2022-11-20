@@ -1,9 +1,9 @@
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
-import { Card } from '../../components/Card';
+import { Card } from '../../components';
 import { FriendlyEventData, FriendlyEventResponseAction } from '../../utils/types';
 
-export const EventInfo = () => {
+export const EventInfo: React.FC = () => {
   const data = useLoaderData() as FriendlyEventData;
   console.log(data);
   const [tab, setTab] = useState<'datetime' | 'location' | 'history'>('datetime');

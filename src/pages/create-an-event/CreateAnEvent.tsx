@@ -8,6 +8,8 @@ import { TextInput } from '../../components/TextInput';
 import { Button } from '../../components/Button';
 import { NewEventData } from '../../utils/types';
 import { createEvent } from '../../api';
+import { EventNameStep } from './steps/EventNameStep';
+import { DateTimeStep } from './steps/DateTimeStep';
 
 export const  CreateAnEvent = () => {
   const {user, isLoading} = useContext(UserContext); 
@@ -18,11 +20,20 @@ export const  CreateAnEvent = () => {
     },
     {
       title: 'Time of the event'
+    },
+    {
+      title: 'Location of the event'
+    },
+    {
+      title: 'Confirm your event details'
+    },
+    {
+      title: 'Share with your friends'
     }
-  ]
+  ];
 
 
-  const [stepIndex, setStepIndex] = useState(0);
+  const [stepIndex, setStepIndex] = useState(1);
   const [eventData, setEventData] = useState<NewEventData>({
     name: '',
     userId: user?.id ?? ''
@@ -36,14 +47,16 @@ export const  CreateAnEvent = () => {
     switch (stepIndex) {
       case 0:
         const event = await createEvent(eventData);
-        debugger;
+        if (event) {
+          setStepIndex(stepIndex+1)
+        }
+        break;
     }
   }
 
   const stepIsValid = useMemo(() => {
     switch (stepIndex) {
       case 0:
-      default:
         return Boolean(eventData.name);
     }
   }, [stepIndex, eventData]);
@@ -71,12 +84,17 @@ export const  CreateAnEvent = () => {
         <NewEventFormBody>
           {
             stepIndex === 0 && (
-              <TextInput placeholder='Name of the event' onChange={(val) => {
+              <EventNameStep eventData={eventData} onChangeName={(val) => {
                 setEventData({
                   ...eventData,
                   name: val
                 })
-              }} value={eventData.name}/>
+              }}/>
+            )
+          }
+          {
+            stepIndex === 1 && (
+              <DateTimeStep />
             )
           }
         </NewEventFormBody>

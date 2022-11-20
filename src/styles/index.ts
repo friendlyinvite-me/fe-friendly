@@ -5,7 +5,9 @@ export type Typography = 'h1' | 'h2' | 'h3' | 'h4' | 'p';
 export const { styled, css } = createStitches({
   theme: {
     colors: {
+      gray600: '#030511',
       gray500: 'hsl(206,10%,76%)',
+      gray300: '#818288',
       gray200: '#E9E9E9',
       gray100: '#F6F6F6',
       blue500: 'hsl(206,100%,50%)',
@@ -54,47 +56,47 @@ export const { styled, css } = createStitches({
   utils: {
     typography: (value: Typography) => {
       switch (value) {
-      case 'h1':
-      default:
-        return {
-          fontSize: '30px',
-          lineHeight: '20px',
-          fontWeight: '700',
-          fontFamily: 'Satoshi-Bold',
-        };
+        case 'h1':
+        default:
+          return {
+            fontSize: '30px',
+            lineHeight: '20px',
+            fontWeight: '700',
+            fontFamily: 'Satoshi-Bold',
+          };
 
-      case 'h2':
-        return {
-          fontSize: '27px',
-          lineHeight: '15px',
-          fontWeight: '600',
-          fontFamily: 'Satoshi-Bold',
-        };
+        case 'h2':
+          return {
+            fontSize: '27px',
+            lineHeight: '15px',
+            fontWeight: '600',
+            fontFamily: 'Satoshi-Bold',
+          };
 
-      case 'h3':
-        return {
-          fontSize: '25px',
-          lineHeight: '15px',
-          fontWeight: '600',
-          fontFamily: 'Satoshi-Medium',
-        };
+        case 'h3':
+          return {
+            fontSize: '25px',
+            lineHeight: '15px',
+            fontWeight: '600',
+            fontFamily: 'Satoshi-Medium',
+          };
 
-      case 'h4':
-        return {
-          fontSize: '16px',
-          lineHeight: '15px',
-          fontWeight: '500',
-          fontFamily: 'Satoshi-Medium',
-        };
+        case 'h4':
+          return {
+            fontSize: '16px',
+            lineHeight: '15px',
+            fontWeight: '500',
+            fontFamily: 'Satoshi-Medium',
+          };
 
 
-      case 'p':
-        return {
-          fontSize: '14px',
-          lineHeight: '15px',
-          fontWeight: '400',
-          fontFamily: 'Satoshi-Regular',
-        };
+        case 'p':
+          return {
+            fontSize: '14px',
+            lineHeight: '15px',
+            fontWeight: '400',
+            fontFamily: 'Satoshi-Regular',
+          };
 
       }
     }

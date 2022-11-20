@@ -39,25 +39,25 @@ export const  CreateAnEvent: React.FC = () => {
   });
 
   const onPrev = () => {
-    // 
+    setStepIndex(stepIndex - 1);
   };
 
   const onNext = async () => {
     switch (stepIndex) {
-    case 0: {
-      const event = await createEvent(eventData);
-      if (event) {
+      case 0: {
+        // const event = await createEvent(eventData);
+        // if (event) {
         setStepIndex(stepIndex+1);
+        // }
+        break;
       }
-      break;
-    }
     }
   };
 
   const stepIsValid = useMemo(() => {
     switch (stepIndex) {
-    case 0:
-      return Boolean(eventData.name);
+      case 0:
+        return Boolean(eventData.name);
     }
   }, [stepIndex, eventData]);
 

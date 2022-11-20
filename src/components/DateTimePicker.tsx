@@ -1,31 +1,45 @@
 import React, { useState } from 'react';
-import DatePicker from 'react-date-picker';
-import TimePicker from 'react-time-picker';
+import DateTimePickerInput from 'react-datetime-picker';
 import { styled } from '../styles';
 
 interface Props {
-  value: string | undefined;
-  onChange: (val: string | undefined) => void;
+  value: Date;
+  onChange: (val: Date) => void;
 }
 
 export const DateTimePicker: React.FC<Props> = (props: Props) => {
-  const [valueDate, onChangeDate] = useState<Date | null>(new Date());
-  const [valueTime, onChangeTime] = useState<string | Date>('10:00');
+  const [value, onChange] = useState<Date>(props.value); 
+
   return (
     <DateTimePickerWrapper>
-      <DatePicker disableCalendar onChange={onChangeDate} value={valueDate} />
-      <TimePicker onChange={onChangeTime} value={valueTime} />
+      <DateTimePickerInput disableClock disableCalendar onChange={onChange} value={value} />
     </DateTimePickerWrapper>
   );
 };
 
 const DateTimePickerWrapper = styled('div', {
-  display: 'flex',
-  flexDirection: 'row',
-  gap: '$3',
-  alignItems: 'center',
+  padding: '$4 $6',
+  border: '1px solid $gray200',
+  color: '$contentPrimary',
+  borderRadius: "10px",
+  width: '300px',
+  typography: 'h4',
 
-  '& > *': {
-    flex: 1
+  '&:focus': {
+    border: '1px solid black',
+    outline: 0
+  },
+
+  '.react-datetime-picker': {
+    width: '100%',
+
+    '.react-datetime-picker__wrapper' : {
+      border: 0,
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    }
   }
+
+ 
 });

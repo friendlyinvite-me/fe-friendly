@@ -3,28 +3,35 @@ import { DateTimePicker } from '../../../components/DateTimePicker';
 import { styled } from '../../../styles';
 
 interface DateTimeItem {
-  value: string | undefined;
+  value: Date;
 }
 
 export const DateTimeStep: React.FC = () => {
-  const [dateTimes, setDateTimes] = useState<DateTimeItem[]>([{value: undefined}]);
+  const [dateTimes, setDateTimes] = useState<DateTimeItem[]>([
+    {
+      value: new Date()
+    }
+  ]);
   return (
     <DateTimeStepWrapper>
       {
         dateTimes.map((item, index) => (
-          <DateTimePicker value={item.value} onChange={(value) => {
-            setDateTimes(dateTimes.map((item, i) => {
-              if (index === i) {
-                return { value };
-              }
-              return item;
-            }));
-          }} key={index} />
+          <DateTimeStepItemWrapper key={index} >
+            <DateTimePicker value={item.value} onChange={(value) => {
+              setDateTimes(dateTimes.map((item, i) => {
+                if (index === i) {
+                  return { value };
+                }
+                return item;
+              }));
+            }}/>
+            <DeleteRow>Delete</DeleteRow>
+          </DateTimeStepItemWrapper>
         ))
       }
       <SuggestAnotherButton onClick={() => {
         setDateTimes([...dateTimes, {
-          value: undefined
+          value: new Date()
         }]);
       }}>Suggest another</SuggestAnotherButton>
     </DateTimeStepWrapper>
@@ -36,6 +43,23 @@ const DateTimeStepWrapper = styled('div', {
   flexDirection: 'column',
   gap: '$3',
   alignItems: 'center'
+});
+
+const DateTimeStepItemWrapper = styled('div', {
+  position: 'relative',
+});
+
+const DeleteRow = styled('div', {
+  position: 'absolute',
+  left: 'calc(100% + 25px)',
+  top: 0,
+  bottom: 0,
+  marginTop: 'auto',
+  marginBottom: 'auto',
+  paddingBlock: '$5',
+  color: '$gray300',
+  cursor: 'pointer',
+  textDecoration: 'underline'
 });
 
 const SuggestAnotherButton = styled('button', {

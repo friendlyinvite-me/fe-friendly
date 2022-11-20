@@ -40,7 +40,7 @@ function App() {
     // when we unmount, check again
     return () => {
       checkUserSession();
-    }
+    };
   }, []);
 
   return (
@@ -87,7 +87,7 @@ const AppContent = styled('div', {
   gap: '$5',
   flex: 1,
   zIndex: 1
-})
+});
 
 
 

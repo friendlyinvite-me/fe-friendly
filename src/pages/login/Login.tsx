@@ -12,7 +12,7 @@ export const Login: React.FC = () => {
   const {user} = useContext(UserContext);  
 
   if (user) {
-    return <Navigate to='/dashboard' />
+    return <Navigate to='/dashboard' />;
   }
   
   return (
@@ -25,8 +25,8 @@ export const Login: React.FC = () => {
         </LoginWithGoogleWrapper>
       </LoginWrapper>
     </Card>
-  )
-}
+  );
+};
 
 const LoginWrapper = styled('div', {
   display: 'flex',
@@ -35,7 +35,7 @@ const LoginWrapper = styled('div', {
   justifyContent: 'center',
   gap: '$4',
   flex: 1,
-})
+});
 
 const LoginWithGoogleWrapper = styled('button', {
   backgroundColor: '$gray100',
@@ -52,4 +52,4 @@ const LoginWithGoogleWrapper = styled('button', {
   '&:hover': {
     color: 'DimGray'
   }
-})
+});

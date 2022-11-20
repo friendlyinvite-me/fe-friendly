@@ -6,7 +6,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import './utils/firebase.ts'
+import './utils/firebase.ts';
 import { EventInfo } from './pages/event-info/EventInfo';
 import { fetchEventInfo } from './api';
 import { Login } from './pages/login/Login';

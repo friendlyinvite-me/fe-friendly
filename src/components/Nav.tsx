@@ -27,21 +27,21 @@ export const Nav: React.FC = () => {
           user && (
             <LogOutButton onClick={() => {
               logOut();
-              navigate('/')
+              navigate('/');
             }}>Log out</LogOutButton>
           )
         }
       </NavLinks>
     </NavWrapper>
-  )
-}
+  );
+};
 
 const NavWrapper = styled('nav', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
   gap: '$5',
-})
+});
 const NavLinks = styled('div', {
   display: 'flex',
   flexDirection: 'row',
@@ -61,7 +61,7 @@ const NavLink = styled(Link, {
       },
     }
   }
-})
+});
 
 const LogOutButton = styled('button', {
   border: '2px solid white',
@@ -73,4 +73,4 @@ const LogOutButton = styled('button', {
   padding: '$1 $2',
   borderRadius: '20px',
   backgroundColor: 'transparent'
-})
+});

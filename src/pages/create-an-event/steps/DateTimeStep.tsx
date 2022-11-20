@@ -15,21 +15,21 @@ export const DateTimeStep: React.FC = () => {
           <DateTimePicker value={item.value} onChange={(value) => {
             setDateTimes(dateTimes.map((item, i) => {
               if (index === i) {
-                return { value }
+                return { value };
               }
               return item;
-            }))
+            }));
           }} key={index} />
         ))
       }
       <SuggestAnotherButton onClick={() => {
         setDateTimes([...dateTimes, {
           value: undefined
-        }])
+        }]);
       }}>Suggest another</SuggestAnotherButton>
     </DateTimeStepWrapper>
-  )
-}
+  );
+};
 
 const DateTimeStepWrapper = styled('div', {
   display: 'flex',
@@ -46,4 +46,4 @@ const SuggestAnotherButton = styled('button', {
   cursor: 'pointer',
   textDecoration: 'underline',
   backgroundColor: 'transparent'
-})
+});

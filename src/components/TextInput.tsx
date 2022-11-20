@@ -13,8 +13,8 @@ interface Props {
 export const TextInput: React.FC<Props> = (props: Props) => {
   return (
     <StyledInput {...props} onChange={(e) => props.onChange(e.currentTarget.value)} />
-  )
-}
+  );
+};
 
 const StyledInput = styled('input', {
   padding: '$4 $6',
@@ -28,4 +28,4 @@ const StyledInput = styled('input', {
     border: '1px solid black',
     outline: 0
   }
-})
+});

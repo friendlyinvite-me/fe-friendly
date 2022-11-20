@@ -7,6 +7,6 @@ export const fetchUser = async (email: string) => {
     params: {
       'email': email
     }
-  })
+  });
   return data.data as FriendlyUser;
-}
+};

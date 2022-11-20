@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react'
-import { UserContext } from '../../contexts/auth-context'
+import React, { useContext, useState } from 'react';
+import { UserContext } from '../../contexts/auth-context';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Card } from '../../components';
 import { styled } from '../../styles';
@@ -25,12 +25,12 @@ export const Dashboard: React.FC = () => {
   }, [user]);
   
   if (!isLoading && !user) {
-    return <Navigate to="/login" />
+    return <Navigate to="/login" />;
   }
 
   const createAnEvent = () => {
     navigate('/create-an-event');
-  }
+  };
   
   return (
     <>
@@ -52,14 +52,14 @@ export const Dashboard: React.FC = () => {
                   <div>status: {e.status}</div>
                   <a href={`/events/${e.id}`}>Open event page</a>
                 </div>
-              )
+              );
             })}</div>
           </div>
         </div>
       </Card>
     </>
-  )
-}
+  );
+};
 
 const DashboardHeader = styled('div', {
   display: 'flex',
@@ -67,7 +67,7 @@ const DashboardHeader = styled('div', {
   gap: '$4',
   alignItems: 'center',
   justifyContent: 'space-between',
-})
+});
 
 
 const Tabs = styled('div', {
@@ -77,7 +77,7 @@ const Tabs = styled('div', {
   alignItems: 'center',
   justifyContent: 'start',
   marginBlock: '$6'
-})
+});
 
 
 const Tab = styled('button', {
@@ -119,4 +119,4 @@ const Tab = styled('button', {
       }
     }
   }
-})
+});

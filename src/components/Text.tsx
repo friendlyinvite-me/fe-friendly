@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { styled, Typography, css } from '../styles'
+import { styled, Typography, css } from '../styles';
 
 interface Props {
   typography: Typography;
@@ -12,8 +12,8 @@ export const Text: React.FC<Props> = (props: Props) => {
     <TextWrapper css={{
       color: props.color || 'White'
     }} typography={props.typography}>{props.children}</TextWrapper>
-  )
-}
+  );
+};
 
 const TextWrapper = styled('div', {
   variants: {
@@ -35,4 +35,4 @@ const TextWrapper = styled('div', {
       }
     }
   }
-})
+});

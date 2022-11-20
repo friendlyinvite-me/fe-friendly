@@ -27,10 +27,10 @@ export const Home: React.FC = () => {
               <div>{e.name}</div>
               <a href={`/events/${e.id}`}>Open event page</a>
             </div>
-          )
+          );
         })}</div>
       </div>
       <button onClick={logOut}>Logout</button>
     </div>
-  )
-}
+  );
+};

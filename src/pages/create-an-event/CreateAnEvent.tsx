@@ -32,27 +32,27 @@ export const  CreateAnEvent: React.FC = () => {
   ];
 
 
-  const [stepIndex, setStepIndex] = useState(0);
+  const [stepIndex, setStepIndex] = useState(1);
   const [eventData, setEventData] = useState<NewEventData>({
     name: '',
     userId: user?.id ?? ''
-  })
+  });
 
   const onPrev = () => {
     // 
-  }
+  };
 
   const onNext = async () => {
     switch (stepIndex) {
     case 0: {
       const event = await createEvent(eventData);
       if (event) {
-        setStepIndex(stepIndex+1)
+        setStepIndex(stepIndex+1);
       }
       break;
     }
     }
-  }
+  };
 
   const stepIsValid = useMemo(() => {
     switch (stepIndex) {
@@ -63,7 +63,7 @@ export const  CreateAnEvent: React.FC = () => {
 
 
   if (!isLoading && !user) {
-    return <Navigate to="/login" />
+    return <Navigate to="/login" />;
   }
   return (
     <Card>
@@ -88,7 +88,7 @@ export const  CreateAnEvent: React.FC = () => {
                 setEventData({
                   ...eventData,
                   name: val
-                })
+                });
               }}/>
             )
           }
@@ -106,8 +106,8 @@ export const  CreateAnEvent: React.FC = () => {
         </NewEventFormControls>
       </NewEventFormWrapper>
     </Card>
-  )
-}
+  );
+};
 
 const NewEventFormWrapper = styled('div', {
   flex: 1,
@@ -124,7 +124,7 @@ const NewEventFormHeader = styled('div', {
   flexDirection: 'column',
   gap: '$7',
   alignItems: 'center',
-})
+});
 
 const NewEventFormBody = styled('div', {
   flex: 1,

@@ -5,5 +5,5 @@ export const useAuth = () => {
   return {
     logInWithGoogle: signInWithGoogle,
     logOut: signOut,
-  }
-}
+  };
+};

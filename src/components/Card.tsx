@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode } from 'react';
 import { styled } from '../styles';
 
 interface Props { 
@@ -6,8 +6,8 @@ interface Props {
 }
 
 export const Card: React.FC<Props> = (props: Props) => {
-  return <CardWrapper>{props.children}</CardWrapper>
-}
+  return <CardWrapper>{props.children}</CardWrapper>;
+};
 
 const CardWrapper = styled('div', {
   backgroundColor: 'white',
@@ -15,4 +15,4 @@ const CardWrapper = styled('div', {
   padding: '$5',
   flex: 1,
   display: 'flex',
-})
+});

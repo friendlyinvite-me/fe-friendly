@@ -7,20 +7,20 @@ export const fetchUserEvents = async (userId: string) => {
     params: {
       'user-id': userId
     }
-  })
+  });
   return response.data as FriendlyEventRow[];
-}
+};
 
 export const fetchEventInfo = async (eventId: string) => {
   const eventInfoData = await axios.get(formatApiUrl('geteventinfo'), {
     params: {
       'event-id': eventId
     }
-  })
+  });
   return eventInfoData.data as FriendlyEventData;
-}
+};
 
 export const createEvent = async (data: NewEventData) => {
-  const event = await axios.post(formatApiUrl('createevent'), data)
+  const event = await axios.post(formatApiUrl('createevent'), data);
   return event.data as FriendlyEventData;
-}
+};

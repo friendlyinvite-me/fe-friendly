@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { GoogleAuthProvider, getAuth, signInWithPopup, onAuthStateChanged } from "firebase/auth";
-import { query, collection, getFirestore, where, getDocs, addDoc } from 'firebase/firestore'
+import { query, collection, getFirestore, where, getDocs, addDoc } from 'firebase/firestore';
 
 
 const firebaseConfig = {
@@ -31,7 +31,7 @@ export const onAuthStateChange = (callback: (...arg: any) => void) => {
       callback({ loggedIn: false });
     }
   });
-}
+};
 
 export const signInWithGoogle = async () => {
   try {
@@ -55,4 +55,4 @@ export const signInWithGoogle = async () => {
 
 export const signOut = async () => {
   await auth.signOut();
-}
+};

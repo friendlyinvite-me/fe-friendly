@@ -19,8 +19,8 @@ export const EventInfo: React.FC = () => {
         if (action.type === 'location') {
           locationItems.push(action);
         }
-      })
-    })
+      });
+    });
     return locationItems;
   }, [data]);
 
@@ -31,8 +31,8 @@ export const EventInfo: React.FC = () => {
         if (action.type === 'datetime') {
           dateTimeItems.push(action);
         }
-      })
-    })
+      });
+    });
     return dateTimeItems;
   }, [data]);
   return (
@@ -89,7 +89,7 @@ export const EventInfo: React.FC = () => {
                             <div>type: {action.type}</div>
                             <div>value: {action.value}</div>
                           </div>
-                        )
+                        );
                       })
                     }
                   </div>
@@ -100,5 +100,5 @@ export const EventInfo: React.FC = () => {
         )
       }
     </Card>
-  )
-}
+  );
+};

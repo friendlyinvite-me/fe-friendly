@@ -12,11 +12,15 @@ export const DateTimeStep: React.FC = () => {
       value: new Date()
     }
   ]);
+
+  console.log(dateTimes);
+  
+
   return (
     <DateTimeStepWrapper>
       {
         dateTimes.map((item, index) => (
-          <DateTimeStepItemWrapper key={index} >
+          <DateTimeStepItemWrapper key={`${index}__${item.value.toString()}`} >
             <DateTimePicker value={item.value} onChange={(value) => {
               setDateTimes(dateTimes.map((item, i) => {
                 if (index === i) {
@@ -25,7 +29,10 @@ export const DateTimeStep: React.FC = () => {
                 return item;
               }));
             }}/>
-            <DeleteRow>Delete</DeleteRow>
+            <DeleteRow onClick={() => {
+              const removed = dateTimes.filter((dateTime, i) => i !== index);
+              setDateTimes(removed);
+            }}>Delete</DeleteRow>
           </DateTimeStepItemWrapper>
         ))
       }

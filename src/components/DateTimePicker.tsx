@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DateTimePickerInput from 'react-datetime-picker';
 import { styled } from '../styles';
 
@@ -9,6 +9,10 @@ interface Props {
 
 export const DateTimePicker: React.FC<Props> = (props: Props) => {
   const [value, onChange] = useState<Date>(props.value); 
+
+  useEffect(() => {
+    props.onChange(value);
+  }, [value]);
 
   return (
     <DateTimePickerWrapper>

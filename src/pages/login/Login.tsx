@@ -38,7 +38,7 @@ const LoginWrapper = styled('div', {
 })
 
 const LoginWithGoogleWrapper = styled('button', {
-  backgroundColor: 'WhiteSmoke',
+  backgroundColor: '$gray100',
   color: '$contentPrimary',
   paddingInline: '$6',
   paddingBlock: '$4',

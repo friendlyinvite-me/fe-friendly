@@ -32,7 +32,7 @@ export const  CreateAnEvent: React.FC = () => {
   ];
 
 
-  const [stepIndex, setStepIndex] = useState(1);
+  const [stepIndex, setStepIndex] = useState(0);
   const [eventData, setEventData] = useState<NewEventData>({
     name: '',
     userId: user?.id ?? ''

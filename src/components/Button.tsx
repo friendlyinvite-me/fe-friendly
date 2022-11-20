@@ -35,7 +35,7 @@ const ButtonWrapper = styled('button', {
       },
       secondary: {
         color: '$contentPrimary',
-        backgroundColor: 'WhiteSmoke'
+        backgroundColor: '$gray100'
       }
     },
 

@@ -18,14 +18,14 @@ export const TextInput: React.FC<Props> = (props: Props) => {
 
 const StyledInput = styled('input', {
   padding: '$4 $6',
-  border: '2px solid $gray500',
+  border: '1px solid $gray200',
   color: '$contentPrimary',
-  borderRadius: "5px",
+  borderRadius: "10px",
   width: '300px',
   typography: 'h4',
 
   '&:focus': {
-    border: '2px solid black',
+    border: '1px solid black',
     outline: 0
   }
 })

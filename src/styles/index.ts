@@ -6,13 +6,15 @@ export const { styled, css } = createStitches({
   theme: {
     colors: {
       gray500: 'hsl(206,10%,76%)',
+      gray200: '#E9E9E9',
+      gray100: '#F6F6F6',
       blue500: 'hsl(206,100%,50%)',
       purple500: 'hsl(252,78%,60%)',
       green500: 'hsl(148,60%,60%)',
       red500: 'hsl(352,100%,62%)',
-      yellow500: 'yellow',
+      yellow500: '#E9E70D',
 
-      appBackground: "black",
+      appBackground: "#030511",
 
       contentPrimary: 'black'
     },
@@ -58,6 +60,7 @@ export const { styled, css } = createStitches({
             fontSize: '30px',
             lineHeight: '20px',
             fontWeight: '700',
+            fontFamily: 'Satoshi-Bold',
           }
 
         case 'h2':
@@ -65,6 +68,7 @@ export const { styled, css } = createStitches({
             fontSize: '27px',
             lineHeight: '15px',
             fontWeight: '600',
+            fontFamily: 'Satoshi-Bold',
           }
 
         case 'h3':
@@ -72,6 +76,7 @@ export const { styled, css } = createStitches({
             fontSize: '25px',
             lineHeight: '15px',
             fontWeight: '600',
+            fontFamily: 'Satoshi-Medium',
           }
 
         case 'h4':
@@ -79,6 +84,7 @@ export const { styled, css } = createStitches({
             fontSize: '16px',
             lineHeight: '15px',
             fontWeight: '500',
+            fontFamily: 'Satoshi-Medium',
           }
 
 
@@ -87,6 +93,7 @@ export const { styled, css } = createStitches({
             fontSize: '14px',
             lineHeight: '15px',
             fontWeight: '400',
+            fontFamily: 'Satoshi-Regular',
           }
 
       }

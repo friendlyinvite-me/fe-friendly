@@ -20,6 +20,7 @@ export const DateTimeStep: React.FC<Props> = (props: Props) => {
         dateTimes.map((item, index) => (
           <DateTimeStepItemWrapper key={`${index}__${item.toString()}`} >
             <DateTimePicker
+              size='large'
               value={item}
               onChange={(value) => {
                 onSetDateTimes(dateTimes.map((item, i) => {
@@ -64,10 +65,14 @@ const DeleteRow = styled('div', {
   bottom: 0,
   marginTop: 'auto',
   marginBottom: 'auto',
-  paddingBlock: '$5',
+  height: '20px',
   color: '$gray300',
   cursor: 'pointer',
   textDecoration: 'underline',
+
+  '&:hover': {
+    'color': "$contentPrimary",
+  },
 });
 
 const SuggestAnotherButton = styled('button', {

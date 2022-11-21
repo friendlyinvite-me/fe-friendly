@@ -1,4 +1,5 @@
 import React from 'react';
+import { Size } from '.';
 import { styled } from '../styles';
 
 interface Props {
@@ -8,24 +9,43 @@ interface Props {
   onFocus?: () => void;
   onBlur?: () => void;
   value: string;
+  size?: Size;
 }
 
 export const TextInput: React.FC<Props> = (props: Props) => {
   return (
-    <StyledInput {...props} onChange={(e) => props.onChange(e.currentTarget.value)} />
+    <StyledInput {...props} size={props.size} onChange={(e) => props.onChange(e.currentTarget.value)} />
   );
 };
 
 const StyledInput = styled('input', {
-  padding: '$4 $6',
   border: '1px solid $gray200',
   color: '$contentPrimary',
   borderRadius: "10px",
-  width: '300px',
-  typography: 'h4',
 
   '&:focus': {
     border: '1px solid black',
     outline: 0,
+  },
+
+  variants: {
+    size: {
+      small: {
+        typography: 'p',
+        padding: '$2 $3',
+      },
+      medium :{
+        typography: 'h4',
+        padding: '$4 $6',
+      },
+      large: {
+        typography: 'h3',
+        padding: '$5 $7',
+      },
+    },
+  },
+
+  defaultVariants: {
+    size: 'medium',
   },
 });

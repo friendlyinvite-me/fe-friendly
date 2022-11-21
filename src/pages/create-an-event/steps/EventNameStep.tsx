@@ -9,6 +9,6 @@ interface Props {
 
 export const EventNameStep: React.FC<Props> = (props: Props) => {
   return (
-    <TextInput placeholder='Name of the event' onChange={props.onChangeName} value={props.eventData.name}/>
+    <TextInput size='large' placeholder='Name of the event' onChange={props.onChangeName} value={props.eventData.name}/>
   );
 };

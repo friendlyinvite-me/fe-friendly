@@ -75,9 +75,9 @@ export const { styled, css } = createStitches({
 
         case 'h3':
           return {
-            fontSize: '25px',
+            fontSize: '20px',
             lineHeight: '15px',
-            fontWeight: '600',
+            fontWeight: '500',
             fontFamily: 'Satoshi-Medium',
           };
 

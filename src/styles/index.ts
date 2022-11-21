@@ -1,8 +1,8 @@
-import { createStitches, } from '@stitches/react';
+import { createStitches } from '@stitches/react';
 
 export type Typography = 'h1' | 'h2' | 'h3' | 'h4' | 'p';
 
-export const { styled, css, } = createStitches({
+export const { styled, css } = createStitches({
   theme: {
     colors: {
       gray600: '#030511',
@@ -54,7 +54,7 @@ export const { styled, css, } = createStitches({
   },
 
   utils: {
-    typography: (value: Typography,) => {
+    typography: (value: Typography) => {
       switch (value) {
         case 'h1':
         default:
@@ -101,4 +101,4 @@ export const { styled, css, } = createStitches({
       }
     },
   },
-},);
+});

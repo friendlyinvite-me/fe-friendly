@@ -4,7 +4,7 @@ env = 'dev';
 
 type FirestoreFunctionNames = 'getuserevents' | 'geteventinfo' | 'getuser' | 'createevent'
 
-export const formatApiUrl = (functionName: FirestoreFunctionNames,) => {
+export const formatApiUrl = (functionName: FirestoreFunctionNames) => {
   switch (env) {
     case 'dev':
       return `http://127.0.0.1:5005/friendly-356420/us-central1/${functionName}`;

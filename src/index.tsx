@@ -7,13 +7,13 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import './utils/firebase.ts';
-import { EventInfo, } from './pages/event-info/EventInfo';
-import { fetchEventInfo, } from './api';
-import { Login, } from './pages/login/Login';
-import { Dashboard, } from './pages/dashboard/Dashboard';
+import { EventInfo } from './pages/event-info/EventInfo';
+import { fetchEventInfo } from './api';
+import { Login } from './pages/login/Login';
+import { Dashboard } from './pages/dashboard/Dashboard';
 import App from './App';
-import { Landing, } from './pages/landing/Landing';
-import { CreateAnEvent, } from './pages/create-an-event/CreateAnEvent';
+import { Landing } from './pages/landing/Landing';
+import { CreateAnEvent } from './pages/create-an-event/CreateAnEvent';
 
 const router = createBrowserRouter([
   {
@@ -40,18 +40,18 @@ const router = createBrowserRouter([
       {
         path: "/events/:id",
         element: <EventInfo />,
-        loader: async (data,) => {
+        loader: async (data) => {
           const id = data.params.id;
-          return fetchEventInfo(id as string,);
+          return fetchEventInfo(id as string);
         },
       },
     ],
   },
   
-],);
+]);
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root',) as HTMLElement,
+  document.getElementById('root') as HTMLElement,
 );
 
 root.render(

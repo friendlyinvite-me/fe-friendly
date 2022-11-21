@@ -1,5 +1,5 @@
-import React, { ReactNode, } from 'react';
-import { styled, } from '../styles';
+import React, { ReactNode } from 'react';
+import { styled } from '../styles';
 
 interface Props {
   children: ReactNode;
@@ -9,7 +9,7 @@ interface Props {
   size?: 'medium' | 'large'
 }
 
-export const Button: React.FC<Props> = (props: Props,) => {
+export const Button: React.FC<Props> = (props: Props) => {
   return <ButtonWrapper size={props.size ?? 'medium'} disabled={props.disabled ?? false} sentiment={props.sentiment} onClick={props.onClick}>{props.children}</ButtonWrapper>;
 };
 
@@ -58,4 +58,4 @@ const ButtonWrapper = styled('button', {
     sentiment: 'primary',
     size: 'medium',
   },
-},);
+});

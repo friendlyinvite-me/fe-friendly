@@ -1,17 +1,17 @@
-import { Link, } from "react-router-dom";
-import { useAuth, } from '../hooks/use-auth';
-import { useNavigate, useLocation, } from "react-router-dom";
-import React, { useContext, } from 'react';
-import { UserContext, } from '../contexts/auth-context';
-import { styled, } from '../styles';
-import { Text, } from './Text';
+import { Link } from "react-router-dom";
+import { useAuth } from '../hooks/use-auth';
+import { useNavigate, useLocation } from "react-router-dom";
+import React, { useContext } from 'react';
+import { UserContext } from '../contexts/auth-context';
+import { styled } from '../styles';
+import { Text } from './Text';
 
 export const Nav: React.FC = () => {
-  const { logOut, } = useAuth();
+  const { logOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const {user,} = useContext(UserContext,);  
+  const {user} = useContext(UserContext);  
 
 
   return (
@@ -27,7 +27,7 @@ export const Nav: React.FC = () => {
           user && (
             <LogOutButton onClick={() => {
               logOut();
-              navigate('/',);
+              navigate('/');
             }}>Log out</LogOutButton>
           )
         }
@@ -41,14 +41,14 @@ const NavWrapper = styled('nav', {
   justifyContent: 'space-between',
   alignItems: 'center',
   gap: '$5',
-},);
+});
 const NavLinks = styled('div', {
   display: 'flex',
   flexDirection: 'row',
   gap: '$3',
   alignItems: 'center',
   color: 'white',
-},);
+});
 
 const NavLink = styled(Link, {
   color: 'white',
@@ -61,7 +61,7 @@ const NavLink = styled(Link, {
       },
     },
   },
-},);
+});
 
 const LogOutButton = styled('button', {
   border: '2px solid white',
@@ -73,4 +73,4 @@ const LogOutButton = styled('button', {
   padding: '$1 $2',
   borderRadius: '20px',
   backgroundColor: 'transparent',
-},);
+});

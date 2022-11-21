@@ -1,49 +1,49 @@
-import React, { useState, } from 'react';
-import { DateTimePicker, } from '../../../components/DateTimePicker';
-import { styled, } from '../../../styles';
+import React, { useState } from 'react';
+import { DateTimePicker } from '../../../components/DateTimePicker';
+import { styled } from '../../../styles';
 
 interface DateTimeItem {
   value: Date;
 }
 
 export const DateTimeStep: React.FC = () => {
-  const [dateTimes, setDateTimes,] = useState<DateTimeItem[]>([
+  const [dateTimes, setDateTimes] = useState<DateTimeItem[]>([
     {
       value: new Date(),
     },
-  ],);
+  ]);
 
-  console.log(dateTimes,);
+  console.log(dateTimes);
 
   return (
     <DateTimeStepWrapper>
       {
-        dateTimes.map((item, index,) => (
+        dateTimes.map((item, index) => (
           <DateTimeStepItemWrapper key={`${index}__${item.value.toString()}`} >
             <DateTimePicker
               value={item.value}
-              onChange={(value,) => {
-                setDateTimes(dateTimes.map((item, i,) => {
+              onChange={(value) => {
+                setDateTimes(dateTimes.map((item, i) => {
                   if (index === i) {
-                    return { value, };
+                    return { value };
                   }
                   return item;
-                },),);
+                }));
               }}
             />
             { dateTimes.length > 1 && 
               <DeleteRow onClick={() => {
-                const removed = dateTimes.filter((dateTime, i,) => i !== index,);
-                setDateTimes(removed,);
+                const removed = dateTimes.filter((dateTime, i) => i !== index);
+                setDateTimes(removed);
               }}>Delete</DeleteRow>
             }
           </DateTimeStepItemWrapper>
-        ),)
+        ))
       }
       <SuggestAnotherButton onClick={() => {
         setDateTimes([...dateTimes, {
           value: new Date(),
-        },],);
+        }]);
       }}>Suggest another</SuggestAnotherButton>
     </DateTimeStepWrapper>
   );
@@ -54,11 +54,11 @@ const DateTimeStepWrapper = styled('div', {
   flexDirection: 'column',
   gap: '$3',
   alignItems: 'center',
-},);
+});
 
 const DateTimeStepItemWrapper = styled('div', {
   position: 'relative',
-},);
+});
 
 const DeleteRow = styled('div', {
   position: 'absolute',
@@ -71,7 +71,7 @@ const DeleteRow = styled('div', {
   color: '$gray300',
   cursor: 'pointer',
   textDecoration: 'underline',
-},);
+});
 
 const SuggestAnotherButton = styled('button', {
   outline: 0,
@@ -82,4 +82,4 @@ const SuggestAnotherButton = styled('button', {
   textDecoration: 'underline',
   backgroundColor: 'transparent',
   paddingBlock: '$3',
-},);
+});

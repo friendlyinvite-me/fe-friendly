@@ -1,4 +1,4 @@
-import { User as FirebaseUser } from 'firebase/auth';
+import { User as FirebaseUser, } from 'firebase/auth';
 
 export interface FriendlyEventRow {
   name: string;
@@ -36,4 +36,5 @@ export type User = FirebaseUser & FriendlyUser;
 export interface NewEventData {
   name: string;
   userId: string;
+  dateTimes: Date[];
 }

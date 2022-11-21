@@ -1,15 +1,15 @@
-import { Nav } from '../../components';
-import { useAuth } from '../../hooks/use-auth';
-import { Navigate } from 'react-router-dom';
-import React, { useContext } from 'react';
-import { UserContext } from '../../contexts/auth-context';
-import { Text } from '../../components';
-import { styled } from '../../styles';
-import { Card } from '../../components';
+import { Nav, } from '../../components';
+import { useAuth, } from '../../hooks/use-auth';
+import { Navigate, } from 'react-router-dom';
+import React, { useContext, } from 'react';
+import { UserContext, } from '../../contexts/auth-context';
+import { Text, } from '../../components';
+import { styled, } from '../../styles';
+import { Card, } from '../../components';
 
 export const Login: React.FC = () => {
-  const { logInWithGoogle } = useAuth();
-  const {user} = useContext(UserContext);  
+  const { logInWithGoogle, } = useAuth();
+  const {user,} = useContext(UserContext,);  
 
   if (user) {
     return <Navigate to='/dashboard' />;
@@ -35,7 +35,7 @@ const LoginWrapper = styled('div', {
   justifyContent: 'center',
   gap: '$4',
   flex: 1,
-});
+},);
 
 const LoginWithGoogleWrapper = styled('button', {
   backgroundColor: '$gray100',
@@ -50,6 +50,6 @@ const LoginWithGoogleWrapper = styled('button', {
   border: 'none',
 
   '&:hover': {
-    color: 'DimGray'
-  }
-});
+    color: 'DimGray',
+  },
+},);

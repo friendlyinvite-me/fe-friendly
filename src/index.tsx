@@ -7,13 +7,13 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import './utils/firebase.ts';
-import { EventInfo } from './pages/event-info/EventInfo';
-import { fetchEventInfo } from './api';
-import { Login } from './pages/login/Login';
-import { Dashboard } from './pages/dashboard/Dashboard';
+import { EventInfo, } from './pages/event-info/EventInfo';
+import { fetchEventInfo, } from './api';
+import { Login, } from './pages/login/Login';
+import { Dashboard, } from './pages/dashboard/Dashboard';
 import App from './App';
-import { Landing } from './pages/landing/Landing';
-import { CreateAnEvent } from './pages/create-an-event/CreateAnEvent';
+import { Landing, } from './pages/landing/Landing';
+import { CreateAnEvent, } from './pages/create-an-event/CreateAnEvent';
 
 const router = createBrowserRouter([
   {
@@ -22,11 +22,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Landing />
+        element: <Landing />,
       },
       {
         path: '/login',
-        element: <Login />
+        element: <Login />,
       },
 
       {
@@ -35,29 +35,29 @@ const router = createBrowserRouter([
       },
       {
         path: '/create-an-event',
-        element: <CreateAnEvent />
+        element: <CreateAnEvent />,
       },
       {
         path: "/events/:id",
         element: <EventInfo />,
-        loader: async (data) => {
+        loader: async (data,) => {
           const id = data.params.id;
-          return fetchEventInfo(id as string);
-        }
-      }
-    ]
+          return fetchEventInfo(id as string,);
+        },
+      },
+    ],
   },
   
-]);
+],);
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById('root',) as HTMLElement,
 );
 
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,4 +1,4 @@
-import { signInWithGoogle, signOut } from '../utils/firebase';
+import { signInWithGoogle, signOut, } from '../utils/firebase';
 
 export const useAuth = () => {
 

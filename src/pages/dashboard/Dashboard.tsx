@@ -1,35 +1,35 @@
-import React, { useContext, useState } from 'react';
-import { UserContext } from '../../contexts/auth-context';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { Card } from '../../components';
-import { styled } from '../../styles';
-import { Text } from '../../components';
-import { Button } from '../../components';
+import React, { useContext, useState, } from 'react';
+import { UserContext, } from '../../contexts/auth-context';
+import { Navigate, useNavigate, } from 'react-router-dom';
+import { Card, } from '../../components';
+import { styled, } from '../../styles';
+import { Text, } from '../../components';
+import { Button, } from '../../components';
 import useAsyncEffect from 'use-async-effect';
-import { fetchUserEvents } from '../../api';
-import { FriendlyEventRow } from '../../utils/types';
+import { fetchUserEvents, } from '../../api';
+import { FriendlyEventRow, } from '../../utils/types';
 
 export const Dashboard: React.FC = () => {
-  const {user, isLoading} = useContext(UserContext); 
-  const [events, setEvents] = useState<FriendlyEventRow[]>([]);
+  const {user, isLoading,} = useContext(UserContext,); 
+  const [events, setEvents,] = useState<FriendlyEventRow[]>([],);
   const navigate = useNavigate();
 
   
   useAsyncEffect(async () => {
     if (user) {
-      const events = await fetchUserEvents(user.id);
+      const events = await fetchUserEvents(user.id,);
       if (events.length) {
-        setEvents(events);
+        setEvents(events,);
       }
     }
-  }, [user]);
+  }, [user,]);
   
   if (!isLoading && !user) {
     return <Navigate to="/login" />;
   }
 
   const createAnEvent = () => {
-    navigate('/create-an-event');
+    navigate('/create-an-event',);
   };
   
   return (
@@ -45,7 +45,7 @@ export const Dashboard: React.FC = () => {
           <div>your name is {user?.displayName}</div>
           <div>your events are</div>
           <div>
-            <div>{events.map(e => {
+            <div>{events.map(e, => {
               return (
                 <div key={e.id}>
                   <div>{e.name}</div>
@@ -53,7 +53,7 @@ export const Dashboard: React.FC = () => {
                   <a href={`/events/${e.id}`}>Open event page</a>
                 </div>
               );
-            })}</div>
+            },)}</div>
           </div>
         </div>
       </Card>
@@ -67,7 +67,7 @@ const DashboardHeader = styled('div', {
   gap: '$4',
   alignItems: 'center',
   justifyContent: 'space-between',
-});
+},);
 
 
 const Tabs = styled('div', {
@@ -76,7 +76,7 @@ const Tabs = styled('div', {
   gap: '$4',
   alignItems: 'center',
   justifyContent: 'start',
-  marginBlock: '$6'
+  marginBlock: '$6',
 });
 
 
@@ -100,7 +100,7 @@ const Tab = styled('button', {
     borderRadius: '15px',
     backgroundColor: '$yellow500',
     content: '',
-    position: 'absolute'
+    position: 'absolute',
   },
 
   variants: {
@@ -110,13 +110,13 @@ const Tab = styled('button', {
         opacity: 0.5,
         
         '&:after': {
-          backgroundColor: 'transparent'
+          backgroundColor: 'transparent',
         }
       },
       selected: {
         fontWeight: 700,
 
-      }
+      },
     }
-  }
+  },
 });

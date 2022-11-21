@@ -1,66 +1,80 @@
-import React, { useContext, useMemo, useState } from 'react';
-import { UserContext } from '../../contexts/auth-context';
-import { Navigate } from 'react-router-dom';
-import { Text } from '../../components';
-import { styled } from '../../styles';
-import { Button } from '../../components';
-import { NewEventData } from '../../utils/types';
-import { createEvent } from '../../api';
-import { EventNameStep } from './steps/EventNameStep';
-import { DateTimeStep } from './steps/DateTimeStep';
-import { Card } from '../../components';
+import React, { useContext, useMemo, useState, } from 'react';
+import { UserContext, } from '../../contexts/auth-context';
+import { Navigate, } from 'react-router-dom';
+import { Text, } from '../../components';
+import { styled, } from '../../styles';
+import { Button, } from '../../components';
+import { NewEventData, } from '../../utils/types';
+import { createEvent, } from '../../api';
+import { EventNameStep, } from './steps/EventNameStep';
+import { DateTimeStep, } from './steps/DateTimeStep';
+import { Card, } from '../../components';
 
 export const  CreateAnEvent: React.FC = () => {
-  const {user, isLoading} = useContext(UserContext); 
+  const {user, isLoading,} = useContext(UserContext,);
+  const [stepIndex, setStepIndex,] = useState(1,);
+  const [eventData, setEventData,] = useState<NewEventData>({
+    name: '',
+    userId: user?.id ?? '',
+    dateTimes: [],
+  },);
   
   const steps = [
     {
       title: 'Name of the event',
+      buttons: {
+        next: 'Next: Time of the event',
+        prev: 'Cancel',
+      },
+      isDisabled: () => !eventData.name,
+      onNext: async () => {
+        // createEvent();
+      },
     },
     {
-      title: 'Time of the event'
+      title: 'Time of the event',
+      buttons: {
+        next: "Next: Location of the event",
+        prev: "Back",
+      },
+      isValid: () => true,
     },
     {
-      title: 'Location of the event'
+      title: 'Location of the event',
+      buttons: {
+        next: "Next: Confirm event details",
+        prev: "Back",
+      },
     },
     {
-      title: 'Confirm your event details'
+      title: 'Confirm your event details',
+      buttons: {
+        next: "Create my event",
+        prev: "Back",
+      },
     },
     {
-      title: 'Share with your friends'
-    }
+      title: 'Share with your friends',
+      buttons: {
+        next: "Close",
+        prev: "Back",
+      },
+    },
   ];
 
 
-  const [stepIndex, setStepIndex] = useState(1);
-  const [eventData, setEventData] = useState<NewEventData>({
-    name: '',
-    userId: user?.id ?? ''
-  });
+  
 
   const onPrev = () => {
-    setStepIndex(stepIndex - 1);
+    setStepIndex(stepIndex - 1,);
   };
 
   const onNext = async () => {
-    switch (stepIndex) {
-      case 0: {
-        // const event = await createEvent(eventData);
-        // if (event) {
-        setStepIndex(stepIndex+1);
-        // }
-        break;
-      }
-    }
+    currentStep.onNext && await currentStep.onNext();
+    setStepIndex(stepIndex+1,);
   };
-
-  const stepIsValid = useMemo(() => {
-    switch (stepIndex) {
-      case 0:
-        return Boolean(eventData.name);
-    }
-  }, [stepIndex, eventData]);
-
+  
+  const currentStep = steps[stepIndex];
 
   if (!isLoading && !user) {
     return <Navigate to="/login" />;
@@ -70,25 +84,25 @@ export const  CreateAnEvent: React.FC = () => {
       <NewEventFormWrapper>
         <NewEventFormHeader>
           <div>
-            <Text color='$gray500' typography='p'>Step {stepIndex + 1} of {steps.length}</Text>
+            <Text color='$gray300' typography='p'>Step {stepIndex + 1} of {steps.length}</Text>
           </div>
           <div>
-            <Text color='$contentPrimary' typography='h1'>{steps[stepIndex].title}</Text>
+            <Text color='$contentPrimary' typography='h1'>{currentStep.title}</Text>
           </div>
           <ProgressBar>
             <ProgressBarFilled css={{
-              width: `${(stepIndex + 1) * 100/(steps.length)}%`
+              width: `${(stepIndex + 1) * 100/(steps.length)}%`,
             }}></ProgressBarFilled>
           </ProgressBar>
         </NewEventFormHeader>
         <NewEventFormBody>
           {
             stepIndex === 0 && (
-              <EventNameStep eventData={eventData} onChangeName={(val) => {
+              <EventNameStep eventData={eventData} onChangeName={(val,) => {
                 setEventData({
                   ...eventData,
-                  name: val
-                });
+                  name: val,
+                },);
               }}/>
             )
           }
@@ -100,9 +114,9 @@ export const  CreateAnEvent: React.FC = () => {
         </NewEventFormBody>
         <NewEventFormControls>
           { stepIndex > 0 &&
-            <Button size='large' onClick={onPrev} sentiment='secondary'>Prev</Button>
+            <Button size='large' onClick={onPrev} sentiment='secondary'>{currentStep.buttons.prev}</Button>
           }
-          <Button size='large' disabled={!stepIsValid} onClick={onNext} sentiment='primary'>Next: date & time</Button>
+          <Button size='large' disabled={currentStep.isDisabled && currentStep.isDisabled()} onClick={onNext} sentiment='primary'>{currentStep.buttons.next}</Button>
         </NewEventFormControls>
       </NewEventFormWrapper>
     </Card>
@@ -116,19 +130,19 @@ const NewEventFormWrapper = styled('div', {
   gap: '$7',
   alignItems: 'center',
   paddingInline: '$3',
-  paddingBlock: '$7'
-});
+  paddingBlock: '$7',
+},);
 
 const NewEventFormHeader = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '$7',
   alignItems: 'center',
-});
+},);
 
 const NewEventFormBody = styled('div', {
   flex: 1,
-});
+},);
 
 const NewEventFormControls = styled('div', {
   padding: '$3',
@@ -136,8 +150,8 @@ const NewEventFormControls = styled('div', {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  gap: '$3'
-});
+  gap: '$3',
+},);
 
 const ProgressBar = styled('div', {
   borderRadius: '10px',
@@ -145,8 +159,9 @@ const ProgressBar = styled('div', {
   maxWidth: '500px',
   width: '100%',
   backgroundColor: "$gray500",
-  position: 'relative'
-});
+  position: 'relative',
+  overflow: 'hidden',
+},);
 
 const ProgressBarFilled = styled('div', {
   height: '100%',
@@ -154,4 +169,4 @@ const ProgressBarFilled = styled('div', {
   backgroundColor: '$yellow500',
   position: 'absolute',
   left: 0,
-});
+},);

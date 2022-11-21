@@ -1,5 +1,5 @@
-import { createContext } from 'react';
-import { User } from '../utils/types';
+import { createContext, } from 'react';
+import { User, } from '../utils/types';
 
 // context default is null
 interface ContextData {
@@ -9,5 +9,5 @@ interface ContextData {
 
 export const UserContext = createContext<ContextData>({
   user: null,
-  isLoading: true
-});
+  isLoading: true,
+},);

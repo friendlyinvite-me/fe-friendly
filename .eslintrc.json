@@ -21,6 +21,7 @@
     ],
     "rules": {
         "indent": ["error", 2, { "SwitchCase": 1 }],
-        "semi": ["error", "always"]
+        "semi": ["error", "always"],
+        "comma-dangle": ["error", "always"]
     }
 }

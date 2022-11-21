@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import { styled } from '../styles';
+import React, { ReactNode, } from 'react';
+import { styled, } from '../styles';
 
 interface Props {
   children: ReactNode;
@@ -9,7 +9,7 @@ interface Props {
   size?: 'medium' | 'large'
 }
 
-export const Button: React.FC<Props> = (props: Props) => {
+export const Button: React.FC<Props> = (props: Props,) => {
   return <ButtonWrapper size={props.size ?? 'medium'} disabled={props.disabled ?? false} sentiment={props.sentiment} onClick={props.onClick}>{props.children}</ButtonWrapper>;
 };
 
@@ -24,7 +24,7 @@ const ButtonWrapper = styled('button', {
 
   '&:disabled': {
     backgroundColor: '$gray500 !important',
-    cursor: 'not-allowed !important'
+    cursor: 'not-allowed !important',
   },
 
   variants: {
@@ -35,8 +35,8 @@ const ButtonWrapper = styled('button', {
       },
       secondary: {
         color: '$contentPrimary',
-        backgroundColor: '$gray100'
-      }
+        backgroundColor: '$gray100',
+      },
     },
 
     size: {
@@ -51,11 +51,11 @@ const ButtonWrapper = styled('button', {
         fontWeight: '700',
         paddingBlock: '$5',
         paddingInline: '$7',
-      }
-    }
+      },
+    },
   },
   defaultVariants: {
     sentiment: 'primary',
-    size: 'medium'
-  }
-});
+    size: 'medium',
+  },
+},);

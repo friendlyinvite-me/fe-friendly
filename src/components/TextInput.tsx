@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled } from '../styles';
+import { styled, } from '../styles';
 
 interface Props {
   placeholder: string;
@@ -10,9 +10,9 @@ interface Props {
   value: string;
 }
 
-export const TextInput: React.FC<Props> = (props: Props) => {
+export const TextInput: React.FC<Props> = (props: Props,) => {
   return (
-    <StyledInput {...props} onChange={(e) => props.onChange(e.currentTarget.value)} />
+    <StyledInput {...props} onChange={(e,) => props.onChange(e.currentTarget.value,)} />
   );
 };
 
@@ -26,6 +26,6 @@ const StyledInput = styled('input', {
 
   '&:focus': {
     border: '1px solid black',
-    outline: 0
-  }
-});
+    outline: 0,
+  },
+},);

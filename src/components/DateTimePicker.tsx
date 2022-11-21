@@ -18,10 +18,10 @@ export const DateTimePicker: React.FC<Props> = (props: Props) => {
 
   return (
     <DateTimePickerWrapper>
-      <DateTimePickerInput clearIcon={null} disableClock disableCalendar onChange={(val) => {
+      <DateTimePickerInput format='dd MMM y   h:mm a' clearIcon={null} disableClock disableCalendar onChange={(val) => {
         onChange(val);
       }} value={value} />
-      <Text typography='p' color="$gray300">{moment(value).format('dddd')} | {moment(value).fromNow()}</Text>
+      <Text typography='p' color="$gray300">{moment(value).format('dddd')} ({moment(value).fromNow()})</Text>
     </DateTimePickerWrapper>
   );
 };
@@ -31,7 +31,7 @@ const DateTimePickerWrapper = styled('div', {
   border: '1px solid $gray200',
   color: '$contentPrimary',
   borderRadius: "10px",
-  width: '300px',
+  width: '400px',
   typography: 'h4',
   display: 'flex',
   flexDirection: 'column',

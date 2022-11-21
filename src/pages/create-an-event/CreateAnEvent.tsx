@@ -9,6 +9,7 @@ import { createEvent } from '../../api';
 import { EventNameStep } from './steps/EventNameStep';
 import { DateTimeStep } from './steps/DateTimeStep';
 import { Card } from '../../components';
+import moment from 'moment';
 
 export const  CreateAnEvent: React.FC = () => {
   const {user, isLoading} = useContext(UserContext);
@@ -16,7 +17,7 @@ export const  CreateAnEvent: React.FC = () => {
   const [eventData, setEventData] = useState<NewEventData>({
     name: '',
     userId: user?.id ?? '',
-    dateTimes: [],
+    dateTimes: [moment().add(1, 'week').toDate()],
   });
   
   const steps = [
@@ -108,7 +109,12 @@ export const  CreateAnEvent: React.FC = () => {
           }
           {
             stepIndex === 1 && (
-              <DateTimeStep />
+              <DateTimeStep dateTimes={eventData.dateTimes} onSetDateTimes={(dateTimes) => {
+                setEventData({
+                  ...eventData,
+                  dateTimes,
+                });
+              }} />
             )
           }
         </NewEventFormBody>

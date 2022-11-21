@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import DateTimePickerInput from 'react-datetime-picker';
 import { styled } from '../styles';
+import moment from 'moment';
+import { Text } from './Text';
 
 interface Props {
   value: Date;
@@ -19,6 +21,7 @@ export const DateTimePicker: React.FC<Props> = (props: Props) => {
       <DateTimePickerInput clearIcon={null} disableClock disableCalendar onChange={(val) => {
         onChange(val);
       }} value={value} />
+      <Text typography='p' color="$gray300">{moment(value).format('dddd')} | {moment(value).fromNow()}</Text>
     </DateTimePickerWrapper>
   );
 };
@@ -30,6 +33,9 @@ const DateTimePickerWrapper = styled('div', {
   borderRadius: "10px",
   width: '300px',
   typography: 'h4',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '$2',
 
   '&:focus': {
     border: '1px solid black',

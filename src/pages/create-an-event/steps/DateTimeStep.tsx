@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { DateTimePicker } from '../../../components/DateTimePicker';
 import { styled } from '../../../styles';
+import moment from 'moment';
 
-interface DateTimeItem {
-  value: Date;
+
+interface Props {
+  dateTimes: Date[],
+  onSetDateTimes: (arr: Date[]) => void;
 }
 
-export const DateTimeStep: React.FC = () => {
-  const [dateTimes, setDateTimes] = useState<DateTimeItem[]>([
-    {
-      value: new Date(),
-    },
-  ]);
+export const DateTimeStep: React.FC<Props> = (props: Props) => {
+  const { dateTimes, onSetDateTimes } = props;
 
   console.log(dateTimes);
 
@@ -19,31 +18,29 @@ export const DateTimeStep: React.FC = () => {
     <DateTimeStepWrapper>
       {
         dateTimes.map((item, index) => (
-          <DateTimeStepItemWrapper key={`${index}__${item.value.toString()}`} >
+          <DateTimeStepItemWrapper key={`${index}__${item.toString()}`} >
             <DateTimePicker
-              value={item.value}
+              value={item}
               onChange={(value) => {
-                setDateTimes(dateTimes.map((item, i) => {
+                onSetDateTimes(dateTimes.map((item, i) => {
                   if (index === i) {
-                    return { value };
+                    return value;
                   }
                   return item;
                 }));
               }}
             />
-            { dateTimes.length > 1 && 
+            { index > 0 && 
               <DeleteRow onClick={() => {
                 const removed = dateTimes.filter((dateTime, i) => i !== index);
-                setDateTimes(removed);
+                onSetDateTimes(removed);
               }}>Delete</DeleteRow>
             }
           </DateTimeStepItemWrapper>
         ))
       }
       <SuggestAnotherButton onClick={() => {
-        setDateTimes([...dateTimes, {
-          value: new Date(),
-        }]);
+        onSetDateTimes([...dateTimes, moment(dateTimes[dateTimes.length - 1]).add(1, 'd').toDate()]);
       }}>Suggest another</SuggestAnotherButton>
     </DateTimeStepWrapper>
   );

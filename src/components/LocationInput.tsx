@@ -56,7 +56,7 @@ export const LocationInput: React.FC<Props> = (props: Props) => {
         onChange={setSelectedSearchResult}
       >
         <Combobox.Input
-          placeholder='Eg: Central Perk Cafe'
+          placeholder='Suggest a place, like Central Perk Cafe'
           value={queryValue}
           onChange={(event) => {
             getPlacePredictions({

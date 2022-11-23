@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@headlessui/react": "^1.7.4",
     "@stitches/react": "^1.2.8",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -19,6 +20,7 @@
     "react-date-picker": "^9.1.0",
     "react-datetime-picker": "^4.1.1",
     "react-dom": "^18.2.0",
+    "react-google-autocomplete": "^2.7.0",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
     "react-time-picker": "^5.1.0",

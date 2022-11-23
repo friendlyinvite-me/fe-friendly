@@ -5,19 +5,20 @@ import { Text } from '../../components';
 import { styled } from '../../styles';
 import { Button } from '../../components';
 import { NewEventData } from '../../utils/types';
-import { createEvent } from '../../api';
 import { EventNameStep } from './steps/EventNameStep';
 import { DateTimeStep } from './steps/DateTimeStep';
 import { Card } from '../../components';
 import moment from 'moment';
+import { LocationStep } from './steps/LocationStep';
 
 export const  CreateAnEvent: React.FC = () => {
   const {user, isLoading} = useContext(UserContext);
-  const [stepIndex, setStepIndex] = useState(1);
+  const [stepIndex, setStepIndex] = useState(2);
   const [eventData, setEventData] = useState<NewEventData>({
     name: '',
     userId: user?.id ?? '',
     dateTimes: [moment().add(1, 'week').toDate()],
+    locations: [],
   });
   
   const steps = [
@@ -31,6 +32,14 @@ export const  CreateAnEvent: React.FC = () => {
       onNext: async () => {
         // createEvent();
       },
+      content: (
+        <EventNameStep eventData={eventData} onChangeName={(val) => {
+          setEventData({
+            ...eventData,
+            name: val,
+          });
+        }}/>
+      ),
     },
     {
       title: 'Time of the event',
@@ -39,6 +48,14 @@ export const  CreateAnEvent: React.FC = () => {
         prev: "Back",
       },
       isValid: () => true,
+      content: (
+        <DateTimeStep dateTimes={eventData.dateTimes} onSetDateTimes={(dateTimes) => {
+          setEventData({
+            ...eventData,
+            dateTimes,
+          });
+        }} />
+      ),
     },
     {
       title: 'Location of the event',
@@ -46,6 +63,15 @@ export const  CreateAnEvent: React.FC = () => {
         next: "Next: Confirm event details",
         prev: "Back",
       },
+      isValid: () => true,
+      content: (
+        <LocationStep locations={eventData.locations} onSetLocations={(locations) => {
+          setEventData({
+            ...eventData,
+            locations,
+          });
+        }} />
+      ),
     },
     {
       title: 'Confirm your event details',
@@ -97,26 +123,9 @@ export const  CreateAnEvent: React.FC = () => {
           </ProgressBar>
         </NewEventFormHeader>
         <NewEventFormBody>
-          {
-            stepIndex === 0 && (
-              <EventNameStep eventData={eventData} onChangeName={(val) => {
-                setEventData({
-                  ...eventData,
-                  name: val,
-                });
-              }}/>
-            )
-          }
-          {
-            stepIndex === 1 && (
-              <DateTimeStep dateTimes={eventData.dateTimes} onSetDateTimes={(dateTimes) => {
-                setEventData({
-                  ...eventData,
-                  dateTimes,
-                });
-              }} />
-            )
-          }
+
+          {currentStep.content}
+          
         </NewEventFormBody>
         <NewEventFormControls>
           { stepIndex > 0 &&

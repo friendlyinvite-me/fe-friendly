@@ -2,7 +2,7 @@ import React from 'react';
 import { Size } from '.';
 import { styled } from '../styles';
 
-interface Props {
+export interface Props {
   placeholder: string;
   error?: string;
   onChange: (val: string) => void;
@@ -10,6 +10,7 @@ interface Props {
   onBlur?: () => void;
   value: string;
   size?: Size;
+  ref?: React.RefObject<HTMLInputElement>;
 }
 
 export const TextInput: React.FC<Props> = (props: Props) => {
@@ -18,7 +19,7 @@ export const TextInput: React.FC<Props> = (props: Props) => {
   );
 };
 
-const StyledInput = styled('input', {
+export const StyledInput = styled('input', {
   border: '1px solid $gray200',
   color: '$contentPrimary',
   borderRadius: "10px",

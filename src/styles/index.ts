@@ -68,7 +68,7 @@ export const { styled, css } = createStitches({
         case 'h2':
           return {
             fontSize: '27px',
-            lineHeight: '15px',
+            lineHeight: '20px',
             fontWeight: '600',
             fontFamily: 'Satoshi-Bold',
           };
@@ -76,7 +76,7 @@ export const { styled, css } = createStitches({
         case 'h3':
           return {
             fontSize: '20px',
-            lineHeight: '15px',
+            lineHeight: '20px',
             fontWeight: '500',
             fontFamily: 'Satoshi-Medium',
           };
@@ -84,7 +84,7 @@ export const { styled, css } = createStitches({
         case 'h4':
           return {
             fontSize: '16px',
-            lineHeight: '15px',
+            lineHeight: '20px',
             fontWeight: '500',
             fontFamily: 'Satoshi-Medium',
           };
@@ -93,7 +93,7 @@ export const { styled, css } = createStitches({
         case 'p':
           return {
             fontSize: '14px',
-            lineHeight: '15px',
+            lineHeight: '20px',
             fontWeight: '400',
             fontFamily: 'Satoshi-Regular',
           };

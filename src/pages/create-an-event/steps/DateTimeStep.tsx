@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { DateTimePicker } from '../../../components/DateTimePicker';
 import { styled } from '../../../styles';
 import moment from 'moment';
+import { DeleteRow, SuggestAnotherButton } from './shared';
 
 
 interface Props {
@@ -12,13 +13,11 @@ interface Props {
 export const DateTimeStep: React.FC<Props> = (props: Props) => {
   const { dateTimes, onSetDateTimes } = props;
 
-  console.log(dateTimes);
-
   return (
-    <DateTimeStepWrapper>
+    <Wrapper>
       {
         dateTimes.map((item, index) => (
-          <DateTimeStepItemWrapper key={`${index}__${item.toString()}`} >
+          <DateTimeStepItemWrapper key={`${index}__${item.toString()}`}>
             <DateTimePicker
               size='large'
               value={item}
@@ -43,11 +42,11 @@ export const DateTimeStep: React.FC<Props> = (props: Props) => {
       <SuggestAnotherButton onClick={() => {
         onSetDateTimes([...dateTimes, moment(dateTimes[dateTimes.length - 1]).add(1, 'd').toDate()]);
       }}>Suggest another</SuggestAnotherButton>
-    </DateTimeStepWrapper>
+    </Wrapper>
   );
 };
 
-const DateTimeStepWrapper = styled('div', {
+const Wrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '$3',
@@ -56,32 +55,4 @@ const DateTimeStepWrapper = styled('div', {
 
 const DateTimeStepItemWrapper = styled('div', {
   position: 'relative',
-});
-
-const DeleteRow = styled('div', {
-  position: 'absolute',
-  left: 'calc(100% + 25px)',
-  top: 0,
-  bottom: 0,
-  marginTop: 'auto',
-  marginBottom: 'auto',
-  height: '20px',
-  color: '$gray300',
-  cursor: 'pointer',
-  textDecoration: 'underline',
-
-  '&:hover': {
-    'color': "$contentPrimary",
-  },
-});
-
-const SuggestAnotherButton = styled('button', {
-  outline: 0,
-  border: 0,
-  typography: 'h4',
-  fontWeight: 700,
-  cursor: 'pointer',
-  textDecoration: 'underline',
-  backgroundColor: 'transparent',
-  paddingBlock: '$3',
 });

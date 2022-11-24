@@ -4,7 +4,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import React, { useContext } from 'react';
 import { UserContext } from '../contexts/auth-context';
 import { styled } from '../styles';
-import { Text } from './Text';
 import { Logo } from './Logo';
 import { useWindowSize } from '../hooks/use-window-resize';
 

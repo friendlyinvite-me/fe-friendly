@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text } from '../../../components';
 import { LocationCard } from '../../../components/LocationCard';
 import { LocationInput } from '../../../components/LocationInput';
 import { styled } from '../../../styles';
@@ -33,6 +34,7 @@ export const LocationStep: React.FC<Props> = (props: Props) => {
           }
         }}
       />
+      <Text color='$gray300' typography='p'>Pro tip: You can suggest as many as you would like</Text>
       {
         locations.map((item, index) => (
           <LocationItemWrapper key={`${index}__${item.value.reference.toString()}`}>

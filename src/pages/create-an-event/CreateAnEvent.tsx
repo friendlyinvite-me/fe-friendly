@@ -22,7 +22,7 @@ export const  CreateAnEvent: React.FC = () => {
     userId: user?.id ?? '',
     dateTimes: [{
       id: 0,
-      value: moment().add(1, 'week').toString(),
+      value: moment().add(2, 'hours').set('minute', 0).toString(),
     }],
     locations: [],
   });

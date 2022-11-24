@@ -29,12 +29,10 @@ export const DateTimeStep: React.FC<Props> = (props: Props) => {
                 }));
               }}
             />
-            { index > 0 && 
-              <DeleteRow onClick={() => {
-                const removed = dateTimes.filter((dateTime) => dateTime.id !== item.id);
-                onSetDateTimes(removed);
-              }}>Delete</DeleteRow>
-            }
+            <DeleteRow onClick={() => {
+              const removed = dateTimes.filter((dateTime) => dateTime.id !== item.id);
+              onSetDateTimes(removed);
+            }}>Delete</DeleteRow>
           </DateTimeStepItemWrapper>
         ))
       }

@@ -18,7 +18,7 @@ export const DateTimePicker: React.FC<Props> = (props: Props) => {
   }, [value]);
 
   return (
-    <DateTimePickerWrapper >
+    <DateTimePickerWrapper>
       <DateTimePickerInput disabled={props.disabled} format='dd MMM y   h:mm a' clearIcon={null} disableClock disableCalendar onChange={(val) => {
         onChange(val);
       }} value={value} />

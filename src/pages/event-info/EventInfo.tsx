@@ -1,15 +1,16 @@
-import React, { useMemo, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { Card } from '../../components';
-import { FriendlyEventData, FriendlyEventResponseAction, FriendlyEventResponseActionDateTime, FriendlyEventResponseActionLocation } from '../../utils/types';
+import { UserContext } from '../../contexts/auth-context';
+
+import { FriendlyEventData, FriendlyEventResponseActionDateTime, FriendlyEventResponseActionLocation } from '../../utils/types';
 
 export const EventInfo: React.FC = () => {
   const data = useLoaderData() as FriendlyEventData;
   const [tab, setTab] = useState<'datetime' | 'location' | 'history'>('datetime');
-  // const { currentUser } = useAuth();
+  const {user} = useContext(UserContext); 
 
-  // const isCreatedByUser = data.createdBy.uid === currentUser?.uid;
-  const isCreatedByUser = false;
+  const isCreatedByUser = data.createdBy.userId === user?.id;
   
   const locations = useMemo(() => {
     const locationItems: FriendlyEventResponseActionLocation[] = [];

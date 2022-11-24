@@ -134,8 +134,16 @@ const Tab = styled('button', {
 });
 const EventCardsWrapper = styled('div', {
   display: 'grid',
-  gridTemplateColumns: 'repeat(3, 1fr)',
+  gridTemplateColumns: 'repeat(1, 1fr)',
   alignItems: 'start',
   gap :'$4',
   width: '100%',
+
+  '@md': {
+    gridTemplateColumns: "repeat(2, 1fr)",
+  },
+
+  '@lg': {
+    gridTemplateColumns: 'repeat(3, 1fr)',
+  },
 });

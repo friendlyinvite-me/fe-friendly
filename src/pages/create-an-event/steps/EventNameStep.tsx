@@ -21,5 +21,5 @@ const Wrapper = styled('div', {
   flexDirection: 'column',
   gap: '$3',
   alignItems: 'center',
-  width: '450px',
+  width: '100%',
 });

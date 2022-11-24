@@ -53,6 +53,12 @@ export const { styled, css } = createStitches({
     transitions: {},
   },
 
+  media: {
+    sm: '(min-width: 640px)',
+    md: '(min-width: 768px)',
+    lg: '(min-width: 1024px)',
+  },
+
   utils: {
     typography: (value: Typography) => {
       switch (value) {
@@ -60,7 +66,7 @@ export const { styled, css } = createStitches({
         default:
           return {
             fontSize: '30px',
-            lineHeight: '20px',
+            lineHeight: '30px',
             fontWeight: '700',
             fontFamily: 'Satoshi-Bold',
           };
@@ -68,7 +74,7 @@ export const { styled, css } = createStitches({
         case 'h2':
           return {
             fontSize: '27px',
-            lineHeight: '20px',
+            lineHeight: '25px',
             fontWeight: '600',
             fontFamily: 'Satoshi-Bold',
           };
@@ -76,7 +82,7 @@ export const { styled, css } = createStitches({
         case 'h3':
           return {
             fontSize: '20px',
-            lineHeight: '20px',
+            lineHeight: '25px',
             fontWeight: '600',
             fontFamily: 'Satoshi-Medium',
           };
@@ -84,7 +90,7 @@ export const { styled, css } = createStitches({
         case 'h4':
           return {
             fontSize: '16px',
-            lineHeight: '20px',
+            lineHeight: '25px',
             fontWeight: '500',
             fontFamily: 'Satoshi-Medium',
           };

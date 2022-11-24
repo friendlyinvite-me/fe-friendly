@@ -45,5 +45,5 @@ const Wrapper = styled('div', {
   flexDirection: 'column',
   gap: '$3',
   alignItems: 'start',
-  width: '400px',
+  width: '100%',
 });

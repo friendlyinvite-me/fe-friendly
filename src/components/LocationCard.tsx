@@ -4,6 +4,7 @@ import { Location, LocationInfo } from '../utils/types';
 import { Text } from './Text';
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import { Button } from './Button';
+import { useWindowSize } from '../hooks/use-window-resize';
 
 interface Props {
   location: Location;
@@ -31,7 +32,8 @@ export const LocationCard: React.FC<Props> = (props: Props) => {
     }
   }, [isExpanded, reference, locationInfo]);
   
-  // need to fetch rest of info from gAPI
+  const { width } = useWindowSize();
+
 
   return (
     <LocationCardWrapper>
@@ -47,7 +49,7 @@ export const LocationCard: React.FC<Props> = (props: Props) => {
             locationInfo.photos?.length && (
               <PhotosWrapper>
                 {
-                  locationInfo.photos.slice(0, 4).map((photo, index) => (
+                  locationInfo.photos.slice(0, width < 500 ? 3 : 4).map((photo, index) => (
                     <Photo key={index} css={{
                       backgroundImage: `url(${photo.getUrl()})`,
                     }}/>

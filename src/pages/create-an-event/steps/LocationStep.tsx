@@ -53,10 +53,12 @@ const Wrapper = styled('div', {
   flexDirection: 'column',
   gap: '$3',
   alignItems: 'center',
-  width: '400px',
+  width: '100%',
 });
 
 const LocationItemWrapper = styled('div', {
   position: 'relative',
   width: '100%',
 });
+
+

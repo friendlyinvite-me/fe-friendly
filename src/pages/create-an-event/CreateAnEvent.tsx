@@ -201,15 +201,24 @@ const NewEventFormHeader = styled('div', {
 
 const NewEventFormBody = styled('div', {
   flex: 1,
+  width: '100%',
+  maxWidth: '450px',
 });
 
 const NewEventFormControls = styled('div', {
   padding: '$3',
   width: '100%',
   display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
   gap: '$3',
+  flexDirection: 'column-reverse',
+  alignItems: 'stretch',
+
+
+  '@md': {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  }, 
 });
 
 const ProgressBar = styled('div', {

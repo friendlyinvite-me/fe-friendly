@@ -53,8 +53,10 @@ const Wrapper = styled('div', {
   flexDirection: 'column',
   gap: '$3',
   alignItems: 'center',
+  width: '100%',
 });
 
 const DateTimeStepItemWrapper = styled('div', {
   position: 'relative',
 });
+

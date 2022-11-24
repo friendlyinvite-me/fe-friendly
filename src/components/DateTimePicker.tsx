@@ -31,27 +31,15 @@ const DateTimePickerWrapper = styled('div', {
   border: '1px solid $gray200',
   color: '$contentPrimary',
   borderRadius: "10px",
-  width: '400px',
+  width: '100%',
   display: 'flex',
   flexDirection: 'column',
   gap: '$1',
   typography: 'h3',
   padding: '$4',
 
-  '.react-datetime-picker__inputGroup__input': {
-    '&.react-datetime-picker__inputGroup__day': {
-      width: '28px !important',
-    },
-    '&.react-datetime-picker__inputGroup__year': {
-      width: '60px !important',
-    },
-    '&.react-datetime-picker__inputGroup__hour': {
-      width: '30px !important',
-    },
-    '&.react-datetime-picker__inputGroup__minute': {
-      width: '30px !important',
-    },
-  },
+
+  
 
   defaultVariants: {
     size: 'medium',
@@ -84,5 +72,22 @@ const DateTimePickerWrapper = styled('div', {
     appearance: 'none',
     color: "$contentPrimary",
     opacity: 1,
+  },
+
+  '@lg': {
+    '.react-datetime-picker__inputGroup__input': {
+      '&.react-datetime-picker__inputGroup__day': {
+        width: '28px !important',
+      },
+      '&.react-datetime-picker__inputGroup__year': {
+        width: '60px !important',
+      },
+      '&.react-datetime-picker__inputGroup__hour': {
+        width: '30px !important',
+      },
+      '&.react-datetime-picker__inputGroup__minute': {
+        width: '30px !important',
+      },
+    },
   },
 });

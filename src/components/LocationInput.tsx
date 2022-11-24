@@ -29,7 +29,7 @@ export const LocationInput: React.FC<Props> = (props: Props) => {
     getPlacePredictions,
     isPlacePredictionsLoading, 
   } = usePlacesService({
-    apiKey: "AIzaSyAqA0Q-9RZEnZ_cYlcOy56Sp-IqvkaXnus",
+    apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
   });
 
   useEffect(() => {

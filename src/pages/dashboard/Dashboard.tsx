@@ -3,13 +3,14 @@ import { UserContext } from '../../contexts/auth-context';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Card } from '../../components';
 import { styled } from '../../styles';
-import { Text } from '../../components';
 import { Button } from '../../components';
 import useAsyncEffect from 'use-async-effect';
 import { fetchUserEvents } from '../../api';
 import { FriendlyEventRow } from '../../utils/types';
 import { EmptyState } from '../../components/EmptyState';
 import { EventCard } from '../../components/EventCard';
+
+console.log('process Env', process.env);
 
 export const Dashboard: React.FC = () => {
   const {user, isLoading: isLoadingUser} = useContext(UserContext); 

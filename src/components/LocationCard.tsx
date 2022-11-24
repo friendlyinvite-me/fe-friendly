@@ -18,8 +18,10 @@ export const LocationCard: React.FC<Props> = (props: Props) => {
   const { 
     placesService,
   } = usePlacesService({
-    apiKey: "AIzaSyAqA0Q-9RZEnZ_cYlcOy56Sp-IqvkaXnus",
+    apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
   });
+
+  
   
   useEffect(() => {
     if (isExpanded && !locationInfo) {

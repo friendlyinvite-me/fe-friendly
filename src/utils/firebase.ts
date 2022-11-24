@@ -6,13 +6,13 @@ import { query, collection, getFirestore, where, getDocs, addDoc } from 'firebas
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAqA0Q-9RZEnZ_cYlcOy56Sp-IqvkaXnus",
-  authDomain: "friendly-356420.firebaseapp.com",
-  projectId: "friendly-356420",
-  storageBucket: "friendly-356420.appspot.com",
-  messagingSenderId: "488937697325",
-  appId: "1:488937697325:web:bf7183e4e6d847e598c8a4",
-  measurementId: "G-3N02XKMQZQ",
+  apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase

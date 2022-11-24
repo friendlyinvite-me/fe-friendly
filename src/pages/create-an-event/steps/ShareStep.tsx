@@ -20,7 +20,7 @@ export const ShareStep: React.FC<Props> = ({eventInfo}: Props) => {
           setCopied(false);
         }, 2000);
       }}>
-        <Button disabled={copied} sentiment='primary' size='large'>
+        <Button size='medium' disabled={copied} sentiment='primary' >
           {
             copied ? 'Copied' : 'Copy link to clipboard'
           }

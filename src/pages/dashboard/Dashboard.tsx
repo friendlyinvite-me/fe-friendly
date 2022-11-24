@@ -8,11 +8,15 @@ import { Button } from '../../components';
 import useAsyncEffect from 'use-async-effect';
 import { fetchUserEvents } from '../../api';
 import { FriendlyEventRow } from '../../utils/types';
+import { EmptyState } from '../../components/EmptyState';
+import { EventCard } from '../../components/EventCard';
 
 export const Dashboard: React.FC = () => {
-  const {user, isLoading} = useContext(UserContext); 
+  const {user, isLoading: isLoadingUser} = useContext(UserContext); 
   const [events, setEvents] = useState<FriendlyEventRow[]>([]);
   const navigate = useNavigate();
+
+  const [isLoadingEvents, setIsLoadingEvents] = useState(true);
 
   
   useAsyncEffect(async () => {
@@ -21,10 +25,11 @@ export const Dashboard: React.FC = () => {
       if (events.length) {
         setEvents(events);
       }
+      setIsLoadingEvents(false);
     }
   }, [user]);
   
-  if (!isLoading && !user) {
+  if (!isLoadingUser && !user) {
     return <Navigate to="/login" />;
   }
 
@@ -36,26 +41,34 @@ export const Dashboard: React.FC = () => {
     <>
       <DashboardHeader>
         <Tabs>
-          <Tab sentiment='selected'>Home</Tab>
+          <Tab sentiment='selected'>Hello{user ? `, ${user.displayName}` : ''}</Tab>
         </Tabs>
         <Button onClick={createAnEvent}>Create a new event</Button>
       </DashboardHeader>
       <Card>
-        <div>
-          <div>your name is {user?.displayName}</div>
-          <div>your events are</div>
-          <div>
-            <div>{events.map(e => {
-              return (
-                <div key={e.id}>
-                  <div>{e.name}</div>
-                  <div>status: {e.status}</div>
-                  <a href={`/events/${e.id}`}>Open event page</a>
-                </div>
-              );
-            })}</div>
-          </div>
-        </div>
+        {
+          isLoadingEvents && <div>Loading...</div>
+        }
+        {
+          !isLoadingEvents &&
+          <>
+            {events.length ? (
+              <EventCardsWrapper>
+                {events.map(e => {
+                  return (
+                    <EventCard key={e.id} event={e}/>
+                  );
+                })}
+              </EventCardsWrapper>
+            ) : (
+              <EmptyState
+                title='You have nothing here, create a new event.'
+                action={<Button onClick={createAnEvent}>Create event</Button>}
+              />
+            )}
+          </>
+        }
+        
       </Card>
     </>
   );
@@ -89,7 +102,6 @@ const Tab = styled('button', {
   padding: 0,
   border: 0,
   outline: 0,
-  cursor: 'pointer',
   position: 'relative',
 
   '&:after': {
@@ -119,4 +131,11 @@ const Tab = styled('button', {
       },
     },
   },
+});
+const EventCardsWrapper = styled('div', {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(3, 1fr)',
+  alignItems: 'start',
+  gap :'$4',
+  width: '100%',
 });

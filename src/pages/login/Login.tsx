@@ -6,6 +6,8 @@ import { UserContext } from '../../contexts/auth-context';
 import { Text } from '../../components';
 import { styled } from '../../styles';
 import { Card } from '../../components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 
 export const Login: React.FC = () => {
   const { logInWithGoogle } = useAuth();
@@ -18,10 +20,13 @@ export const Login: React.FC = () => {
   return (
     <Card>
       <LoginWrapper>
-        <Text typography='h4' color='$contentPrimary'>Welcome</Text>
+        <Text typography='h4' color='$contentPrimary'>Welcome to Friendly</Text>
         <Text typography='h1' color='$contentPrimary'>Please log in</Text>
         <LoginWithGoogleWrapper onClick={logInWithGoogle}>
-          <Text typography='h4' color='$contentPrimary'>Log in with Google</Text>
+          <FontAwesomeIcon icon={faGoogle} />
+          <Text typography='h4' color='$contentPrimary'>
+            Log in with Google
+          </Text>
         </LoginWithGoogleWrapper>
       </LoginWrapper>
     </Card>
@@ -40,6 +45,10 @@ const LoginWrapper = styled('div', {
 const LoginWithGoogleWrapper = styled('button', {
   backgroundColor: '$gray100',
   color: '$contentPrimary',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '$2',
   paddingInline: '$6',
   paddingBlock: '$4',
   textAlign: 'center',

@@ -3,14 +3,14 @@ import { styled, Typography, css } from '../styles';
 
 interface Props {
   typography: Typography;
-  color: string;
+  color?: string;
   children: ReactNode;
 }
 
 export const Text: React.FC<Props> = (props: Props) => {
   return (
     <TextWrapper css={{
-      color: props.color || 'White',
+      color: props.color || '$contentPrimary',
     }} typography={props.typography}>{props.children}</TextWrapper>
   );
 };
@@ -18,7 +18,7 @@ export const Text: React.FC<Props> = (props: Props) => {
 const TextWrapper = styled('div', {
   variants: {
     typography: {
-      h1: {
+      h1: { 
         typography: 'h1',
       },
       h2: {

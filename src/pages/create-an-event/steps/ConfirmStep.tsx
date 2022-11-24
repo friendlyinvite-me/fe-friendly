@@ -22,7 +22,7 @@ export const ConfirmStep: React.FC<Props> = (props: Props) => {
           <DateTimePicker
             key={index}
             disabled
-            value={dateTime}
+            value={new Date(dateTime)}
           />
         ))
       }

@@ -43,13 +43,13 @@ const DateTimePickerWrapper = styled('div', {
       width: '28px !important',
     },
     '&.react-datetime-picker__inputGroup__year': {
-      width: '56px !important',
+      width: '60px !important',
     },
     '&.react-datetime-picker__inputGroup__hour': {
-      width: '24px !important',
+      width: '30px !important',
     },
     '&.react-datetime-picker__inputGroup__minute': {
-      width: '24px !important',
+      width: '30px !important',
     },
   },
 

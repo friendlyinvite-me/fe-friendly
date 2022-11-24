@@ -1,33 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from '../styles';
-import { Location } from '../utils/types';
+import { Location, LocationInfo } from '../utils/types';
 import { Text } from './Text';
+import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 
 interface Props {
   location: Location;
 }
 
 export const LocationCard: React.FC<Props> = (props: Props) => {
-  const { name, formatted_address, rating, user_ratings_total, photos } = props.location;
+  const [locationInfo, setLocationInfo] = useState<LocationInfo | null>(null);
+  const { name, reference } = props.location;
+  
+  // need to fetch rest of info from gAPI
+
   return (
     <LocationCardWrapper>
       <Text typography='h3' color='$contentPrimary'>{name}</Text>
-      <Text typography='h4' color='$gray300'>{formatted_address}</Text>
-      {
-        rating && user_ratings_total && <Text typography='h4' color='$gray300'>{rating} stars ({user_ratings_total} reviews)</Text>
-      }
-      {
-        photos?.length && (
-          <PhotosWrapper>
-            {
-              photos.slice(0, 4).map((photo, index) => (
-                <Photo key={index} css={{
-                  backgroundImage: `url(${photo.getUrl()})`,
-                }}/>
-              ))
-            }
-          </PhotosWrapper>
-        )
+      { locationInfo &&
+        <>
+          <Text typography='h4' color='$gray300'>{locationInfo.formatted_address}</Text>
+          {
+            locationInfo.rating && locationInfo.user_ratings_total && <Text typography='h4' color='$gray300'>{locationInfo.rating} stars ({locationInfo.user_ratings_total} reviews)</Text>
+          }
+          {
+            locationInfo.photos?.length && (
+              <PhotosWrapper>
+                {
+                  locationInfo.photos.slice(0, 4).map((photo, index) => (
+                    <Photo key={index} css={{
+                      backgroundImage: `url(${photo.getUrl()})`,
+                    }}/>
+                  ))
+                }
+              </PhotosWrapper>
+            )
+          }
+        </>
       }
     </LocationCardWrapper>
   );

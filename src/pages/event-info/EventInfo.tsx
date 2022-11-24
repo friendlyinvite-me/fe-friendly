@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { Card } from '../../components';
-import { FriendlyEventData, FriendlyEventResponseAction } from '../../utils/types';
+import { FriendlyEventData, FriendlyEventResponseAction, FriendlyEventResponseActionDateTime, FriendlyEventResponseActionLocation } from '../../utils/types';
 
 export const EventInfo: React.FC = () => {
   const data = useLoaderData() as FriendlyEventData;
@@ -13,7 +13,7 @@ export const EventInfo: React.FC = () => {
   const isCreatedByUser = false;
   
   const locations = useMemo(() => {
-    const locationItems: FriendlyEventResponseAction[] = [];
+    const locationItems: FriendlyEventResponseActionLocation[] = [];
     data.responses.forEach(response => {
       response.actions.forEach(action => {
         if (action.type === 'location') {
@@ -25,7 +25,7 @@ export const EventInfo: React.FC = () => {
   }, [data]);
 
   const dateTimes = useMemo(() => {
-    const dateTimeItems: FriendlyEventResponseAction[] = [];
+    const dateTimeItems: FriendlyEventResponseActionDateTime[] = [];
     data.responses.forEach(response => {
       response.actions.forEach(action => {
         if (action.type === 'datetime') {
@@ -65,7 +65,7 @@ export const EventInfo: React.FC = () => {
             {
               locations.map((location, i) => (
                 <div key={i}>
-                  <div>{location.value}</div>
+                  <div>{location.value.name}</div>
                 </div>
               ))
             }
@@ -87,7 +87,7 @@ export const EventInfo: React.FC = () => {
                         return (
                           <div key={j}>
                             <div>type: {action.type}</div>
-                            <div>value: {action.value}</div>
+                            <div>value: {typeof action.value === 'object' ? action.value.name : action.value}</div>
                           </div>
                         );
                       })

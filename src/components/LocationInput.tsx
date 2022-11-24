@@ -32,12 +32,12 @@ export const LocationInput: React.FC<Props> = (props: Props) => {
     apiKey: "AIzaSyAqA0Q-9RZEnZ_cYlcOy56Sp-IqvkaXnus",
   });
 
+
   console.log(placePredictions);
   
 
   
   useEffect(() => {
-    // fetch place details for the first element in placePredictions array
     if (selectedSearchResult)
       placesService?.getDetails({
         placeId: selectedSearchResult.place_id,

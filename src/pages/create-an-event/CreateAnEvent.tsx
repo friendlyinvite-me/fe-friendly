@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { UserContext } from '../../contexts/auth-context';
 import { Navigate } from 'react-router-dom';
 import { Text } from '../../components';
@@ -11,6 +11,7 @@ import { Card } from '../../components';
 import moment from 'moment';
 import { LocationStep } from './steps/LocationStep';
 import { ConfirmStep } from './steps/ConfirmStep';
+import { createEvent } from '../../api';
 
 export const  CreateAnEvent: React.FC = () => {
   const {user, isLoading} = useContext(UserContext);
@@ -18,9 +19,11 @@ export const  CreateAnEvent: React.FC = () => {
   const [eventData, setEventData] = useState<NewEventData>({
     name: '',
     userId: user?.id ?? '',
-    dateTimes: [moment().add(1, 'week').toDate()],
+    dateTimes: [moment().add(1, 'week').toString()],
     locations: [],
   });
+
+  console.log(eventData);
   
   const steps = [
     {
@@ -47,10 +50,10 @@ export const  CreateAnEvent: React.FC = () => {
       },
       isValid: () => true,
       content: (
-        <DateTimeStep dateTimes={eventData.dateTimes} onSetDateTimes={(dateTimes) => {
+        <DateTimeStep dateTimes={eventData.dateTimes.map(str => new Date(str))} onSetDateTimes={(dateTimes) => {
           setEventData({
             ...eventData,
-            dateTimes,
+            dateTimes: dateTimes.map(d => d.toString()),
           });
         }} />
       ),
@@ -82,7 +85,7 @@ export const  CreateAnEvent: React.FC = () => {
         <ConfirmStep eventData={eventData} />
       ),
       onNext: async () => {
-        // createEvent();
+        await createEvent({...eventData, userId: user?.id ?? ''});
       },
     },
     {

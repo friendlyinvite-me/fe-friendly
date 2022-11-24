@@ -4,7 +4,7 @@ export interface FriendlyEventRow {
   name: string;
   id: string;
   createdAt: Date;
-  status: 'draft' | 'created' | 'planning' | 'finalized'
+  status: 'draft' | 'planning' | 'finalized'
 }
 
 export interface FriendlyEventData extends FriendlyEventRow {
@@ -21,10 +21,16 @@ export interface FriendlyEventResponse {
   actions: FriendlyEventResponseAction[];
 }
 
-export interface FriendlyEventResponseAction {
-  type: 'location' | 'datetime',
-  value: "string"
+export type FriendlyEventResponseAction = FriendlyEventResponseActionDateTime | FriendlyEventResponseActionLocation;
 
+export interface FriendlyEventResponseActionDateTime {
+  type: 'datetime',
+  value: string;
+}
+
+export interface FriendlyEventResponseActionLocation {
+  type: 'location',
+  value: Location;
 }
 
 export interface FriendlyUser {
@@ -36,13 +42,16 @@ export type User = FirebaseUser & FriendlyUser;
 export interface NewEventData {
   name: string;
   userId: string;
-  dateTimes: Date[];
+  dateTimes: string[];
   locations: Location[];
 }
 
 export interface Location {
   name: string;
   reference: string;
+}
+
+export interface LocationInfo extends Location {
   formatted_phone_number?: string;
   formatted_address?: string;
   icon?: string;
@@ -68,5 +77,4 @@ export interface Location {
   website?: string;
   rating?: number;
   user_ratings_total?: number;
-
 }

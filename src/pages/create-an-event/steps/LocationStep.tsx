@@ -18,7 +18,33 @@ export const LocationStep: React.FC<Props> = (props: Props) => {
       <LocationInput
         onSelectLocation={(location) => {
           if (!locations.find(l => l.reference === location.reference)) {
-            onSetLocations([...locations, location]);
+            const {
+              name, 
+              reference, 
+              formatted_phone_number, 
+              formatted_address, 
+              icon, 
+              icon_background_color,
+              opening_hours,
+              reviews,
+              photos,
+              website,
+              rating,user_ratings_total,
+            } = location;
+
+            onSetLocations([...locations, {
+              name, 
+              reference, 
+              formatted_phone_number, 
+              formatted_address, 
+              icon, 
+              icon_background_color,
+              opening_hours,
+              reviews,
+              photos,
+              website,
+              rating,user_ratings_total,
+            }]);
           }
         }}
       />

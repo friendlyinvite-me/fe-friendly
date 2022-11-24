@@ -20,7 +20,7 @@ export const LocationCard: React.FC<Props> = (props: Props) => {
         photos?.length && (
           <PhotosWrapper>
             {
-              photos.slice(0, 3).map((photo, index) => (
+              photos.slice(0, 4).map((photo, index) => (
                 <Photo key={index} css={{
                   backgroundImage: `url(${photo.getUrl()})`,
                 }}/>

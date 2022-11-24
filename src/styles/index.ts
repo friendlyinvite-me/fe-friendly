@@ -16,7 +16,7 @@ export const { styled, css } = createStitches({
       red500: 'hsl(352,100%,62%)',
       yellow500: '#E9E70D',
 
-      appBackground: "#030511",
+      appBackground: "$gray100",
 
       contentPrimary: 'black',
     },
@@ -77,7 +77,7 @@ export const { styled, css } = createStitches({
           return {
             fontSize: '20px',
             lineHeight: '20px',
-            fontWeight: '500',
+            fontWeight: '600',
             fontFamily: 'Satoshi-Medium',
           };
 

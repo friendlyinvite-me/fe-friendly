@@ -71,11 +71,11 @@ const AppWrapper = styled('div', {
   '&:after': {
     content: '',
     position: 'absolute',
-    bottom: 0,
+    top: 0,
     left: 0,
     width: '100%',
-    height: '70%',
-    backgroundColor: '$gray100',
+    height: '200px',
+    backgroundColor: '#030511',
     zIndex: 0,
   },
 });

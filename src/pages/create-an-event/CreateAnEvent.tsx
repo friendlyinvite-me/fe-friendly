@@ -10,10 +10,11 @@ import { DateTimeStep } from './steps/DateTimeStep';
 import { Card } from '../../components';
 import moment from 'moment';
 import { LocationStep } from './steps/LocationStep';
+import { ConfirmStep } from './steps/ConfirmStep';
 
 export const  CreateAnEvent: React.FC = () => {
   const {user, isLoading} = useContext(UserContext);
-  const [stepIndex, setStepIndex] = useState(2);
+  const [stepIndex, setStepIndex] = useState(0);
   const [eventData, setEventData] = useState<NewEventData>({
     name: '',
     userId: user?.id ?? '',
@@ -29,9 +30,6 @@ export const  CreateAnEvent: React.FC = () => {
         prev: 'Cancel',
       },
       isDisabled: () => !eventData.name,
-      onNext: async () => {
-        // createEvent();
-      },
       content: (
         <EventNameStep eventData={eventData} onChangeName={(val) => {
           setEventData({
@@ -78,6 +76,13 @@ export const  CreateAnEvent: React.FC = () => {
       buttons: {
         next: "Create my event",
         prev: "Back",
+      },
+      isValid: () => true,
+      content: (
+        <ConfirmStep eventData={eventData} />
+      ),
+      onNext: async () => {
+        // createEvent();
       },
     },
     {
@@ -173,7 +178,7 @@ const ProgressBar = styled('div', {
   height: '5px',
   maxWidth: '500px',
   width: '100%',
-  backgroundColor: "$gray500",
+  backgroundColor: "#F6F6F6",
   position: 'relative',
   overflow: 'hidden',
 });

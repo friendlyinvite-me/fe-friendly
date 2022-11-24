@@ -19,7 +19,6 @@ export const DateTimeStep: React.FC<Props> = (props: Props) => {
         dateTimes.map((item, index) => (
           <DateTimeStepItemWrapper key={`${index}__${item.toString()}`}>
             <DateTimePicker
-              size='large'
               value={item}
               onChange={(value) => {
                 onSetDateTimes(dateTimes.map((item, i) => {

@@ -5,18 +5,23 @@ import React, { useContext } from 'react';
 import { UserContext } from '../contexts/auth-context';
 import { styled } from '../styles';
 import { Text } from './Text';
+import { Logo } from './Logo';
+import { useWindowSize } from '../hooks/use-window-resize';
 
 export const Nav: React.FC = () => {
   const { logOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { width } = useWindowSize();
 
   const {user} = useContext(UserContext);  
 
 
   return (
     <NavWrapper>
-      <Text typography='h2' color='white'>Friendly</Text>
+      <Text typography='h2' color='white'>
+        <Logo iconOnly={width < 500} color='white' height={25} />
+      </Text>
       <NavLinks>
         <NavLink variant={location.pathname === '/' ? 'selected' : 'default'} to="/">Landing</NavLink>
         { user ?

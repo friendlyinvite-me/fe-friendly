@@ -15,4 +15,6 @@ const CardWrapper = styled('div', {
   padding: '$5',
   flex: 1,
   display: 'flex',
+  alignItems: 'start',
+  justifyContent: 'start',
 });

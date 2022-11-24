@@ -135,6 +135,7 @@ const EventCardsWrapper = styled('div', {
   display: 'grid',
   gridTemplateColumns: 'repeat(1, 1fr)',
   alignItems: 'start',
+  justifyContent:'start',
   gap :'$4',
   width: '100%',
 

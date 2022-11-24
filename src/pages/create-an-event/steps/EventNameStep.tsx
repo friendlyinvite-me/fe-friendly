@@ -1,5 +1,6 @@
 import React from 'react';
 import { TextInput } from '../../../components';
+import { styled } from '../../../styles';
 import { NewEventData } from '../../../utils/types';
 
 interface Props {
@@ -9,6 +10,16 @@ interface Props {
 
 export const EventNameStep: React.FC<Props> = (props: Props) => {
   return (
-    <TextInput size='large' placeholder='Name of the event' onChange={props.onChangeName} value={props.eventData.name}/>
+    <Wrapper>
+      <TextInput size='large' placeholder='Name of the event' onChange={props.onChangeName} value={props.eventData.name}/>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '$3',
+  alignItems: 'center',
+  width: '450px',
+});

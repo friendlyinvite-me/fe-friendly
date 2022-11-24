@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { Text } from '../../components';
 import { styled } from '../../styles';
 import { Button } from '../../components';
-import { NewEventData } from '../../utils/types';
+import { FriendlyEventData, NewEventData } from '../../utils/types';
 import { EventNameStep } from './steps/EventNameStep';
 import { DateTimeStep } from './steps/DateTimeStep';
 import { Card } from '../../components';
@@ -26,8 +26,8 @@ export const  CreateAnEvent: React.FC = () => {
     locations: [],
   });
 
-  console.log(eventData);
-  
+  const [newlyCreatedEvent, setNewlyCreatedEvent] = useState<FriendlyEventData | null>(null);
+
   const steps = [
     {
       title: 'Name of the event',
@@ -99,14 +99,14 @@ export const  CreateAnEvent: React.FC = () => {
         <ConfirmStep eventData={eventData} />
       ),
       onNext: async () => {
-        await createEvent({...eventData, userId: user?.id ?? ''});
+        const event = await createEvent({...eventData, userId: user?.id ?? ''});
+        setNewlyCreatedEvent(event);
       },
     },
     {
       title: 'Share with your friends',
       buttons: {
         next: "Close",
-        prev: "Back",
       },
     },
   ];
@@ -144,16 +144,22 @@ export const  CreateAnEvent: React.FC = () => {
             }}></ProgressBarFilled>
           </ProgressBar>
         </NewEventFormHeader>
-        <NewEventFormBody>
 
+        <NewEventFormBody>
           {currentStep.content}
-          
         </NewEventFormBody>
+
         <NewEventFormControls>
-          { stepIndex > 0 &&
+          { stepIndex > 0 && currentStep.buttons.prev &&
             <Button size='large' onClick={onPrev} sentiment='secondary'>{currentStep.buttons.prev}</Button>
           }
-          <Button size='large' disabled={currentStep.isDisabled && currentStep.isDisabled()} onClick={onNext} sentiment='primary'>{currentStep.buttons.next}</Button>
+          <Button
+            size='large'
+            disabled={currentStep.isDisabled && currentStep.isDisabled()}
+            onClick={onNext}
+            sentiment='primary'>
+            {currentStep.buttons.next}
+          </Button>
         </NewEventFormControls>
       </NewEventFormWrapper>
     </Card>

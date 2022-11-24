@@ -14,9 +14,6 @@ function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  console.log(currentUser);
-  
-
   useAsyncEffect(async () => {
     const checkUserSession = onAuthStateChange(async (response: {
       loggedIn: boolean;

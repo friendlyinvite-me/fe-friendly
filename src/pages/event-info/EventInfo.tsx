@@ -5,7 +5,6 @@ import { FriendlyEventData, FriendlyEventResponseAction, FriendlyEventResponseAc
 
 export const EventInfo: React.FC = () => {
   const data = useLoaderData() as FriendlyEventData;
-  console.log(data);
   const [tab, setTab] = useState<'datetime' | 'location' | 'history'>('datetime');
   // const { currentUser } = useAuth();
 

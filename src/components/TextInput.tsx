@@ -23,6 +23,7 @@ export const StyledInput = styled('input', {
   border: '1px solid $gray200',
   color: '$contentPrimary',
   borderRadius: "10px",
+  width: '100%',
 
   '&:focus': {
     border: '1px solid black',

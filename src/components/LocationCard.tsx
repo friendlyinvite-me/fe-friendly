@@ -3,6 +3,7 @@ import { styled } from '../styles';
 import { Location, LocationInfo } from '../utils/types';
 import { Text } from './Text';
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
+import { Button } from './Button';
 
 interface Props {
   location: Location;
@@ -11,13 +12,32 @@ interface Props {
 export const LocationCard: React.FC<Props> = (props: Props) => {
   const [locationInfo, setLocationInfo] = useState<LocationInfo | null>(null);
   const { name, reference } = props.location;
+  const [isExpanded, setExpanded] = useState(false);
+
+  const { 
+    placesService,
+  } = usePlacesService({
+    apiKey: "AIzaSyAqA0Q-9RZEnZ_cYlcOy56Sp-IqvkaXnus",
+  });
+  
+  useEffect(() => {
+    if (isExpanded && !locationInfo) {
+
+      placesService?.getDetails({
+        placeId: reference,
+      }, (location: Location) => {  
+        setLocationInfo(location);
+      });
+    }
+  }, [isExpanded, reference, locationInfo]);
   
   // need to fetch rest of info from gAPI
 
   return (
     <LocationCardWrapper>
       <Text typography='h3' color='$contentPrimary'>{name}</Text>
-      { locationInfo &&
+      
+      { locationInfo && isExpanded &&
         <>
           <Text typography='h4' color='$gray300'>{locationInfo.formatted_address}</Text>
           {
@@ -38,6 +58,7 @@ export const LocationCard: React.FC<Props> = (props: Props) => {
           }
         </>
       }
+      <Button sentiment='secondary' onClick={() => setExpanded(!isExpanded)}>{isExpanded ? 'Hide info' : "Show more info"}</Button>
     </LocationCardWrapper>
   );
 };
@@ -51,7 +72,7 @@ const LocationCardWrapper = styled('div', {
   flexDirection: 'column',
   alignItems: 'start',
   padding: '$4',
-  gap: '$2',
+  gap: '$3',
 });
 
 const PhotosWrapper = styled('div', {

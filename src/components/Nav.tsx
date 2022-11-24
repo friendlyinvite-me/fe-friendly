@@ -20,7 +20,7 @@ export const Nav: React.FC = () => {
   return (
     <NavWrapper>
       <NavLink variant={location.pathname === '/' ? 'selected' : 'default'} to={user ? "/dashboard" : "/"}>
-        <Logo iconOnly={width < 500} color='white' height={25} />
+        <Logo iconOnly={width < 500} color='#E9E70D' height={25} />
       </NavLink>
       
       <NavLinks>

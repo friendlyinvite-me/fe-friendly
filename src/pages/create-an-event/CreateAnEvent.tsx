@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { UserContext } from '../../contexts/auth-context';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { Text } from '../../components';
 import { styled } from '../../styles';
 import { Button } from '../../components';
@@ -12,6 +12,7 @@ import moment from 'moment';
 import { LocationStep } from './steps/LocationStep';
 import { ConfirmStep } from './steps/ConfirmStep';
 import { createEvent } from '../../api';
+import { ShareStep } from './steps/ShareStep';
 
 export const  CreateAnEvent: React.FC = () => {
   const {user, isLoading} = useContext(UserContext);
@@ -25,6 +26,7 @@ export const  CreateAnEvent: React.FC = () => {
     }],
     locations: [],
   });
+  const navigate = useNavigate();
 
   const [newlyCreatedEvent, setNewlyCreatedEvent] = useState<FriendlyEventData | null>(null);
 
@@ -77,7 +79,6 @@ export const  CreateAnEvent: React.FC = () => {
       },
       isValid: () => true,
       content: (
-
         <LocationStep
           locations={eventData.locations}
           onSetLocations={(locations) => {
@@ -106,7 +107,17 @@ export const  CreateAnEvent: React.FC = () => {
     {
       title: 'Share with your friends',
       buttons: {
-        next: "Close",
+        next: "View event page",
+      },
+      isValid: () => true,
+      content: (
+        newlyCreatedEvent ? <ShareStep eventInfo={newlyCreatedEvent}/> : <div>Something went wrong</div>
+      ),
+      onNext: async () => {
+        window.open(`/events/${newlyCreatedEvent?.id}`);
+      },
+      onClose: async () => {
+        navigate('/dashboard');
       },
     },
   ];
@@ -120,7 +131,9 @@ export const  CreateAnEvent: React.FC = () => {
 
   const onNext = async () => {
     currentStep.onNext && await currentStep.onNext();
-    setStepIndex(stepIndex+1);
+    if (stepIndex < steps.length - 1) {
+      setStepIndex(stepIndex+1);
+    }
   };
   
   const currentStep = steps[stepIndex];
@@ -152,6 +165,9 @@ export const  CreateAnEvent: React.FC = () => {
         <NewEventFormControls>
           { stepIndex > 0 && currentStep.buttons.prev &&
             <Button size='large' onClick={onPrev} sentiment='secondary'>{currentStep.buttons.prev}</Button>
+          }
+          { currentStep.onClose &&
+            <Button size='large' onClick={currentStep.onClose} sentiment='secondary'>Close</Button>
           }
           <Button
             size='large'

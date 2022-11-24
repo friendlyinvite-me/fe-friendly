@@ -3,19 +3,20 @@ import { Size } from '.';
 import { styled } from '../styles';
 
 export interface Props {
-  placeholder: string;
+  placeholder?: string;
   error?: string;
-  onChange: (val: string) => void;
+  onChange?: (val: string) => void;
   onFocus?: () => void;
   onBlur?: () => void;
   value: string;
   size?: Size;
+  readOnly?: boolean;
   ref?: React.RefObject<HTMLInputElement>;
 }
 
 export const TextInput: React.FC<Props> = (props: Props) => {
   return (
-    <StyledInput {...props} size={props.size} onChange={(e) => props.onChange(e.currentTarget.value)} />
+    <StyledInput readOnly={props.readOnly} {...props} size={props.size} onChange={(e) => props.onChange?.(e.currentTarget.value)} />
   );
 };
 

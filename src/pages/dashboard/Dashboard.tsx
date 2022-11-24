@@ -10,8 +10,6 @@ import { FriendlyEventRow } from '../../utils/types';
 import { EmptyState } from '../../components/EmptyState';
 import { EventCard } from '../../components/EventCard';
 
-console.log('process Env', process.env);
-
 export const Dashboard: React.FC = () => {
   const {user, isLoading: isLoadingUser} = useContext(UserContext); 
   const [events, setEvents] = useState<FriendlyEventRow[]>([]);

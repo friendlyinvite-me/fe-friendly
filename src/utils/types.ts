@@ -46,8 +46,8 @@ export type User = FirebaseUser & FriendlyUser;
 export interface NewEventData {
   name: string;
   userId: string;
-  dateTimes: string[];
-  locations: Location[];
+  dateTimes: { id: number; value: string }[];
+  locations: { id: number; value: Location }[];
 }
 
 export interface Location {

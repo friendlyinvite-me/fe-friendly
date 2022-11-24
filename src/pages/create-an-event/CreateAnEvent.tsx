@@ -19,7 +19,10 @@ export const  CreateAnEvent: React.FC = () => {
   const [eventData, setEventData] = useState<NewEventData>({
     name: '',
     userId: user?.id ?? '',
-    dateTimes: [moment().add(1, 'week').toString()],
+    dateTimes: [{
+      id: 0,
+      value: moment().add(1, 'week').toString(),
+    }],
     locations: [],
   });
 
@@ -50,12 +53,20 @@ export const  CreateAnEvent: React.FC = () => {
       },
       isValid: () => true,
       content: (
-        <DateTimeStep dateTimes={eventData.dateTimes.map(str => new Date(str))} onSetDateTimes={(dateTimes) => {
-          setEventData({
-            ...eventData,
-            dateTimes: dateTimes.map(d => d.toString()),
-          });
-        }} />
+        <DateTimeStep
+          dateTimes={eventData.dateTimes.map(d => ({
+            ...d,
+            value: new Date(d.value),
+          }))} 
+          onSetDateTimes={(dateTimes) => {
+            setEventData({
+              ...eventData,
+              dateTimes: dateTimes.map(d => ({
+                id: d.id,
+                value: d.value.toString(),
+              })),
+            });
+          }} />
       ),
     },
     {
@@ -66,12 +77,15 @@ export const  CreateAnEvent: React.FC = () => {
       },
       isValid: () => true,
       content: (
-        <LocationStep locations={eventData.locations} onSetLocations={(locations) => {
-          setEventData({
-            ...eventData,
-            locations,
-          });
-        }} />
+
+        <LocationStep
+          locations={eventData.locations}
+          onSetLocations={(locations) => {
+            setEventData({
+              ...eventData,
+              locations,
+            });
+          }} />
       ),
     },
     {

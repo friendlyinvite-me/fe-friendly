@@ -19,11 +19,11 @@ export const Nav: React.FC = () => {
 
   return (
     <NavWrapper>
-      <Text typography='h2' color='white'>
+      <NavLink variant={location.pathname === '/' ? 'selected' : 'default'} to="/">
         <Logo iconOnly={width < 500} color='white' height={25} />
-      </Text>
+      </NavLink>
+      
       <NavLinks>
-        <NavLink variant={location.pathname === '/' ? 'selected' : 'default'} to="/">Landing</NavLink>
         { user ?
           <NavLink variant={location.pathname === '/dashboard' ? 'selected' : 'default'} to="/dashboard">Dashboard</NavLink> :
           <NavLink variant={location.pathname === '/login' ? 'selected' : 'default'} to="/login">Login</NavLink>

@@ -5,16 +5,16 @@ import moment from 'moment';
 import { Text } from './Text';
 
 interface Props {
-  value: Date;
-  onChange?: (val: Date) => void;
+  value: {id: number; value: Date};
+  onChange?: (val: {id: number; value: Date}) => void;
   disabled?: boolean;
 }
 
 export const DateTimePicker: React.FC<Props> = (props: Props) => {
-  const [value, onChange] = useState<Date>(props.value); 
+  const [value, onChange] = useState<Date>(props.value.value); 
 
   useEffect(() => {
-    props.onChange && props.onChange(value);
+    props.onChange && props.onChange({id: props.value.id, value});
   }, [value]);
 
   return (

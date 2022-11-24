@@ -6,8 +6,8 @@ import { Location } from '../../../utils/types';
 import { DeleteRow } from './shared';
 
 interface Props {
-  locations: Location[];
-  onSetLocations: (arr: Location[]) => void;
+  locations: {id: number; value: Location}[];
+  onSetLocations: (arr: {id: number; value: Location}[]) => void;
 }
 
 export const LocationStep: React.FC<Props> = (props: Props) => {
@@ -17,23 +17,26 @@ export const LocationStep: React.FC<Props> = (props: Props) => {
     <Wrapper>
       <LocationInput
         onSelectLocation={(location) => {
-          if (!locations.find(l => l.reference === location.reference)) {
+          if (!locations.find(l => l.value.reference === location.reference)) {
             const {
               name, 
               reference, 
             } = location;
 
             onSetLocations([...locations, {
-              name, 
-              reference, 
+              id: locations.length ? locations[locations.length - 1].id + 1 : 0,
+              value: {
+                name, 
+                reference, 
+              },
             }]);
           }
         }}
       />
       {
         locations.map((item, index) => (
-          <LocationItemWrapper key={`${index}__${item.reference.toString()}`}>
-            <LocationCard location={item} />
+          <LocationItemWrapper key={`${index}__${item.value.reference.toString()}`}>
+            <LocationCard location={item.value} />
             <DeleteRow onClick={() => {
               const removed = locations.filter((location, i) => i !== index);
               onSetLocations(removed);

@@ -6,8 +6,8 @@ import { DeleteRow, SuggestAnotherButton } from './shared';
 
 
 interface Props {
-  dateTimes: Date[],
-  onSetDateTimes: (arr: Date[]) => void;
+  dateTimes: {id: number; value: Date}[],
+  onSetDateTimes: (arr: {id: number; value: Date}[]) => void;
 }
 
 export const DateTimeStep: React.FC<Props> = (props: Props) => {
@@ -17,12 +17,12 @@ export const DateTimeStep: React.FC<Props> = (props: Props) => {
     <Wrapper>
       {
         dateTimes.map((item, index) => (
-          <DateTimeStepItemWrapper key={`${index}__${item.toString()}`}>
+          <DateTimeStepItemWrapper key={item.id}>
             <DateTimePicker
               value={item}
               onChange={(value) => {
-                onSetDateTimes(dateTimes.map((item, i) => {
-                  if (index === i) {
+                onSetDateTimes(dateTimes.map((item) => {
+                  if (item.id === value.id) {
                     return value;
                   }
                   return item;
@@ -31,7 +31,7 @@ export const DateTimeStep: React.FC<Props> = (props: Props) => {
             />
             { index > 0 && 
               <DeleteRow onClick={() => {
-                const removed = dateTimes.filter((dateTime, i) => i !== index);
+                const removed = dateTimes.filter((dateTime) => dateTime.id !== item.id);
                 onSetDateTimes(removed);
               }}>Delete</DeleteRow>
             }
@@ -39,7 +39,10 @@ export const DateTimeStep: React.FC<Props> = (props: Props) => {
         ))
       }
       <SuggestAnotherButton onClick={() => {
-        onSetDateTimes([...dateTimes, moment(dateTimes[dateTimes.length - 1]).add(1, 'd').toDate()]);
+        onSetDateTimes([...dateTimes, {
+          id: dateTimes[dateTimes.length - 1].id + 1,
+          value: moment(dateTimes[dateTimes.length - 1].value).add(1, 'd').toDate(),
+        }]);
       }}>Suggest another</SuggestAnotherButton>
     </Wrapper>
   );

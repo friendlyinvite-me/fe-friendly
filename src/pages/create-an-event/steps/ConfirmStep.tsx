@@ -22,7 +22,10 @@ export const ConfirmStep: React.FC<Props> = (props: Props) => {
           <DateTimePicker
             key={index}
             disabled
-            value={new Date(dateTime)}
+            value={{
+              id: dateTime.id,
+              value: new Date(dateTime.value),
+            }}
           />
         ))
       }
@@ -30,7 +33,7 @@ export const ConfirmStep: React.FC<Props> = (props: Props) => {
       <Text typography='h3' color='$contentPrimary'>Location Suggestions</Text>
       {
         eventData.locations.map((location, index) => (
-          <LocationCard key={index} location={location} />
+          <LocationCard key={index} location={location.value} />
         ))
       }
     </Wrapper>

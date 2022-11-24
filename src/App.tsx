@@ -30,6 +30,8 @@ function App() {
         setCurrentUser({
           ...response.user,
           id: friendlyUser?.id as string,
+          name: friendlyUser?.name as string,
+          email: friendlyUser?.email as string,
         });
       } else {
         setCurrentUser(null);

@@ -16,7 +16,9 @@ export interface FriendlyEventData extends FriendlyEventRow {
 }
 
 export interface FriendlyEventResponse {
-  name: string;
+  id: string;
+  userId: string;
+  user?: FriendlyUser;
   comments?: string;
   actions: FriendlyEventResponseAction[];
 }
@@ -35,6 +37,8 @@ export interface FriendlyEventResponseActionLocation {
 
 export interface FriendlyUser {
   id: string;
+  email: string;
+  name: string;
 }
 
 export type User = FirebaseUser & FriendlyUser;

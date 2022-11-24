@@ -78,7 +78,8 @@ export const EventInfo: React.FC = () => {
             {
               data.responses.map((eventResponse, i) => (
                 <div key={i}>
-                  <div>{eventResponse.name}</div>
+                  <div>=====RESPONSE======</div>
+                  <div>{eventResponse.user?.name}</div>
                   <div>{eventResponse.comments}</div>
                   <div>did the following actions</div>
                   <div>
@@ -93,6 +94,7 @@ export const EventInfo: React.FC = () => {
                       })
                     }
                   </div>
+                  <br />
                 </div>
               ))
             }

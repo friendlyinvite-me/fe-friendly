@@ -75,10 +75,24 @@ export const Dashboard: React.FC = () => {
 
 const DashboardHeader = styled('div', {
   display: 'flex',
-  flexDirection: 'row',
   gap: '$4',
-  alignItems: 'center',
-  justifyContent: 'space-between',
+  flexDirection: 'column',
+  alignItems: 'start',
+  justifyContent: 'start',
+
+  button: {
+    width: '100%',
+  },
+
+  '@md': {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+
+    button: {
+      width: 'auto',
+    },
+  },
 });
 
 

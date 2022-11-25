@@ -69,7 +69,7 @@ export const LocationCard: React.FC<Props> = (props: Props) => {
 
 const LocationCardWrapper = styled('div', {
   width: '100%',
-  border: '1px solid $gray200',
+  border: '1px solid $borderPrimary',
   color: '$contentPrimary',
   borderRadius: "10px",
   display: 'flex',

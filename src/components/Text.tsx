@@ -18,6 +18,9 @@ export const Text: React.FC<Props> = (props: Props) => {
 const TextWrapper = styled('div', {
   variants: {
     typography: {
+      h0: { 
+        typography: 'h0',
+      },
       h1: { 
         typography: 'h1',
       },

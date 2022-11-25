@@ -76,7 +76,7 @@ export const StyledInput = styled('div', {
   width: '100%',
 
   input: {
-    border: '1px solid $gray200',
+    border: '1px solid $borderPrimary',
     width: '100%',
     color: '$contentPrimary',
     borderRadius: "10px",
@@ -98,7 +98,7 @@ export const StyledInput = styled('div', {
     position: 'absolute',
     top: 'calc(100% + 10px)',
     left: 0,
-    border: '1px solid $gray200',
+    border: '1px solid $borderPrimary',
     margin : 0,
     backgroundColor: 'white',
     listStyleType: 'none',

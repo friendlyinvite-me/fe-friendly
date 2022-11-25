@@ -28,7 +28,7 @@ export const DateTimePicker: React.FC<Props> = (props: Props) => {
 };
 
 const DateTimePickerWrapper = styled('div', {
-  border: '1px solid $gray200',
+  border: '1px solid $borderPrimary',
   color: '$contentPrimary',
   borderRadius: "10px",
   width: '100%',

@@ -21,7 +21,7 @@ export const TextInput: React.FC<Props> = (props: Props) => {
 };
 
 export const StyledInput = styled('input', {
-  border: '1px solid $gray200',
+  border: '1px solid $borderPrimary',
   color: '$contentPrimary',
   borderRadius: "10px",
   width: '100%',

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { DateTimePicker } from '../../../components/DateTimePicker';
 import { styled } from '../../../styles';
 import moment from 'moment';
@@ -12,6 +12,13 @@ interface Props {
 
 export const DateTimeStep: React.FC<Props> = (props: Props) => {
   const { dateTimes, onSetDateTimes } = props;
+
+  const newDateSuggested = useMemo(() => {
+    if (!dateTimes.length) {
+      return moment().add(2, 'hours').set('minute', 0).toDate();
+    }
+    return moment(dateTimes[dateTimes.length - 1].value).add(1, 'd').toDate();
+  }, [dateTimes]);
 
   return (
     <Wrapper>
@@ -38,8 +45,8 @@ export const DateTimeStep: React.FC<Props> = (props: Props) => {
       }
       <SuggestAnotherButton onClick={() => {
         onSetDateTimes([...dateTimes, {
-          id: dateTimes[dateTimes.length - 1].id + 1,
-          value: moment(dateTimes[dateTimes.length - 1].value).add(1, 'd').toDate(),
+          id: dateTimes.length ? dateTimes[dateTimes.length - 1].id + 1 : 0,
+          value: newDateSuggested,
         }]);
       }}>Suggest another</SuggestAnotherButton>
     </Wrapper>

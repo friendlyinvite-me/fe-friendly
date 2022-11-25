@@ -1,5 +1,5 @@
 import { User as FirebaseUser } from 'firebase/auth';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { onAuthStateChange } from './utils/firebase';
 import { Outlet } from "react-router-dom";

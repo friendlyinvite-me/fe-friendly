@@ -9,6 +9,9 @@ import useAsyncEffect from 'use-async-effect';
 import { styled } from './styles';
 import { fetchUser } from './api';
 import { User } from './utils/types';
+import toast, { Toaster, ToastBar } from 'react-hot-toast';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -50,6 +53,35 @@ function App() {
       }
     }>
       <AppWrapper>
+        <Toaster position='top-center' toastOptions={{
+          style: {
+            fontWeight: 700,
+          },
+        }}>
+          {(t) => (
+            <ToastBar style={{
+              padding: '15px',
+              alignItems: 'start',
+              gap: '10px',
+              maxWidth: '400px',
+            }} toast={t}>
+              {({ icon, message }) => (
+                <>
+                  {icon}
+                  <ToastText>
+                    {message}
+                  </ToastText>
+                  {t.type !== 'loading' && (
+                    <ToastDismiss onClick={() => toast.dismiss(t.id)}>
+                      <FontAwesomeIcon icon={faXmark} />
+                    </ToastDismiss>
+                  )}
+                </>
+              )}
+            </ToastBar>
+          )}
+
+        </Toaster>
         <AppContent>
           <Nav />
           <Outlet />
@@ -88,6 +120,21 @@ const AppContent = styled('div', {
   zIndex: 1,
 });
 
+const ToastText = styled('div', {
+  typography: 'p',
+  fontWeight: '700',
+  '& > div': {
+    margin: 0,
+  },
+});
+
+const ToastDismiss = styled('div', {
+  cursor: 'pointer',
+  opacity: 0.7,
+  '&:hover': {
+    opacity: 1,
+  },
+});
 
 
 export default App;

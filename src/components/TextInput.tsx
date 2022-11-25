@@ -8,6 +8,7 @@ export interface Props {
   onChange?: (val: string) => void;
   onFocus?: () => void;
   onBlur?: () => void;
+  type?: 'email' | 'text' | 'password' | 'number';
   value: string;
   size?: Size;
   readOnly?: boolean;
@@ -16,7 +17,7 @@ export interface Props {
 
 export const TextInput: React.FC<Props> = (props: Props) => {
   return (
-    <StyledInput readOnly={props.readOnly} {...props} size={props.size} onChange={(e) => props.onChange?.(e.currentTarget.value)} />
+    <StyledInput readOnly={props.readOnly} {...props} type={props.type ?? 'text'}  size={props.size} onChange={(e) => props.onChange?.(e.currentTarget.value)} />
   );
 };
 

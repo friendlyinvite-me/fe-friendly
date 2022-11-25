@@ -1,13 +1,35 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { signupNewsletter } from '../../api/newsletter';
 import { Button, Card, Text, TextInput } from '../../components';
 import { Logo } from '../../components/Logo';
 import { useWindowSize } from '../../hooks/use-window-resize';
 import { styled } from '../../styles';
+import toast from 'react-hot-toast';
+import { isValidEmail } from '../../utils/validate';
 
 export const Landing: React.FC = () => {
   const [email, setEmail] = useState("");
 
   const {width} = useWindowSize();
+  const [isBusy, setIsBusy] = useState(false);
+
+  const signupToNewsletter = async () => {
+    if(!isEmailValid) {
+      toast.error("Hmm... Your email address doesn't look right. Please try again or use another email.");
+      return;
+    }
+    
+    setIsBusy(true);
+    const signedUp = await signupNewsletter(email);
+    if (signedUp) {
+      toast.success('Thank you for your interest! We will keep you updated. Have a wonderful day!');
+      setEmail('');
+    }
+    setIsBusy(false);
+  };
+
+  const isEmailValid = useMemo(() => isValidEmail(email), [email]);
+
   return (
     <Card>
       <LandingWrapper>
@@ -17,8 +39,8 @@ export const Landing: React.FC = () => {
         <Text typography='h4' color='$contentSecondary'>Friendly provides an intuitive and centralized experience for you and your friends to plan your upcoming events, from planning a Saturday brunch, a big game day, your next Europe trip and much more.</Text>
         <Text typography='h4' color='$contentSecondary'>We are working hard on building Friendly from the ground up. If you are interested in staying in the know, let us know in the email! We will share monthly updates and give you early access when Friendly is ready!</Text>
 
-        <TextInput size='medium' placeholder='hello@friend.com' value={email} onChange={setEmail} />
-        <Button size='large' sentiment='primary'>Keep me posted!</Button>
+        <TextInput type="email" size='medium' placeholder='hello@friend.com' value={email} onChange={setEmail} />
+        <Button disabled={isBusy} onClick={signupToNewsletter} size='large' sentiment='primary'>{isBusy? 'Please wait...' : 'Keep me posted!'}</Button>
 
       </LandingWrapper>
     </Card>

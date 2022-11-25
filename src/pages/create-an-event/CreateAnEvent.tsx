@@ -13,10 +13,12 @@ import { LocationStep } from './steps/LocationStep';
 import { ConfirmStep } from './steps/ConfirmStep';
 import { createEvent } from '../../api';
 import { ShareStep } from './steps/ShareStep';
+import toast from 'react-hot-toast';
 
 export const  CreateAnEvent: React.FC = () => {
   const {user, isLoading} = useContext(UserContext);
   const [stepIndex, setStepIndex] = useState(0);
+  const [isBusy, setIsBusy] = useState(false);
   const [eventData, setEventData] = useState<NewEventData>({
     name: '',
     userId: user?.id ?? '',
@@ -100,8 +102,13 @@ export const  CreateAnEvent: React.FC = () => {
         <ConfirmStep eventData={eventData} />
       ),
       onNext: async () => {
+        setIsBusy(true);
         const event = await createEvent({...eventData, userId: user?.id ?? ''});
-        setNewlyCreatedEvent(event);
+        if (event) {
+          setNewlyCreatedEvent(event);
+        }
+        setIsBusy(false);
+        toast.success('Congrats! Your event has been created successfully.');
       },
     },
     {
@@ -164,14 +171,14 @@ export const  CreateAnEvent: React.FC = () => {
 
         <NewEventFormControls>
           { stepIndex > 0 && currentStep.buttons.prev &&
-            <Button size='large' onClick={onPrev} sentiment='secondary'>{currentStep.buttons.prev}</Button>
+            <Button disabled={isBusy} size='large' onClick={onPrev} sentiment='secondary'>{currentStep.buttons.prev}</Button>
           }
           { currentStep.onClose &&
-            <Button size='large' onClick={currentStep.onClose} sentiment='secondary'>Close</Button>
+            <Button disabled={isBusy} size='large' onClick={currentStep.onClose} sentiment='secondary'>Close</Button>
           }
           <Button
             size='large'
-            disabled={currentStep.isDisabled && currentStep.isDisabled()}
+            disabled={isBusy || currentStep.isDisabled?.()}
             onClick={onNext}
             sentiment='primary'>
             {currentStep.buttons.next}

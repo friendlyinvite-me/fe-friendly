@@ -90,7 +90,7 @@ const PhotosWrapper = styled('div', {
 const Photo = styled('div', {
   width: '80px',
   height: '80px',
-  backgroundSize: 'contain',
+  backgroundSize: 'cover',
   backgroundColor: 'black',
   borderRadius: '10px',
   backgroundRepeat: 'no-repeat',

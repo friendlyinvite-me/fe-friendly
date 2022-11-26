@@ -24,3 +24,14 @@ export const createEvent = async (data: NewEventData) => {
   const event = await axios.post(formatApiUrl('createevent'), data);
   return event.data as FriendlyEventData;
 };
+
+
+export interface DeleteEventRequest {
+  userId: string;
+  eventId: string;
+}
+
+export const deleteEvent = async (data: DeleteEventRequest) => {
+  const userResponse = await axios.post(formatApiUrl('deleteevent'), data);
+  return userResponse.data as boolean;
+};

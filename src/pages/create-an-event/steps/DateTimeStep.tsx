@@ -6,8 +6,8 @@ import { DeleteRow, SuggestAnotherButton } from './shared';
 
 
 interface Props {
-  dateTimes: {id: number; value: Date}[],
-  onSetDateTimes: (arr: {id: number; value: Date}[]) => void;
+  dateTimes: {id: number | string; value: Date}[],
+  onSetDateTimes: (arr: {id: number | string; value: Date}[]) => void;
 }
 
 export const DateTimeStep: React.FC<Props> = (props: Props) => {
@@ -45,7 +45,7 @@ export const DateTimeStep: React.FC<Props> = (props: Props) => {
       }
       <SuggestAnotherButton onClick={() => {
         onSetDateTimes([...dateTimes, {
-          id: dateTimes.length ? dateTimes[dateTimes.length - 1].id + 1 : 0,
+          id: dateTimes.length ? Number(dateTimes[dateTimes.length - 1].id) + 1 : 0,
           value: newDateSuggested,
         }]);
       }}>Suggest another</SuggestAnotherButton>

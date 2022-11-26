@@ -1,4 +1,11 @@
-type FirestoreFunctionNames = 'getuserevents' | 'geteventinfo' | 'getuser' | 'createevent' | 'newslettersignup' | 'createuser';
+type FirestoreFunctionNames = |
+  'getuserevents' |
+  'geteventinfo' |
+  'getuser' |
+  'createevent' |
+  'newslettersignup' |
+  'createuser' |
+  'deleteevent';
 
 export const formatApiUrl = (functionName: FirestoreFunctionNames) => {
   switch (process.env.NODE_ENV) {

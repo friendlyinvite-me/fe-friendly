@@ -77,7 +77,7 @@ export const { styled, css } = createStitches({
         default:
           return {
             fontSize: '30px',
-            lineHeight: '35px',
+            lineHeight: '45px ',
             fontWeight: '700',
             fontFamily: 'Satoshi-Bold',
           };

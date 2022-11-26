@@ -26,11 +26,13 @@ export interface FriendlyEventResponse {
 export type FriendlyEventResponseAction = FriendlyEventResponseActionDateTime | FriendlyEventResponseActionLocation;
 
 export interface FriendlyEventResponseActionDateTime {
+  id?: string;
   type: 'datetime',
   value: string;
 }
 
 export interface FriendlyEventResponseActionLocation {
+  id?: string;
   type: 'location',
   value: Location;
 }
@@ -53,8 +55,8 @@ export type User = FirebaseUser & FriendlyUser;
 export interface NewEventData {
   name: string;
   userId: string;
-  dateTimes: { id: number; value: string }[];
-  locations: { id: number; value: Location }[];
+  dateTimes: { id: number | string; value: string }[];
+  locations: { id: number | string; value: Location }[];
 }
 
 export interface Location {

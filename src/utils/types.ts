@@ -35,6 +35,13 @@ export interface FriendlyEventResponseActionLocation {
   value: Location;
 }
 
+export interface NewFriendlyUserCreation {
+  uid: string;
+  name: string | null;
+  authProvider: 'google';
+  email: string | null;
+}
+
 export interface FriendlyUser {
   id: string;
   email: string;

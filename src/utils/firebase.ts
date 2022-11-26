@@ -2,7 +2,9 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { GoogleAuthProvider, getAuth, signInWithPopup, onAuthStateChanged } from "firebase/auth";
-import { query, collection, getFirestore, where, getDocs, addDoc } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
+import { createUser } from '../api';
+import { NewFriendlyUserCreation } from './types';
 
 
 const firebaseConfig = {
@@ -37,16 +39,16 @@ export const signInWithGoogle = async () => {
   try {
     const res = await signInWithPopup(auth, googleProvider);
     const user = res.user;
-    const q = query(collection(db, "users"), where("uid", "==", user.uid));
-    const docs = await getDocs(q);
-    if (docs.docs.length === 0) {
-      await addDoc(collection(db, "users"), {
-        uid: user.uid,
-        name: user.displayName,
-        authProvider: "google",
-        email: user.email,
-      });
-    }
+
+    const data: NewFriendlyUserCreation = {
+      uid: user.uid,
+      name: user.displayName,
+      authProvider: "google",
+      email: user.email,
+    };
+
+    await createUser(data);
+
   } catch (err: any) {
     console.error(err);
     alert(err.message);

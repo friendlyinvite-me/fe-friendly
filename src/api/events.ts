@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { formatApiUrl } from '../utils/api';
-import { FriendlyEventData, FriendlyEventRow, NewEventData } from '../utils/types';
+import { FriendlyEventData, FriendlyEventResponse, FriendlyEventResponseAction, FriendlyEventRow, NewEventData, NewEventResponseData } from '../utils/types';
 
 export const fetchUserEvents = async (userId: string) => {
   const response = await axios.get(formatApiUrl('getuserevents'), {
@@ -34,4 +34,9 @@ export interface DeleteEventRequest {
 export const deleteEvent = async (data: DeleteEventRequest) => {
   const userResponse = await axios.post(formatApiUrl('deleteevent'), data);
   return userResponse.data as boolean;
+};
+
+export const createEventResponse = async (data: NewEventResponseData) => {
+  const eventResponse = await axios.post(formatApiUrl('createeventresponse'), data);
+  return eventResponse.data as boolean;
 };

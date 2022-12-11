@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from '../../../components';
-import { LocationCard } from '../../../components/LocationCard';
+import { LocationPreview } from '../../../components/LocationPreview';
 import { LocationInput } from '../../../components/LocationInput';
 import { styled } from '../../../styles';
 import { Location } from '../../../utils/types';
@@ -38,7 +38,7 @@ export const LocationStep: React.FC<Props> = (props: Props) => {
       {
         locations.map((item, index) => (
           <LocationItemWrapper key={`${index}__${item.value.reference.toString()}`}>
-            <LocationCard location={item.value} />
+            <LocationPreview location={item.value} />
             <DeleteRow onClick={() => {
               const removed = locations.filter((location, i) => i !== index);
               onSetLocations(removed);

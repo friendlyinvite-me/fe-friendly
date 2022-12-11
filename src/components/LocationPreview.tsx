@@ -10,7 +10,7 @@ interface Props {
   location: Location;
 }
 
-export const LocationCard: React.FC<Props> = (props: Props) => {
+export const LocationPreview: React.FC<Props> = (props: Props) => {
   const [locationInfo, setLocationInfo] = useState<LocationInfo | null>(null);
   const { name, reference } = props.location;
   const [isExpanded, setExpanded] = useState(false);
@@ -20,8 +20,6 @@ export const LocationCard: React.FC<Props> = (props: Props) => {
   } = usePlacesService({
     apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
   });
-
-  
   
   useEffect(() => {
     if (isExpanded && !locationInfo) {
@@ -35,10 +33,9 @@ export const LocationCard: React.FC<Props> = (props: Props) => {
   }, [isExpanded, reference, locationInfo]);
   
   const { width } = useWindowSize();
-
-
+  
   return (
-    <LocationCardWrapper>
+    <LocationPreviewWrapper>
       <Text typography='h3' color='$contentPrimary'>{name}</Text>
       
       { locationInfo && isExpanded &&
@@ -63,11 +60,11 @@ export const LocationCard: React.FC<Props> = (props: Props) => {
         </>
       }
       <Button sentiment='secondary' onClick={() => setExpanded(!isExpanded)}>{isExpanded ? 'Hide info' : "Show more info"}</Button>
-    </LocationCardWrapper>
+    </LocationPreviewWrapper>
   );
 };
 
-const LocationCardWrapper = styled('div', {
+const LocationPreviewWrapper = styled('div', {
   width: '100%',
   border: '1px solid $borderPrimary',
   color: '$contentPrimary',

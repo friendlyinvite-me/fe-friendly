@@ -1,4 +1,5 @@
 import { User as FirebaseUser } from 'firebase/auth';
+import { type } from 'os';
 
 export interface FriendlyEventRow {
   name: string;
@@ -38,19 +39,29 @@ export interface FriendlyEventResponse {
   actions: FriendlyEventResponseAction[];
 }
 
-export type FriendlyEventResponseAction = FriendlyEventResponseActionDateTime | FriendlyEventResponseActionLocation;
+export type FriendlyEventResponseAction = |
+  FriendlyEventResponseActionDateTime |
+  FriendlyEventResponseActionLocation |
+  FriendlyEventResponseActionVote;
 
 export interface FriendlyEventResponseActionDateTime {
   id?: string;
-  type: 'datetime',
+  type: 'datetime';
   value: string;
   createdAt?: string;
 }
 
 export interface FriendlyEventResponseActionLocation {
   id?: string;
-  type: 'location',
+  type: 'location';
   value: Location;
+  createdAt?: string;
+}
+
+export interface FriendlyEventResponseActionVote {
+  id?: string;
+  type: 'upvote' | 'downvote';
+  value: string; // suggestion_id
   createdAt?: string;
 }
 
@@ -107,4 +118,11 @@ export interface LocationInfo extends Location {
   website?: string;
   rating?: number;
   user_ratings_total?: number;
+}
+
+export interface NewEventResponseData {
+  eventId: string;
+  userId: string;
+  actions: FriendlyEventResponseAction[];
+  comment?: string;
 }

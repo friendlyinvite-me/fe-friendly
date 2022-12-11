@@ -1,56 +1,158 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { deleteEvent } from '../../api';
 import { Button, Card, Text } from '../../components';
-import { DateTimePicker } from '../../components/DateTimePicker';
-import { EventDateTimeCard } from '../../components/EventDateTimeCard';
-import { LocationCard } from '../../components/LocationCard';
 import { Tab, Tabs } from '../../components/Tabs';
 import { UserContext } from '../../contexts/auth-context';
 import { styled } from '../../styles';
 import moment from 'moment';
 
-import { FriendlyEventData, Location } from '../../utils/types';
+import { FriendlyEventData, Location, NewEventResponseData  } from '../../utils/types';
+import { EventSuggestionCard } from '../../components/EventSuggestionCard';
 
 export const EventInfo: React.FC = () => {
   const data = useLoaderData() as FriendlyEventData;
   const [tab, setTab] = useState<'datetime' | 'location' | 'history'>('datetime');
   const {user} = useContext(UserContext); 
 
+  const [eventResponse, setEventResponse] = useState<NewEventResponseData>({
+    eventId: data.id,
+    userId: user?.id ?? '',
+    actions: [],
+    comment: '',
+  });
+
+  /**
+   * When eventResponse change
+   * Update the event
+   */
+  const event = useMemo(() => {
+    const event = {...data};
+    console.log('data is', data);
+    console.log('calc event');
+    
+    
+    eventResponse.actions.map(action => {
+      console.log('action', action);
+      
+      switch (action.type) {
+        case 'upvote': {
+          event.suggestions = event.suggestions.map(suggestion => {
+            if (suggestion.id === action.value) {
+              return {
+                ...suggestion,
+                upvotes: [...suggestion.upvotes.filter(u => u !== user!.id), user!.id],
+                downvotes: suggestion.downvotes.filter(u => u !== user!.id),
+              };
+            }
+            return suggestion;
+          });
+          break;
+        }
+          
+        case 'downvote': {
+          event.suggestions = event.suggestions.map(suggestion => {
+            if (suggestion.id === action.value) {
+              return {
+                ...suggestion,
+                downvotes: [...suggestion.downvotes.filter(u => u !== user!.id), user!.id],
+                upvotes: suggestion.upvotes.filter(u => u !== user!.id),
+              };
+            }
+            return suggestion;
+          });
+          break;
+        }
+      
+        default:
+          break;
+      }
+    });
+
+    return event;
+  }, [data, eventResponse]);
+
   const navigate = useNavigate();
 
-  const isCreatedByUser = data.createdBy.userId === user?.id;
+  const isCreatedByUser = event.createdBy.userId === user?.id;
 
   const onDeleteEvent = async () => {
     const deleted = await deleteEvent({
       userId: user?.id ?? '',
-      eventId: data.id,
+      eventId: event.id,
     });
     if (deleted) {
-      alert('delted! Redirecting...');
+      alert('deleted! Redirecting...');
       navigate('/dashboard');
     }
   };
-  
-  const locations = useMemo(() => {
-    return data.suggestions.filter(s => s.type === 'location');
-  }, [data]);
 
-  const dateTimes = useMemo(() => {
-    return data.suggestions.filter(s => s.type === 'datetime');
-  }, [data]);
+  const locationSuggestions = event.suggestions.filter(s => s.type === 'location');
+
+  const dateTimeSuggestions = event.suggestions.filter(s => s.type === 'datetime');
+
+  const onUpvote = (suggestionId: string) => {
+    let actions = eventResponse.actions;
+    actions = actions.filter(action => {
+      if (action.type === 'downvote' || action.type === 'upvote') {
+        return action.value !== suggestionId;
+      }
+      return true;
+    });
+    actions.push({
+      type:'upvote',
+      value: suggestionId,
+    });
+    setEventResponse({
+      ...eventResponse,
+      actions,
+    });
+  };
+  const onDownvote = (suggestionId: string) => {
+    let actions = eventResponse.actions;
+    actions = actions.filter(action => {
+      if (action.type === 'downvote' || action.type === 'upvote') {
+        return action.value !== suggestionId;
+      }
+      return true;
+    });
+    actions.push({
+      type:'downvote',
+      value: suggestionId,
+    });
+    setEventResponse({
+      ...eventResponse,
+      actions,
+    });
+  };
+
+  const onUndoVote = (suggestionId: string) => {
+    let actions = eventResponse.actions;
+    actions = actions.filter(action => {
+      if (action.type === 'downvote' || action.type === 'upvote') {
+        return action.value !== suggestionId;
+      }
+      return true;
+    });
+    
+    setEventResponse({
+      ...eventResponse,
+      actions,
+    });
+  };
+
   return (
     <Card>
       <EventInfoWrapper>
         <EventInfoHeader>
           <div>
-            <Text typography='h1'>{data.name}</Text>
+            <Text typography='h1'>{event.name}</Text>
         
             <Text typography='h4'>
               {
-                isCreatedByUser ? <span>You created this event</span> : <span>Created by {data.createdBy.name}</span>
+                isCreatedByUser ? <span>You created this event</span> : <span>Created by {event.createdBy.name}</span>
               }
-              <span>{` ${moment(data.createdAt).fromNow()}`}</span>
+              <span>{` ${moment(event.createdAt).fromNow()}`}</span>
             </Text>
           </div>
           <Button sentiment='secondary' onClick={onDeleteEvent}>Delete Event</Button>
@@ -64,10 +166,13 @@ export const EventInfo: React.FC = () => {
           tab === 'datetime' && (
             <TabListWrapper>
               {
-                dateTimes.map((dateTime) => (
-                  <EventDateTimeCard
-                    key={dateTime.id}
-                    data={dateTime}
+                dateTimeSuggestions.map((suggestion) => (
+                  <EventSuggestionCard
+                    key={suggestion.id}
+                    data={suggestion}
+                    onUpvote={() => onUpvote(suggestion.id)}
+                    onDownvote={() => onDownvote(suggestion.id)}
+                    onUndoVote={() => onUndoVote(suggestion.id)}
                   />
                 ))
               }
@@ -78,8 +183,14 @@ export const EventInfo: React.FC = () => {
           tab === 'location' && (
             <TabListWrapper>
               {
-                locations.map((location, i) => (
-                  <LocationCard key={location.id}  location={location.value as Location}/>
+                locationSuggestions.map((suggestion) => (
+                  <EventSuggestionCard
+                    key={suggestion.id}
+                    data={suggestion}
+                    onUpvote={() => onUpvote(suggestion.id)}
+                    onDownvote={() => onDownvote(suggestion.id)}
+                    onUndoVote={() => onUndoVote(suggestion.id)}
+                  />
                     
                 ))
               }
@@ -90,7 +201,7 @@ export const EventInfo: React.FC = () => {
           tab === 'history' && (
             <div>
               {
-                data.responses.map((eventResponse, i) => (
+                event.responses.map((eventResponse, i) => (
                   <div key={i}>
                     <div>=====RESPONSE======</div>
                     <div>{eventResponse.user?.name}</div>
@@ -115,6 +226,7 @@ export const EventInfo: React.FC = () => {
             </div>
           )
         }
+        <Button>Submit my {eventResponse.actions.length} actions</Button>
       </EventInfoWrapper>
     </Card>
   );

@@ -3,14 +3,17 @@ import { Text } from './Text';
 import moment from 'moment';
 import React, { useContext, useMemo } from 'react';
 import { Button } from './Button';
-import { FriendlyEventSuggestion } from '../utils/types';
+import { FriendlyEventSuggestion, Location } from '../utils/types';
 import { UserContext } from '../contexts/auth-context';
 
 interface Props {
   data: FriendlyEventSuggestion;
+  onUpvote: () => void;
+  onDownvote: () => void;
+  onUndoVote: () => void;
 }
 
-export const EventDateTimeCard: React.FC<Props> = (props: Props) => {
+export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
   const { data } = props;
 
   const { createdAt, value, id, upvotes, downvotes } = data;
@@ -30,7 +33,9 @@ export const EventDateTimeCard: React.FC<Props> = (props: Props) => {
   return (
     <EventDateTimeCardWrapper id={id}>
       <RowWrapper>
-        <Text typography='h3'>{moment(value as string).format('ddd MMM y   h:mm a')}</Text>
+        <Text typography='h3'>{
+          data.type === 'datetime' ? moment(value as string).format('ddd MMM y   h:mm a') : (value as Location).name
+        }</Text>
         <Text typography='p' color='contentTertiary'>{moment(createdAt).fromNow()}</Text>
       </RowWrapper>
       <RowWrapper>
@@ -39,10 +44,21 @@ export const EventDateTimeCard: React.FC<Props> = (props: Props) => {
           <div>{ downvotes.length} downvotes</div>
           {/* <div>{ counts.comments} comments</div> */}
         </RowWrapper>
-        <RowWrapper>
-          <Button disabled={upvotedByUser} size='small' sentiment='primary'>Like</Button>
-          <Button disabled={downvotedByUser} size='small' sentiment='secondary'>Dislike</Button>
-        </RowWrapper>
+        <>
+          {
+            upvotedByUser || downvotedByUser ? (
+              <RowWrapper>
+                <Button size='small' sentiment='primary'>{upvotedByUser ? 'Liked' : 'Disliked'}</Button>
+                <Button onClick={props.onUndoVote} size='small' sentiment='secondary'>Undo</Button>
+              </RowWrapper>
+            ) : (
+              <RowWrapper>
+                <Button onClick={props.onUpvote} disabled={upvotedByUser} size='small' sentiment='primary'>Like</Button>
+                <Button onClick={props.onDownvote} disabled={downvotedByUser} size='small' sentiment='secondary'>Dislike</Button>
+              </RowWrapper>
+            )
+          }
+        </>
       </RowWrapper>
     </EventDateTimeCardWrapper>
   );

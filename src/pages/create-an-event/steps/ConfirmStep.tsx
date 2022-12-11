@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from '../../../components';
 import { DateTimePicker } from '../../../components/DateTimePicker';
-import { LocationCard } from '../../../components/LocationCard';
+import { LocationPreview } from '../../../components/LocationPreview';
 import { styled } from '../../../styles';
 import { NewEventData } from '../../../utils/types';
 
@@ -33,7 +33,7 @@ export const ConfirmStep: React.FC<Props> = (props: Props) => {
       <Text typography='h3' color='$contentPrimary'>Location Suggestions</Text>
       {
         eventData.locations.map((location, index) => (
-          <LocationCard key={index} location={location.value} />
+          <LocationPreview key={index} location={location.value} />
         ))
       }
     </Wrapper>

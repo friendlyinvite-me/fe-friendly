@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import { deleteEvent } from '../../api';
+import { createEventResponse, deleteEvent } from '../../api';
 import { Button, Card, Text } from '../../components';
 import { Tab, Tabs } from '../../components/Tabs';
 import { UserContext } from '../../contexts/auth-context';
 import { styled } from '../../styles';
 import moment from 'moment';
+import toast from 'react-hot-toast';
 
 import { FriendlyEventData, Location, NewEventResponseData  } from '../../utils/types';
 import { EventSuggestionCard } from '../../components/EventSuggestionCard';
@@ -17,7 +18,7 @@ export const EventInfo: React.FC = () => {
 
   const [eventResponse, setEventResponse] = useState<NewEventResponseData>({
     eventId: data.id,
-    userId: user?.id ?? '',
+    userId: '',
     actions: [],
     comment: '',
   });
@@ -141,6 +142,11 @@ export const EventInfo: React.FC = () => {
     });
   };
 
+  const submitEventResponse = async () => {
+    const success = await createEventResponse({...eventResponse, userId: user!.id});
+    toast.success('Thank you for your submission. Your response will be sent to everyone else!');
+  };
+
   return (
     <Card>
       <EventInfoWrapper>
@@ -226,7 +232,7 @@ export const EventInfo: React.FC = () => {
             </div>
           )
         }
-        <Button>Submit my {eventResponse.actions.length} actions</Button>
+        <Button onClick={submitEventResponse}>Submit my {eventResponse.actions.length} actions</Button>
       </EventInfoWrapper>
     </Card>
   );

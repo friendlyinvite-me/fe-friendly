@@ -6,7 +6,7 @@ interface Props {
   onClick?: () => void;
   sentiment?: 'primary' | 'secondary';
   disabled?: boolean;
-  size?: 'medium' | 'large'
+  size?: 'small' |'medium' | 'large'
 }
 
 export const Button: React.FC<Props> = (props: Props) => {
@@ -40,6 +40,13 @@ const ButtonWrapper = styled('button', {
     },
 
     size: {
+      small: {
+        fontSize: '14px',
+        fontWeight: '500',
+        paddingBlock: '$2',
+        paddingInline: '$3',
+      },
+
       medium: {
         fontSize: '14px',
         fontWeight: '700',

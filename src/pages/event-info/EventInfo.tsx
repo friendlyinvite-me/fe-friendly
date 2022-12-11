@@ -3,12 +3,14 @@ import { useLoaderData, useNavigate } from 'react-router-dom';
 import { deleteEvent } from '../../api';
 import { Button, Card, Text } from '../../components';
 import { DateTimePicker } from '../../components/DateTimePicker';
+import { EventDateTimeCard } from '../../components/EventDateTimeCard';
 import { LocationCard } from '../../components/LocationCard';
 import { Tab, Tabs } from '../../components/Tabs';
 import { UserContext } from '../../contexts/auth-context';
 import { styled } from '../../styles';
+import moment from 'moment';
 
-import { FriendlyEventData, FriendlyEventResponseActionDateTime, FriendlyEventResponseActionLocation } from '../../utils/types';
+import { FriendlyEventData, Location } from '../../utils/types';
 
 export const EventInfo: React.FC = () => {
   const data = useLoaderData() as FriendlyEventData;
@@ -31,27 +33,11 @@ export const EventInfo: React.FC = () => {
   };
   
   const locations = useMemo(() => {
-    const locationItems: FriendlyEventResponseActionLocation[] = [];
-    data.responses.forEach(response => {
-      response.actions.forEach(action => {
-        if (action.type === 'location') {
-          locationItems.push(action);
-        }
-      });
-    });
-    return locationItems;
+    return data.suggestions.filter(s => s.type === 'location');
   }, [data]);
 
   const dateTimes = useMemo(() => {
-    const dateTimeItems: FriendlyEventResponseActionDateTime[] = [];
-    data.responses.forEach(response => {
-      response.actions.forEach(action => {
-        if (action.type === 'datetime') {
-          dateTimeItems.push(action);
-        }
-      });
-    });
-    return dateTimeItems;
+    return data.suggestions.filter(s => s.type === 'datetime');
   }, [data]);
   return (
     <Card>
@@ -62,8 +48,9 @@ export const EventInfo: React.FC = () => {
         
             <Text typography='h4'>
               {
-                isCreatedByUser ? <div>You created this event</div> : <div>Created by {data.createdBy.name}</div>
+                isCreatedByUser ? <span>You created this event</span> : <span>Created by {data.createdBy.name}</span>
               }
+              <span>{` ${moment(data.createdAt).fromNow()}`}</span>
             </Text>
           </div>
           <Button sentiment='secondary' onClick={onDeleteEvent}>Delete Event</Button>
@@ -77,11 +64,11 @@ export const EventInfo: React.FC = () => {
           tab === 'datetime' && (
             <TabListWrapper>
               {
-                dateTimes.map((dateTime, i) => (
-                  <DateTimePicker disabled key={i} value={{
-                    id: dateTime.id ?? '',
-                    value: new Date(dateTime.value),
-                  }} />
+                dateTimes.map((dateTime) => (
+                  <EventDateTimeCard
+                    key={dateTime.id}
+                    data={dateTime}
+                  />
                 ))
               }
             </TabListWrapper>
@@ -92,7 +79,7 @@ export const EventInfo: React.FC = () => {
             <TabListWrapper>
               {
                 locations.map((location, i) => (
-                  <LocationCard key={i}  location={location.value}/>
+                  <LocationCard key={location.id}  location={location.value as Location}/>
                     
                 ))
               }

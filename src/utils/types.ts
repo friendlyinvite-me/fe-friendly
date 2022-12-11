@@ -9,11 +9,26 @@ export interface FriendlyEventRow {
 
 export interface FriendlyEventData extends FriendlyEventRow {
   responses: FriendlyEventResponse[];
+  suggestions: FriendlyEventSuggestion[];
   createdBy: {
     name: string;
     userId: string;
   };
 }
+
+export interface FriendlyEventSuggestion {
+  id: string;
+  type: 'datetime' | 'location';
+  userId: string;
+  actionId: string;
+  responseId: string;
+  upvotes: string[];
+  downvotes: string[];
+  value: ResponseValue;
+  createdAt?: string;
+}
+
+type ResponseValue = string | Location;
 
 export interface FriendlyEventResponse {
   id: string;
@@ -29,12 +44,14 @@ export interface FriendlyEventResponseActionDateTime {
   id?: string;
   type: 'datetime',
   value: string;
+  createdAt?: string;
 }
 
 export interface FriendlyEventResponseActionLocation {
   id?: string;
   type: 'location',
   value: Location;
+  createdAt?: string;
 }
 
 export interface NewFriendlyUserCreation {

@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import { useAuth } from '../hooks/use-auth';
 import { useNavigate, useLocation } from "react-router-dom";
-import React, { useContext } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { UserContext } from '../contexts/auth-context';
 import { styled } from '../styles';
 import { Logo } from './Logo';
 import { useWindowSize } from '../hooks/use-window-resize';
+import { Menu } from '@headlessui/react';
+import { Text } from './Text';
 
 export const Nav: React.FC = () => {
   const { logOut } = useAuth();
@@ -13,7 +15,7 @@ export const Nav: React.FC = () => {
   const location = useLocation();
   const { width } = useWindowSize();
 
-  const {user} = useContext(UserContext);  
+  const {user} = useContext(UserContext);
 
 
   return (
@@ -29,10 +31,27 @@ export const Nav: React.FC = () => {
         }
         {
           user && (
-            <LogOutButton onClick={() => {
-              logOut();
-              navigate('/');
-            }}>Log out</LogOutButton>
+            <NavDropdown>
+              <Menu>
+                <Menu.Button>Profile</Menu.Button>
+                <Menu.Items>
+                  <Menu.Item>
+                    <div>
+                      <Text typography='h3'>{user.displayName}</Text>
+                      <Text typography='h4'>{user.email}</Text>
+                    </div>
+                  </Menu.Item>
+                  <Menu.Item>
+                    <LogoutButton onClick={() => {
+                      logOut();
+                      navigate('/');
+                    }}>Log out</LogoutButton>
+                  </Menu.Item>
+                </Menu.Items>
+              </Menu>
+
+              
+            </NavDropdown>
           )
         }
       </NavLinks>
@@ -67,9 +86,10 @@ const NavLink = styled(Link, {
   },
 });
 
-const LogOutButton = styled('button', {
-  border: '2px solid white',
-  color: 'white',
+const LogoutButton = styled('div', {
+  border: '2px solid black',
+  color: '$contentPrimary',
+  textAlign: 'center',
   typography: 'p',
   cursor: 'pointer',
   fontWeight: 700,
@@ -77,4 +97,40 @@ const LogOutButton = styled('button', {
   padding: '$1 $2',
   borderRadius: '20px',
   backgroundColor: 'transparent',
+
+  '&:hover': {
+    backgroundColor: '$red500',
+  },
+});
+
+const NavDropdown = styled('div', {
+  position: 'relative',
+
+  '& > button': {
+    border: '2px solid white',
+    color: 'white',
+    typography: 'p',
+    cursor: 'pointer',
+    fontWeight: 700,
+    outline: 0,
+    padding: '$1 $2',
+    borderRadius: '20px',
+    backgroundColor: 'transparent',
+  },
+
+  '& > div' : {
+    position: 'absolute',
+    right: 0,
+    top: '105%',
+    backgroundColor: "white",
+    border: '1px solid $borderPrimary',
+    zIndex: 1,
+    borderRadius: '5px',
+    color: '$contentPrimary',
+    padding: '$3',
+    minWidth: '150px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: "$3",
+  },
 });

@@ -60,7 +60,7 @@ export interface FriendlyEventResponseActionLocation {
 
 export interface FriendlyEventResponseActionVote {
   id?: string;
-  type: 'upvote' | 'downvote';
+  type: 'upvote' | 'downvote' | 'undovote';
   value: string; // suggestion_id
   createdAt?: string;
 }

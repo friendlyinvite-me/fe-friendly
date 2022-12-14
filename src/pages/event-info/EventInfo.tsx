@@ -64,7 +64,21 @@ export const EventInfo: React.FC = () => {
           });
           break;
         }
-      
+
+        case 'undovote': {
+          event.suggestions = event.suggestions.map(suggestion => {
+            if (suggestion.id === action.value) {
+              return {
+                ...suggestion,
+                upvotes: suggestion.upvotes.filter(u => u !== user!.id),
+                downvotes: suggestion.downvotes.filter(u => u !== user!.id),
+              };
+            }
+            return suggestion;
+          });
+          break;
+        }
+
         default:
           break;
       }
@@ -95,7 +109,7 @@ export const EventInfo: React.FC = () => {
   const onUpvote = (suggestionId: string) => {
     let actions = eventResponse.actions;
     actions = actions.filter(action => {
-      if (action.type === 'downvote' || action.type === 'upvote') {
+      if (action.type === 'downvote' || action.type === 'upvote' || action.type === 'undovote') {
         return action.value !== suggestionId;
       }
       return true;
@@ -112,7 +126,7 @@ export const EventInfo: React.FC = () => {
   const onDownvote = (suggestionId: string) => {
     let actions = eventResponse.actions;
     actions = actions.filter(action => {
-      if (action.type === 'downvote' || action.type === 'upvote') {
+      if (action.type === 'downvote' || action.type === 'upvote' || action.type === 'undovote') {
         return action.value !== suggestionId;
       }
       return true;
@@ -128,6 +142,24 @@ export const EventInfo: React.FC = () => {
   };
 
   const onUndoVote = (suggestionId: string) => {
+    /**
+     * If undoing action from previous response
+     * explicitly set an undo
+     */
+    if (!eventResponse.actions.some(action => {
+      return (action.type === 'downvote' || action.type === 'upvote') && action.value === suggestionId;
+    })) {
+      const actions = eventResponse.actions;
+      actions.push({
+        type: 'undovote',
+        value: suggestionId,
+      });
+    }
+
+    /**
+     * if undoing action that is in this response
+     * just remove it from actions
+     */
     let actions = eventResponse.actions;
     actions = actions.filter(action => {
       if (action.type === 'downvote' || action.type === 'upvote') {
@@ -143,7 +175,7 @@ export const EventInfo: React.FC = () => {
   };
 
   const submitEventResponse = async () => {
-    const success = await createEventResponse({...eventResponse, userId: user!.id});
+    await createEventResponse({...eventResponse, userId: user!.id});
     toast.success('Thank you for your submission. Your response will be sent to everyone else!');
   };
 

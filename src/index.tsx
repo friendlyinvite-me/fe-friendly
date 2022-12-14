@@ -41,8 +41,8 @@ const router = createBrowserRouter([
         path: "/events/:id",
         element: <EventInfo />,
         loader: async (data) => {
-          const id = data.params.id;
-          return fetchEventInfo(id as string);
+          const eventId = data.params.id;
+          return {eventId};
         },
       },
     ],

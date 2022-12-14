@@ -7,17 +7,20 @@ import { styled } from '../../styles';
 import moment from 'moment';
 import toast from 'react-hot-toast';
 
-import { FriendlyEventData  } from '../../utils/types';
+import { FriendlyEventData, FriendlyEventResponse  } from '../../utils/types';
 import { EventSuggestionCard } from '../../components/EventSuggestionCard';
 import { useEventInfo } from '../../hooks/use-event-info';
 
 export const EventInfo: React.FC = () => {
-  const data = useLoaderData() as FriendlyEventData;
+  const { eventId } = useLoaderData() as { eventId: string };
   const [tab, setTab] = useState<'datetime' | 'location' | 'history'>('datetime');
   
   const { user } = useContext(UserContext);
-  const { event,
+  const {
+    isLoading,
+    event,
     eventResponse,
+    isCreatedByUser,
     dateTimeSuggestions,
     locationSuggestions,
     onUndoVote,
@@ -25,14 +28,14 @@ export const EventInfo: React.FC = () => {
     onDownvote,
     onDeleteEvent,
     onCreateEventResponse,
-  } = useEventInfo(data);
+  } = useEventInfo(eventId);
 
   const navigate = useNavigate();
 
   const onDeleteEventHandler = async () => {
     const deleted = await onDeleteEvent({
       userId: user?.id ?? '',
-      eventId: event.id,
+      eventId: event?.id ?? '',
     });
     if (deleted) {
       alert('deleted! Redirecting...');
@@ -40,12 +43,19 @@ export const EventInfo: React.FC = () => {
     }
   };
 
-  const isCreatedByUser = event.createdBy.userId === user?.id;
 
   const submitEventResponse = async () => {
     await onCreateEventResponse({...eventResponse, userId: user!.id});
     toast.success('Thank you for your submission. Your response will be sent to everyone else!');
   };
+
+  if (isLoading) {
+    return (
+      <Card>
+        <Text typography='h1'>Loading...</Text>
+      </Card>
+    );
+  }
 
   return (
     <Card>
@@ -56,7 +66,7 @@ export const EventInfo: React.FC = () => {
         
             <Text typography='h4'>
               {
-                isCreatedByUser ? <span>You created this event</span> : <span>Created by {event.createdBy.name}</span>
+                isCreatedByUser ? <span>You created this event</span> : <span>Created by {event?.createdBy?.name}</span>
               }
               <span>{` ${moment(event.createdAt).fromNow()}`}</span>
             </Text>
@@ -107,7 +117,7 @@ export const EventInfo: React.FC = () => {
           tab === 'history' && (
             <div>
               {
-                event.responses.map((eventResponse, i) => (
+                ((event?.responses) as FriendlyEventResponse[] ?? []).map((eventResponse, i) => (
                   <div key={i}>
                     <div>=====RESPONSE======</div>
                     <div>{eventResponse.user?.name}</div>
@@ -132,7 +142,7 @@ export const EventInfo: React.FC = () => {
             </div>
           )
         }
-        <Button onClick={submitEventResponse}>Submit my {eventResponse.actions.length} actions</Button>
+        <Button disabled={eventResponse.actions.length === 0} onClick={submitEventResponse}>Submit my {eventResponse.actions.length} actions</Button>
       </EventInfoWrapper>
     </Card>
   );

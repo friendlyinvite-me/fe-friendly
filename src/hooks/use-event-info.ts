@@ -1,15 +1,34 @@
-import { useContext, useMemo, useState } from 'react';
-import { createEventResponse, deleteEvent } from '../api';
+import { useContext, useEffect, useMemo, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import useAsyncEffect from 'use-async-effect';
+import { createEventResponse, deleteEvent, fetchEventInfo } from '../api';
 import { UserContext } from '../contexts/auth-context';
-import { FriendlyEventData, NewEventResponseData } from '../utils/types';
+import { FriendlyEventData, FriendlyEventSuggestion, NewEventResponseData } from '../utils/types';
 
-export const useEventInfo = (data: FriendlyEventData) => {
+export const useEventInfo = (eventId: string) => {
+
+  const [data, setData] = useState<FriendlyEventData | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(true);
   const [eventResponse, setEventResponse] = useState<NewEventResponseData>({
-    eventId: data.id,
+    eventId: '',
     userId: '',
     actions: [],
     comment: '',
   });
+
+  useAsyncEffect(async () => {
+    if (!data) {
+      const response = await fetchEventInfo(eventId);
+      setData(response);
+
+      setEventResponse({
+        ...eventResponse,
+        eventId: response.id,
+      });
+
+      setIsLoading(false);
+    }
+  }, [data]);
 
   const { user } = useContext(UserContext);
 
@@ -24,7 +43,7 @@ export const useEventInfo = (data: FriendlyEventData) => {
 
       switch (action.type) {
         case 'upvote': {
-          event.suggestions = event.suggestions.map(suggestion => {
+          event.suggestions = event.suggestions?.map(suggestion => {
             if (suggestion.id === action.value) {
               return {
                 ...suggestion,
@@ -38,7 +57,7 @@ export const useEventInfo = (data: FriendlyEventData) => {
         }
 
         case 'downvote': {
-          event.suggestions = event.suggestions.map(suggestion => {
+          event.suggestions = event.suggestions?.map(suggestion => {
             if (suggestion.id === action.value) {
               return {
                 ...suggestion,
@@ -52,7 +71,7 @@ export const useEventInfo = (data: FriendlyEventData) => {
         }
 
         case 'undovote': {
-          event.suggestions = event.suggestions.map(suggestion => {
+          event.suggestions = event.suggestions?.map(suggestion => {
             if (suggestion.id === action.value) {
               return {
                 ...suggestion,
@@ -73,12 +92,12 @@ export const useEventInfo = (data: FriendlyEventData) => {
     return event;
   }, [data, eventResponse]);
 
-  const isCreatedByUser = event.createdBy.userId === user?.id;
+  const isCreatedByUser = event.createdBy?.userId === user?.id;
 
 
-  const locationSuggestions = event.suggestions.filter(s => s.type === 'location');
+  const locationSuggestions: FriendlyEventSuggestion[] = event.suggestions?.filter(s => s.type === 'location') ?? [];
 
-  const dateTimeSuggestions = event.suggestions.filter(s => s.type === 'datetime');
+  const dateTimeSuggestions: FriendlyEventSuggestion[] = event.suggestions?.filter(s => s.type === 'datetime') ?? [];
 
   const onUpvote = (suggestionId: string) => {
     let actions = eventResponse.actions;
@@ -149,6 +168,7 @@ export const useEventInfo = (data: FriendlyEventData) => {
   };
 
   return {
+    isLoading,
     event,
     dateTimeSuggestions,
     locationSuggestions,

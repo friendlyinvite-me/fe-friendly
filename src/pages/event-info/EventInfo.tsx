@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import { FriendlyEventData, FriendlyEventResponse  } from '../../utils/types';
 import { EventSuggestionCard } from '../../components/EventSuggestionCard';
 import { useEventInfo } from '../../hooks/use-event-info';
+import { Modal } from '../../components/Modal';
 
 export const EventInfo: React.FC = () => {
   const { eventId } = useLoaderData() as { eventId: string };
@@ -30,6 +31,8 @@ export const EventInfo: React.FC = () => {
     onCreateEventResponse,
   } = useEventInfo(eventId);
 
+  const [addingNewProposal, setAddingNewProposal] = useState(false);
+
   const navigate = useNavigate();
 
   const onDeleteEventHandler = async () => {
@@ -47,6 +50,10 @@ export const EventInfo: React.FC = () => {
   const submitEventResponse = async () => {
     await onCreateEventResponse({...eventResponse, userId: user!.id});
     toast.success('Thank you for your submission. Your response will be sent to everyone else!');
+  };
+
+  const addNewProposal = () => {
+    setAddingNewProposal(true);
   };
 
   if (isLoading) {
@@ -92,6 +99,7 @@ export const EventInfo: React.FC = () => {
                   />
                 ))
               }
+              <Button onClick={addNewProposal}>Add new</Button>
             </TabListWrapper>
           )
         }
@@ -143,6 +151,13 @@ export const EventInfo: React.FC = () => {
           )
         }
         <Button disabled={eventResponse.actions.length === 0} onClick={submitEventResponse}>Submit my {eventResponse.actions.length} actions</Button>
+        {
+          addingNewProposal && (
+            <Modal onDismiss={() => {
+              setAddingNewProposal(false);
+            }} isOpen>Test123</Modal>
+          )
+        }
       </EventInfoWrapper>
     </Card>
   );

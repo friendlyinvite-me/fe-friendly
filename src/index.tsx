@@ -8,12 +8,14 @@ import {
 } from "react-router-dom";
 import './utils/firebase.ts';
 import { EventInfo } from './pages/event-info/EventInfo';
-import { fetchEventInfo } from './api';
 import { Login } from './pages/login/Login';
 import { Dashboard } from './pages/dashboard/Dashboard';
 import App from './App';
 import { Landing } from './pages/landing/Landing';
 import { CreateAnEvent } from './pages/create-an-event/CreateAnEvent';
+import ReactModal from 'react-modal';
+
+ReactModal.setAppElement('#root');
 
 const router = createBrowserRouter([
   {

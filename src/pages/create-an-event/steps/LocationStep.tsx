@@ -5,10 +5,11 @@ import { LocationInput } from '../../../components/LocationInput';
 import { styled } from '../../../styles';
 import { Location } from '../../../utils/types';
 import { DeleteRow } from './shared';
+import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
-  locations: {id: number | string; value: Location}[];
-  onSetLocations: (arr: {id: number | string; value: Location}[]) => void;
+  locations: {id: string; value: Location}[];
+  onSetLocations: (arr: {id: string; value: Location}[]) => void;
 }
 
 export const LocationStep: React.FC<Props> = (props: Props) => {
@@ -25,7 +26,7 @@ export const LocationStep: React.FC<Props> = (props: Props) => {
             } = location;
 
             onSetLocations([...locations, {
-              id: locations.length ? Number(locations[locations.length - 1].id) + 1 : 0,
+              id: uuidv4(),
               value: {
                 name, 
                 reference, 

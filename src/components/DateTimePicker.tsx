@@ -5,8 +5,8 @@ import moment from 'moment';
 import { Text } from './Text';
 
 interface Props {
-  value: {id: number | string; value: Date};
-  onChange?: (val: {id: number | string; value: Date}) => void;
+  value: {id: string; value: Date};
+  onChange?: (val: {id: string; value: Date}) => void;
   disabled?: boolean;
 }
 

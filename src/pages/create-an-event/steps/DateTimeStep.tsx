@@ -3,11 +3,11 @@ import { DateTimePicker } from '../../../components/DateTimePicker';
 import { styled } from '../../../styles';
 import moment from 'moment';
 import { DeleteRow, SuggestAnotherButton } from './shared';
-
+import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
-  dateTimes: {id: number | string; value: Date}[],
-  onSetDateTimes: (arr: {id: number | string; value: Date}[]) => void;
+  dateTimes: {id: string; value: Date}[],
+  onSetDateTimes: (arr: {id: string; value: Date}[]) => void;
 }
 
 export const DateTimeStep: React.FC<Props> = (props: Props) => {
@@ -44,8 +44,9 @@ export const DateTimeStep: React.FC<Props> = (props: Props) => {
         ))
       }
       <SuggestAnotherButton onClick={() => {
+        debugger;
         onSetDateTimes([...dateTimes, {
-          id: dateTimes.length ? Number(dateTimes[dateTimes.length - 1].id) + 1 : 0,
+          id: uuidv4(),
           value: newDateSuggested,
         }]);
       }}>Suggest another</SuggestAnotherButton>

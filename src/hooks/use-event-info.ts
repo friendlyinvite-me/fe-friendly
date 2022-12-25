@@ -1,9 +1,9 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
+import { useContext, useMemo, useState } from 'react';
 import useAsyncEffect from 'use-async-effect';
 import { createEventResponse, deleteEvent, fetchEventInfo } from '../api';
 import { UserContext } from '../contexts/auth-context';
-import { FriendlyEventData, FriendlyEventSuggestion, NewEventResponseData } from '../utils/types';
+import { FriendlyEventData, FriendlyEventResponseActionDateTime, FriendlyEventResponseActionLocation, FriendlyEventSuggestion, NewEventResponseData, ProposalType, ResponseValue } from '../utils/types';
 
 export const useEventInfo = (eventId: string) => {
 
@@ -114,6 +114,7 @@ export const useEventInfo = (eventId: string) => {
     const suggestion = data?.suggestions.find(suggestion => suggestionId === suggestion.id);
     if (suggestion && !suggestion.upvotes.includes(userId)) {
       actions.push({
+        id: uuidv4(),
         type: 'upvote',
         value: suggestionId,
       });
@@ -140,12 +141,14 @@ export const useEventInfo = (eventId: string) => {
     const suggestion = data?.suggestions.find(suggestion => suggestionId === suggestion.id);
     if (suggestion && !suggestion.downvotes.includes(userId)) {
       actions.push({
+        id: uuidv4(),
         type: 'downvote',
         value: suggestionId,
       });
     }
 
     actions.push({
+      id: uuidv4(),
       type: 'downvote',
       value: suggestionId,
     });
@@ -166,6 +169,7 @@ export const useEventInfo = (eventId: string) => {
     })) {
       const actions = eventResponse.actions;
       actions.push({
+        id: uuidv4(),
         type: 'undovote',
         value: suggestionId,
       });
@@ -196,6 +200,40 @@ export const useEventInfo = (eventId: string) => {
     });
   };
 
+  const onAddDateTimeSuggestions = (suggestions: FriendlyEventResponseActionDateTime[], userId: string) => {
+    const actions = eventResponse.actions.filter(action => action.type !== 'datetime');
+    suggestions.forEach(suggestion => {
+      actions.push({
+        id: suggestion.id ?? uuidv4(),
+        type: 'datetime',
+        value: suggestion.value,
+      });
+    });
+
+    setEventResponse({
+      ...eventResponse,
+      actions,
+      userId,
+    });
+  };
+
+  const onAddLocationSuggestions = (suggestions: FriendlyEventResponseActionLocation[], userId: string) => {
+    const actions = eventResponse.actions.filter(action => action.type !== 'location');
+    suggestions.forEach(suggestion => {
+      actions.push({
+        id: suggestion.id ?? uuidv4(),
+        type: 'location',
+        value: suggestion.value,
+      });
+    });
+
+    setEventResponse({
+      ...eventResponse,
+      actions,
+      userId,
+    });
+  };
+
   return {
     isLoading,
     event,
@@ -206,6 +244,8 @@ export const useEventInfo = (eventId: string) => {
     onDownvote,
     isCreatedByUser,
     eventResponse,
+    onAddDateTimeSuggestions,
+    onAddLocationSuggestions,
     onDeleteEvent: deleteEvent,
     onCreateEventResponse: createEventResponse,
   };

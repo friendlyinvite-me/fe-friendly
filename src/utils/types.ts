@@ -8,6 +8,8 @@ export interface FriendlyEventRow {
   status: 'draft' | 'planning' | 'finalized'
 }
 
+export type ProposalType = 'datetime' | 'location';
+
 export interface FriendlyEventData extends FriendlyEventRow {
   responses: FriendlyEventResponse[];
   suggestions: FriendlyEventSuggestion[];
@@ -19,7 +21,7 @@ export interface FriendlyEventData extends FriendlyEventRow {
 
 export interface FriendlyEventSuggestion {
   id: string;
-  type: 'datetime' | 'location';
+  type: ProposalType;
   userId: string;
   actionId: string;
   responseId: string;
@@ -29,7 +31,7 @@ export interface FriendlyEventSuggestion {
   createdAt?: string;
 }
 
-type ResponseValue = string | Location;
+export type ResponseValue = string | Location;
 
 export interface FriendlyEventResponse {
   id: string;
@@ -45,21 +47,21 @@ export type FriendlyEventResponseAction = |
   FriendlyEventResponseActionVote;
 
 export interface FriendlyEventResponseActionDateTime {
-  id?: string;
+  id: string;
   type: 'datetime';
   value: string;
   createdAt?: string;
 }
 
 export interface FriendlyEventResponseActionLocation {
-  id?: string;
+  id: string;
   type: 'location';
   value: Location;
   createdAt?: string;
 }
 
 export interface FriendlyEventResponseActionVote {
-  id?: string;
+  id: string;
   type: 'upvote' | 'downvote' | 'undovote';
   value: string; // suggestion_id
   createdAt?: string;
@@ -83,8 +85,8 @@ export type User = FirebaseUser & FriendlyUser;
 export interface NewEventData {
   name: string;
   userId: string;
-  dateTimes: { id: number | string; value: string }[];
-  locations: { id: number | string; value: Location }[];
+  dateTimes: { id: string; value: string }[];
+  locations: { id: string; value: Location }[];
 }
 
 export interface Location {

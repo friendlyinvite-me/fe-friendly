@@ -34,7 +34,7 @@ export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
     <EventDateTimeCardWrapper id={id}>
       <RowWrapper>
         <Text typography='h3'>{
-          data.type === 'datetime' ? moment(value as string).format('ddd MMM y   h:mm a') : (value as Location).name
+          data.type === 'datetime' ? moment(value as string).format('Do MMM y   h:mm a') : (value as Location).name
         }</Text>
         <Text typography='p' color='contentTertiary'>{moment(createdAt).fromNow()}</Text>
       </RowWrapper>

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { formatApiUrl } from '../utils/api';
-import { FriendlyEventData, FriendlyEventResponse, FriendlyEventResponseAction, FriendlyEventRow, NewEventData, NewEventResponseData } from '../utils/types';
+import { FriendlyEventData, FriendlyEventRow, NewEventData, NewEventResponseData } from '../utils/types';
 
 export const fetchUserEvents = async (userId: string) => {
   const response = await axios.get(formatApiUrl('getuserevents'), {

@@ -14,6 +14,7 @@ import { ConfirmStep } from './steps/ConfirmStep';
 import { createEvent } from '../../api';
 import { ShareStep } from './steps/ShareStep';
 import toast from 'react-hot-toast';
+import { v4 as uuidv4 } from 'uuid';
 
 export const  CreateAnEvent: React.FC = () => {
   const {user, isLoading} = useContext(UserContext);
@@ -23,7 +24,7 @@ export const  CreateAnEvent: React.FC = () => {
     name: '',
     userId: user?.id ?? '',
     dateTimes: [{
-      id: 0,
+      id: uuidv4(),
       value: moment().add(2, 'hours').set('minute', 0).toString(),
     }],
     locations: [],
@@ -70,7 +71,8 @@ export const  CreateAnEvent: React.FC = () => {
                 value: d.value.toString(),
               })),
             });
-          }} />
+          }}
+        />
       ),
     },
     {
@@ -88,7 +90,8 @@ export const  CreateAnEvent: React.FC = () => {
               ...eventData,
               locations,
             });
-          }} />
+          }}
+        />
       ),
     },
     {

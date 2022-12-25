@@ -7,10 +7,12 @@ import { styled } from '../../styles';
 import moment from 'moment';
 import toast from 'react-hot-toast';
 
-import { FriendlyEventData, FriendlyEventResponse  } from '../../utils/types';
+import { FriendlyEventResponse, FriendlyEventResponseActionDateTime, FriendlyEventResponseActionLocation, ProposalType  } from '../../utils/types';
 import { EventSuggestionCard } from '../../components/EventSuggestionCard';
 import { useEventInfo } from '../../hooks/use-event-info';
 import { Modal } from '../../components/Modal';
+import { DateTimeStep } from '../create-an-event/steps/DateTimeStep';
+import { LocationStep } from '../create-an-event/steps/LocationStep';
 
 export const EventInfo: React.FC = () => {
   const { eventId } = useLoaderData() as { eventId: string };
@@ -30,9 +32,11 @@ export const EventInfo: React.FC = () => {
     onDownvote,
     onDeleteEvent,
     onCreateEventResponse,
+    onAddDateTimeSuggestions,
+    onAddLocationSuggestions,
   } = useEventInfo(eventId);
 
-  const [addingNewProposal, setAddingNewProposal] = useState(false);
+  const [addingNewProposal, setAddingNewProposal] = useState<ProposalType | undefined>(undefined);
 
   const navigate = useNavigate();
 
@@ -53,8 +57,8 @@ export const EventInfo: React.FC = () => {
     toast.success('Thank you for your submission. Your response will be sent to everyone else!');
   };
 
-  const addNewProposal = () => {
-    setAddingNewProposal(true);
+  const addNewProposal = (type: ProposalType) => {
+    setAddingNewProposal(type);
   };
 
   if (isLoading) {
@@ -100,7 +104,7 @@ export const EventInfo: React.FC = () => {
                   />
                 ))
               }
-              <Button onClick={addNewProposal}>Add new</Button>
+              <Button onClick={() => addNewProposal('datetime')}>Add new</Button>
             </TabListWrapper>
           )
         }
@@ -119,6 +123,7 @@ export const EventInfo: React.FC = () => {
                     
                 ))
               }
+              <Button onClick={() => addNewProposal('location')}>Add new</Button>
             </TabListWrapper>
           )
         }
@@ -154,9 +159,45 @@ export const EventInfo: React.FC = () => {
         <Button disabled={eventResponse.actions.length === 0} onClick={submitEventResponse}>Submit my {eventResponse.actions.length} actions</Button>
         {
           addingNewProposal && (
-            <Modal onDismiss={() => {
-              setAddingNewProposal(false);
-            }} isOpen>Test123</Modal>
+            <Modal
+              isOpen
+              onDismiss={() => {
+                setAddingNewProposal(undefined);
+              }} 
+            >
+              {
+                addingNewProposal === 'datetime' && (
+                  <DateTimeStep
+                    dateTimes={eventResponse.actions.filter(action => action.type === 'datetime').map(d => ({...d, value: new Date(d.value as string)}))} 
+                    onSetDateTimes={(dateTimes) => {
+                      const x = dateTimes.map(d => ({
+                        ...d,
+                        type: 'datetime',
+                        value: d.value.toString(),
+                      } as FriendlyEventResponseActionDateTime));
+                      onAddDateTimeSuggestions(x, user?.id ?? '');
+                    }}
+                  />
+                )
+              }
+              {
+                addingNewProposal === 'location' && (
+                  <LocationStep
+                    locations={eventResponse.actions.filter(action => action.type === 'location').map(a => a as FriendlyEventResponseActionLocation)} 
+                    onSetLocations={(locations) => {
+                      const x = locations.map(l => ({
+                        ...l,
+                        type: 'location',
+                        value: l.value,
+                      } as FriendlyEventResponseActionLocation));
+                      onAddLocationSuggestions(x, user?.id ?? '');
+                    }}
+                  />
+                )
+              }
+
+
+            </Modal>
           )
         }
       </EventInfoWrapper>

@@ -14,15 +14,13 @@ export const Modal: React.FC<Props> = ({
 }: Props) => {
   
   return (
-    <>
-      <ReactModal
-        isOpen={isOpen}
-        shouldCloseOnOverlayClick={!!onDismiss}
-        onRequestClose={onDismiss}
-      >
-        {children}
-      </ReactModal>
+    <ReactModal
+      isOpen={isOpen}
+      shouldCloseOnOverlayClick={!!onDismiss}
+      onRequestClose={onDismiss}
+    >
+      {children}
+    </ReactModal>
       
-    </>
   );
 };

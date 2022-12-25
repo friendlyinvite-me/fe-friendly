@@ -99,7 +99,7 @@ export const useEventInfo = (eventId: string) => {
 
   const dateTimeSuggestions: FriendlyEventSuggestion[] = event.suggestions?.filter(s => s.type === 'datetime') ?? [];
 
-  const onUpvote = (suggestionId: string) => {
+  const onUpvote = (suggestionId: string, userId: string) => {
     let actions = eventResponse.actions;
     actions = actions.filter(action => {
       if (action.type === 'downvote' || action.type === 'upvote' || action.type === 'undovote') {
@@ -107,16 +107,25 @@ export const useEventInfo = (eventId: string) => {
       }
       return true;
     });
-    actions.push({
-      type: 'upvote',
-      value: suggestionId,
-    });
+
+    /**
+     * add to this event response if it wasnt in the past
+     */
+    const suggestion = data?.suggestions.find(suggestion => suggestionId === suggestion.id);
+    if (suggestion && !suggestion.upvotes.includes(userId)) {
+      actions.push({
+        type: 'upvote',
+        value: suggestionId,
+      });
+    }
+
     setEventResponse({
       ...eventResponse,
       actions,
+      userId,
     });
   };
-  const onDownvote = (suggestionId: string) => {
+  const onDownvote = (suggestionId: string, userId: string) => {
     let actions = eventResponse.actions;
     actions = actions.filter(action => {
       if (action.type === 'downvote' || action.type === 'upvote' || action.type === 'undovote') {
@@ -124,6 +133,18 @@ export const useEventInfo = (eventId: string) => {
       }
       return true;
     });
+
+    /**
+     * add to this event response if it wasnt in the past
+     */
+    const suggestion = data?.suggestions.find(suggestion => suggestionId === suggestion.id);
+    if (suggestion && !suggestion.downvotes.includes(userId)) {
+      actions.push({
+        type: 'downvote',
+        value: suggestionId,
+      });
+    }
+
     actions.push({
       type: 'downvote',
       value: suggestionId,
@@ -131,10 +152,11 @@ export const useEventInfo = (eventId: string) => {
     setEventResponse({
       ...eventResponse,
       actions,
+      userId,
     });
   };
 
-  const onUndoVote = (suggestionId: string) => {
+  const onUndoVote = (suggestionId: string, userId: string) => {
     /**
      * If undoing action from previous response
      * explicitly set an undo
@@ -147,6 +169,12 @@ export const useEventInfo = (eventId: string) => {
         type: 'undovote',
         value: suggestionId,
       });
+      setEventResponse({
+        ...eventResponse,
+        actions,
+        userId,
+      });
+      return;
     }
 
     /**
@@ -164,6 +192,7 @@ export const useEventInfo = (eventId: string) => {
     setEventResponse({
       ...eventResponse,
       actions,
+      userId,
     });
   };
 

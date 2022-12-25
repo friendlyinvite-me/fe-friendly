@@ -17,6 +17,7 @@ export const EventInfo: React.FC = () => {
   const [tab, setTab] = useState<'datetime' | 'location' | 'history'>('datetime');
   
   const { user } = useContext(UserContext);
+
   const {
     isLoading,
     event,
@@ -93,9 +94,9 @@ export const EventInfo: React.FC = () => {
                   <EventSuggestionCard
                     key={suggestion.id}
                     data={suggestion}
-                    onUpvote={() => onUpvote(suggestion.id)}
-                    onDownvote={() => onDownvote(suggestion.id)}
-                    onUndoVote={() => onUndoVote(suggestion.id)}
+                    onUpvote={() => onUpvote(suggestion.id, user?.id ?? '')}
+                    onDownvote={() => onDownvote(suggestion.id, user?.id ?? '')}
+                    onUndoVote={() => onUndoVote(suggestion.id, user?.id ?? '')}
                   />
                 ))
               }
@@ -111,9 +112,9 @@ export const EventInfo: React.FC = () => {
                   <EventSuggestionCard
                     key={suggestion.id}
                     data={suggestion}
-                    onUpvote={() => onUpvote(suggestion.id)}
-                    onDownvote={() => onDownvote(suggestion.id)}
-                    onUndoVote={() => onUndoVote(suggestion.id)}
+                    onUpvote={() => onUpvote(suggestion.id, user?.id ?? '')}
+                    onDownvote={() => onDownvote(suggestion.id, user?.id ?? '')}
+                    onUndoVote={() => onUndoVote(suggestion.id, user?.id ?? '')}
                   />
                     
                 ))

@@ -36,8 +36,8 @@ export const useEventInfo = (eventId: string) => {
    * When eventResponse change
    * Update the event
    */
-  const event = useMemo(() => {
-    const event = { ...data };
+  const event: FriendlyEventData = useMemo(() => {
+    const event = { ...data } as FriendlyEventData;
     eventResponse.actions.map(action => {
       console.log('action', action);
 

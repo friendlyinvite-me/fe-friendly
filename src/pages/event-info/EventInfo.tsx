@@ -14,7 +14,7 @@ import { Modal } from '../../components/Modal';
 import { DateTimeStep } from '../create-an-event/steps/DateTimeStep';
 import { LocationStep } from '../create-an-event/steps/LocationStep';
 import { AddNewSuggestionCard } from '../../components/AddNewSuggestionCard';
-import { FlexWrapper } from '../../components/FlexWrapper';
+import { EventInfoHeader } from './EventInfoHeader';
 
 export const EventInfo: React.FC = () => {
   const { eventId } = useLoaderData() as { eventId: string };
@@ -26,7 +26,6 @@ export const EventInfo: React.FC = () => {
     isLoading,
     event,
     eventResponse,
-    isCreatedByUser,
     dateTimeSuggestions,
     locationSuggestions,
     myDateTimeSuggestions,
@@ -38,6 +37,7 @@ export const EventInfo: React.FC = () => {
     onCreateEventResponse,
     onAddDateTimeSuggestions,
     onAddLocationSuggestions,
+    isCreatedByUser,
   } = useEventInfo(eventId);
 
   const [addingNewProposal, setAddingNewProposal] = useState<ProposalType | undefined>(undefined);
@@ -76,24 +76,13 @@ export const EventInfo: React.FC = () => {
   return (
     <Card>
       <EventInfoWrapper>
-        <EventInfoHeader>
-          <div>
-            <Text typography='h1'>{event.name}</Text>
-        
-            <Text typography='h4'>
-              {
-                isCreatedByUser ? <span>You created this event</span> : <span>Created by {event?.user?.name}</span>
-              }
-              <span>{` ${moment(event.createdAt).fromNow()}`}</span>
-            </Text>
-          </div>
-          <FlexWrapper>
-            { isCreatedByUser &&
-              <Button sentiment='secondary' onClick={onDeleteEventHandler}>Delete Event</Button>
-            }
-            <Button disabled={eventResponse.actions.length === 0} onClick={submitEventResponse}>Submit</Button>
-          </FlexWrapper>
-        </EventInfoHeader>
+        <EventInfoHeader
+          isCreatedByUser={isCreatedByUser}
+          event={event}
+          eventResponse={eventResponse}
+          onDeleteEvent={onDeleteEventHandler}
+          onSubmitEventResponse={submitEventResponse}
+        />
         <Tabs>
           <Tab sentiment={tab === 'datetime' ? 'selected' : 'default'} onClick={() => setTab('datetime')}>Date & Times</Tab>
           <Tab sentiment={tab === 'location' ? 'selected' : 'default'} onClick={() => setTab('location')}>Locations</Tab>
@@ -206,6 +195,7 @@ export const EventInfo: React.FC = () => {
         {
           addingNewProposal && (
             <Modal
+              width='600px'
               isOpen
               onDismiss={() => {
                 setAddingNewProposal(undefined);
@@ -216,12 +206,11 @@ export const EventInfo: React.FC = () => {
                   <DateTimeStep
                     dateTimes={eventResponse.actions.filter(action => action.type === 'datetime').map(d => ({...d, value: new Date(d.value as string)}))} 
                     onSetDateTimes={(dateTimes) => {
-                      const x = dateTimes.map(d => ({
+                      onAddDateTimeSuggestions(dateTimes.map(d => ({
                         ...d,
                         type: 'datetime',
                         value: d.value.toString(),
-                      } as FriendlyEventResponseActionDateTime));
-                      onAddDateTimeSuggestions(x, user?.id ?? '');
+                      } as FriendlyEventResponseActionDateTime)), user?.id ?? '');
                     }}
                   />
                 )
@@ -231,12 +220,11 @@ export const EventInfo: React.FC = () => {
                   <LocationStep
                     locations={eventResponse.actions.filter(action => action.type === 'location').map(a => a as FriendlyEventResponseActionLocation)} 
                     onSetLocations={(locations) => {
-                      const x = locations.map(l => ({
+                      onAddLocationSuggestions(locations.map(l => ({
                         ...l,
                         type: 'location',
                         value: l.value,
-                      } as FriendlyEventResponseActionLocation));
-                      onAddLocationSuggestions(x, user?.id ?? '');
+                      } as FriendlyEventResponseActionLocation)), user?.id ?? '');
                     }}
                   />
                 )
@@ -255,12 +243,7 @@ const EventInfoWrapper = styled('div', {
   width: '100%',
 });
 
-const EventInfoHeader = styled('div', {
-  display: 'flex',
-  alignItems: 'start',
-  justifyContent: 'space-between',
-  width: '100%',
-});
+
 
 const TabListWrapper = styled('div', {
   display: 'flex',

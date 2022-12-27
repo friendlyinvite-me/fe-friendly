@@ -12,7 +12,7 @@ export const Tabs = styled('div', {
 
 export const Tab = styled('button', {
   display: 'inline-block',
-  typography: 'h4',
+  typography: 'h3',
   margin: 0,
   backgroundColor: 'transparent',
   padding: 0,

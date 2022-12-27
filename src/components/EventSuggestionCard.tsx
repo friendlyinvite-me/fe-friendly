@@ -13,6 +13,7 @@ interface Props {
     id: string;
     upvotes: string[];
     downvotes: string[];
+    userId?: string;
   };
   onUpvote?: () => void;
   onDownvote?: () => void;
@@ -37,6 +38,7 @@ export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
   }, [downvotes, user]);
 
   const isUserNewSuggestion = createdAt == null;
+  const isUserPreviousSuggestion = data.userId === user?.id;
 
   return (
     <EventDateTimeCardWrapper id={id}>
@@ -55,7 +57,7 @@ export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
               <div>{ downvotes.length} downvotes</div>
               {/* <div>{ counts.comments} comments</div> */}
             </RowWrapper>
-            { isUserNewSuggestion ? <>Is created by user </> :
+            { isUserNewSuggestion || isUserPreviousSuggestion ? <>You created & liked </> :
               <>
                 {
                   upvotedByUser || downvotedByUser ? (

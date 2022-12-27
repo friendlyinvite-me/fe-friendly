@@ -13,6 +13,8 @@ import { useEventInfo } from '../../hooks/use-event-info';
 import { Modal } from '../../components/Modal';
 import { DateTimeStep } from '../create-an-event/steps/DateTimeStep';
 import { LocationStep } from '../create-an-event/steps/LocationStep';
+import { AddNewSuggestionCard } from '../../components/AddNewSuggestionCard';
+import { FlexWrapper } from '../../components/FlexWrapper';
 
 export const EventInfo: React.FC = () => {
   const { eventId } = useLoaderData() as { eventId: string };
@@ -85,7 +87,12 @@ export const EventInfo: React.FC = () => {
               <span>{` ${moment(event.createdAt).fromNow()}`}</span>
             </Text>
           </div>
-          <Button sentiment='secondary' onClick={onDeleteEventHandler}>Delete Event</Button>
+          <FlexWrapper>
+            { isCreatedByUser &&
+              <Button sentiment='secondary' onClick={onDeleteEventHandler}>Delete Event</Button>
+            }
+            <Button disabled={eventResponse.actions.length === 0} onClick={submitEventResponse}>Submit my {eventResponse.actions.length} actions</Button>
+          </FlexWrapper>
         </EventInfoHeader>
         <Tabs>
           <Tab sentiment={tab === 'datetime' ? 'selected' : 'default'} onClick={() => setTab('datetime')}>Date & Times</Tab>
@@ -119,14 +126,11 @@ export const EventInfo: React.FC = () => {
                       downvotes: [],
                       title: moment(suggestion.value as string).format('Do MMM y   h:mm a'),
                     }}
-                    onUpvote={() => onUpvote(suggestion.id, user?.id ?? '')}
-                    onDownvote={() => onDownvote(suggestion.id, user?.id ?? '')}
-                    onUndoVote={() => onUndoVote(suggestion.id, user?.id ?? '')}
                   />
                   
                 ))
               }
-              <Button onClick={() => addNewProposal('datetime')}>Add new</Button>
+              <AddNewSuggestionCard onClick={() => addNewProposal('datetime')} type='datetime' />
             </TabListWrapper>
           )
         }
@@ -158,13 +162,10 @@ export const EventInfo: React.FC = () => {
                       downvotes: [],
                       title: suggestion.value.name,
                     }}
-                    onUpvote={() => onUpvote(suggestion.id, user?.id ?? '')}
-                    onDownvote={() => onDownvote(suggestion.id, user?.id ?? '')}
-                    onUndoVote={() => onUndoVote(suggestion.id, user?.id ?? '')}
                   />
                 ))
               }
-              <Button onClick={() => addNewProposal('location')}>Add new</Button>
+              <AddNewSuggestionCard onClick={() => addNewProposal('location')} type='location' />
             </TabListWrapper>
           )
         }
@@ -172,10 +173,15 @@ export const EventInfo: React.FC = () => {
           tab === 'history' && (
             <div>
               {
-                ((event?.responses) as FriendlyEventResponse[] ?? []).map((eventResponse, i) => (
+                ((event?.responses) as FriendlyEventResponse[] ?? []).sort((a,b) => {
+                  return (
+                    new Date(b.createdAt as string).getTime() - new Date(a.createdAt as string).getTime()
+                  );
+                } ).map((eventResponse, i) => (
                   <div key={i}>
                     <div>=====RESPONSE======</div>
                     <div>{eventResponse.user?.name}</div>
+                    <div>{moment(eventResponse.createdAt).fromNow()}</div>
                     <div>{eventResponse.comments}</div>
                     <div>did the following actions</div>
                     <div>
@@ -197,7 +203,6 @@ export const EventInfo: React.FC = () => {
             </div>
           )
         }
-        <Button disabled={eventResponse.actions.length === 0} onClick={submitEventResponse}>Submit my {eventResponse.actions.length} actions</Button>
         {
           addingNewProposal && (
             <Modal

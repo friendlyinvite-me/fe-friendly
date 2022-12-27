@@ -38,6 +38,7 @@ export interface FriendlyEventResponse {
   userId: string;
   user?: FriendlyUser;
   comments?: string;
+  createdAt?: string;
   actions: FriendlyEventResponseAction[];
 }
 

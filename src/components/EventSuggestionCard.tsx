@@ -43,7 +43,7 @@ export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
   const isUserPreviousSuggestion = data.userId === user?.id;
 
   return (
-    <EventDateTimeCardWrapper id={id}>
+    <EventSuggestionCardWrapper id={id}>
       <RowWrapper>
         <Text typography='h3'>{title}</Text>
       </RowWrapper>
@@ -90,14 +90,17 @@ export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
           }
         </RowWrapper>
       )}
-    </EventDateTimeCardWrapper>
+    </EventSuggestionCardWrapper>
   );
 };
 
-const EventDateTimeCardWrapper = styled('div', {
+const EventSuggestionCardWrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   gap: '$2',
+  border: '1px solid $borderPrimary',
+  borderRadius: '10px',
+  padding: '$3',
 });
 
 const RowWrapper = styled('div', {

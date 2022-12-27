@@ -15,6 +15,7 @@ import { DateTimeStep } from '../create-an-event/steps/DateTimeStep';
 import { LocationStep } from '../create-an-event/steps/LocationStep';
 import { AddNewSuggestionCard } from '../../components/AddNewSuggestionCard';
 import { EventInfoHeader } from './EventInfoHeader';
+import { EventResponseCard } from '../../components/EventResponseCard';
 
 export const EventInfo: React.FC = () => {
   const { eventId } = useLoaderData() as { eventId: string };
@@ -160,36 +161,17 @@ export const EventInfo: React.FC = () => {
         }
         {
           tab === 'history' && (
-            <div>
+            <TabListWrapper>
               {
                 ((event?.responses) as FriendlyEventResponse[] ?? []).sort((a,b) => {
                   return (
                     new Date(b.createdAt as string).getTime() - new Date(a.createdAt as string).getTime()
                   );
-                } ).map((eventResponse, i) => (
-                  <div key={i}>
-                    <div>=====RESPONSE======</div>
-                    <div>{eventResponse.user?.name}</div>
-                    <div>{moment(eventResponse.createdAt).fromNow()}</div>
-                    <div>{eventResponse.comments}</div>
-                    <div>did the following actions</div>
-                    <div>
-                      {
-                        eventResponse.actions.map((action, j) => {
-                          return (
-                            <div key={j}>
-                              <div>type: {action.type}</div>
-                              <div>value: {typeof action.value === 'object' ? action.value.name : action.value}</div>
-                            </div>
-                          );
-                        })
-                      }
-                    </div>
-                    <br />
-                  </div>
+                } ).map((response) => (
+                  <EventResponseCard response={response} key={response.id} />
                 ))
               }
-            </div>
+            </TabListWrapper>
           )
         }
         {

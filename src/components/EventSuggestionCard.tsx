@@ -3,8 +3,9 @@ import { Text } from './Text';
 import moment from 'moment';
 import React, { ReactNode, useContext, useMemo } from 'react';
 import { Button } from './Button';
-import { FriendlyEventSuggestion, Location } from '../utils/types';
+import { FriendlyEventSuggestion, FriendlyUser, Location } from '../utils/types';
 import { UserContext } from '../contexts/auth-context';
+import { FlexWrapper } from './FlexWrapper';
 
 interface Props {
   data: {
@@ -14,6 +15,7 @@ interface Props {
     upvotes: string[];
     downvotes: string[];
     userId?: string;
+    user?: FriendlyUser;
   };
   onUpvote?: () => void;
   onDownvote?: () => void;
@@ -23,7 +25,7 @@ interface Props {
 export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
   const { data } = props;
 
-  const { createdAt, title, id, upvotes, downvotes } = data;
+  const { createdAt, title, id, upvotes, downvotes, user: eventCreator } = data;
 
   const {user} = useContext(UserContext); 
 
@@ -44,10 +46,10 @@ export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
     <EventDateTimeCardWrapper id={id}>
       <RowWrapper>
         <Text typography='h3'>{title}</Text>
-        <Text typography='p' color='contentTertiary'>{moment(createdAt).fromNow()}</Text>
       </RowWrapper>
+      
       {
-        isUserNewSuggestion && <RowWrapper>Is Created by user</RowWrapper>
+        isUserNewSuggestion && <RowWrapper>Draft - you are suggesting</RowWrapper>
       }
       {
         !isUserNewSuggestion && (
@@ -57,7 +59,7 @@ export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
               <div>{ downvotes.length} downvotes</div>
               {/* <div>{ counts.comments} comments</div> */}
             </RowWrapper>
-            { isUserNewSuggestion || isUserPreviousSuggestion ? <>You created & liked </> :
+            { isUserNewSuggestion || isUserPreviousSuggestion ? <></> :
               <>
                 {
                   upvotedByUser || downvotedByUser ? (
@@ -77,6 +79,17 @@ export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
           </RowWrapper>
         )
       }
+      {eventCreator && (
+        <RowWrapper>
+          {
+            isUserPreviousSuggestion ? (
+              <Text typography='p' color='contentTertiary'>You created {moment(createdAt).fromNow()}</Text>
+            ) : (
+              <Text typography='p' color='contentTertiary'>Created by {eventCreator.name} {moment(createdAt).fromNow()}</Text>
+            )
+          }
+        </RowWrapper>
+      )}
     </EventDateTimeCardWrapper>
   );
 };

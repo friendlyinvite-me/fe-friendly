@@ -13,10 +13,7 @@ export type ProposalType = 'datetime' | 'location';
 export interface FriendlyEventData extends FriendlyEventRow {
   responses: FriendlyEventResponse[];
   suggestions: FriendlyEventSuggestion[];
-  createdBy: {
-    name: string;
-    userId: string;
-  };
+  user: FriendlyUser;
 }
 
 export interface FriendlyEventSuggestion {

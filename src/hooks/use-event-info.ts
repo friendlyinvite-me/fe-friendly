@@ -92,7 +92,7 @@ export const useEventInfo = (eventId: string) => {
     return event;
   }, [data, eventResponse]);
 
-  const isCreatedByUser = event.createdBy?.userId === user?.id;
+  const isCreatedByUser = event.user?.id === user?.id;
 
 
   const locationSuggestions: FriendlyEventSuggestion[] = event.suggestions?.filter(s => s.type === 'location') ?? [];

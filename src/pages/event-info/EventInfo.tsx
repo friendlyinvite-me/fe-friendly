@@ -82,7 +82,7 @@ export const EventInfo: React.FC = () => {
         
             <Text typography='h4'>
               {
-                isCreatedByUser ? <span>You created this event</span> : <span>Created by {event?.createdBy?.name}</span>
+                isCreatedByUser ? <span>You created this event</span> : <span>Created by {event?.user?.name}</span>
               }
               <span>{` ${moment(event.createdAt).fromNow()}`}</span>
             </Text>
@@ -91,7 +91,7 @@ export const EventInfo: React.FC = () => {
             { isCreatedByUser &&
               <Button sentiment='secondary' onClick={onDeleteEventHandler}>Delete Event</Button>
             }
-            <Button disabled={eventResponse.actions.length === 0} onClick={submitEventResponse}>Submit my {eventResponse.actions.length} actions</Button>
+            <Button disabled={eventResponse.actions.length === 0} onClick={submitEventResponse}>Submit</Button>
           </FlexWrapper>
         </EventInfoHeader>
         <Tabs>

@@ -44,7 +44,6 @@ export const DateTimeStep: React.FC<Props> = (props: Props) => {
         ))
       }
       <SuggestAnotherButton onClick={() => {
-        debugger;
         onSetDateTimes([...dateTimes, {
           id: uuidv4(),
           value: newDateSuggested,

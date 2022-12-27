@@ -99,6 +99,9 @@ export const useEventInfo = (eventId: string) => {
 
   const dateTimeSuggestions: FriendlyEventSuggestion[] = event.suggestions?.filter(s => s.type === 'datetime') ?? [];
 
+  const myLocationSuggestions: FriendlyEventResponseActionLocation[] = eventResponse.actions.filter(a => a.type === 'location').map(a => a as FriendlyEventResponseActionLocation);
+  const myDateTimeSuggestions: FriendlyEventResponseActionDateTime[] = eventResponse.actions.filter(a => a.type === 'datetime').map(a => a as FriendlyEventResponseActionDateTime);
+
   const onUpvote = (suggestionId: string, userId: string) => {
     let actions = eventResponse.actions;
     actions = actions.filter(action => {
@@ -239,6 +242,8 @@ export const useEventInfo = (eventId: string) => {
     event,
     dateTimeSuggestions,
     locationSuggestions,
+    myLocationSuggestions,
+    myDateTimeSuggestions,
     onUndoVote,
     onUpvote,
     onDownvote,

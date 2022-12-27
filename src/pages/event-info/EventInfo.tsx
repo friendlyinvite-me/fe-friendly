@@ -7,7 +7,7 @@ import { styled } from '../../styles';
 import moment from 'moment';
 import toast from 'react-hot-toast';
 
-import { FriendlyEventResponse, FriendlyEventResponseActionDateTime, FriendlyEventResponseActionLocation, ProposalType  } from '../../utils/types';
+import { FriendlyEventResponse, FriendlyEventResponseActionDateTime, FriendlyEventResponseActionLocation, Location, ProposalType  } from '../../utils/types';
 import { EventSuggestionCard } from '../../components/EventSuggestionCard';
 import { useEventInfo } from '../../hooks/use-event-info';
 import { Modal } from '../../components/Modal';
@@ -27,6 +27,8 @@ export const EventInfo: React.FC = () => {
     isCreatedByUser,
     dateTimeSuggestions,
     locationSuggestions,
+    myDateTimeSuggestions,
+    myLocationSuggestions,
     onUndoVote,
     onUpvote,
     onDownvote,
@@ -97,11 +99,31 @@ export const EventInfo: React.FC = () => {
                 dateTimeSuggestions.map((suggestion) => (
                   <EventSuggestionCard
                     key={suggestion.id}
-                    data={suggestion}
+                    data={{
+                      ...suggestion,
+                      title: moment(suggestion.value as string).format('Do MMM y   h:mm a'),
+                    }}
                     onUpvote={() => onUpvote(suggestion.id, user?.id ?? '')}
                     onDownvote={() => onDownvote(suggestion.id, user?.id ?? '')}
                     onUndoVote={() => onUndoVote(suggestion.id, user?.id ?? '')}
                   />
+                ))
+              }
+              {
+                myDateTimeSuggestions.map(suggestion => (
+                  <EventSuggestionCard
+                    key={suggestion.id}
+                    data={{
+                      ...suggestion,
+                      upvotes: [],
+                      downvotes: [],
+                      title: moment(suggestion.value as string).format('Do MMM y   h:mm a'),
+                    }}
+                    onUpvote={() => onUpvote(suggestion.id, user?.id ?? '')}
+                    onDownvote={() => onDownvote(suggestion.id, user?.id ?? '')}
+                    onUndoVote={() => onUndoVote(suggestion.id, user?.id ?? '')}
+                  />
+                  
                 ))
               }
               <Button onClick={() => addNewProposal('datetime')}>Add new</Button>
@@ -115,12 +137,31 @@ export const EventInfo: React.FC = () => {
                 locationSuggestions.map((suggestion) => (
                   <EventSuggestionCard
                     key={suggestion.id}
-                    data={suggestion}
+                    data={{
+                      ...suggestion,
+                      title: (suggestion.value as Location).name,
+                    }}
                     onUpvote={() => onUpvote(suggestion.id, user?.id ?? '')}
                     onDownvote={() => onDownvote(suggestion.id, user?.id ?? '')}
                     onUndoVote={() => onUndoVote(suggestion.id, user?.id ?? '')}
                   />
                     
+                ))
+              }
+              {
+                myLocationSuggestions.map(suggestion => (
+                  <EventSuggestionCard
+                    key={suggestion.id}
+                    data={{
+                      ...suggestion,
+                      upvotes: [],
+                      downvotes: [],
+                      title: suggestion.value.name,
+                    }}
+                    onUpvote={() => onUpvote(suggestion.id, user?.id ?? '')}
+                    onDownvote={() => onDownvote(suggestion.id, user?.id ?? '')}
+                    onUndoVote={() => onUndoVote(suggestion.id, user?.id ?? '')}
+                  />
                 ))
               }
               <Button onClick={() => addNewProposal('location')}>Add new</Button>

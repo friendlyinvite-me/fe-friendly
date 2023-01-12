@@ -21,6 +21,7 @@ const ButtonWrapper = styled('button', {
   outline: 0,
   cursor: 'pointer',
   borderRadius: '70px',
+  transition: '0.25s ease',
 
   '&:disabled': {
     backgroundColor: '$gray500 !important',
@@ -32,10 +33,17 @@ const ButtonWrapper = styled('button', {
       primary: {
         color: '$contentPrimary',
         backgroundColor: '$yellow500',
+
+        '&:hover': {
+          backgroundColor: '$yellow600',
+        },
       },
       secondary: {
         color: '$contentPrimary',
         backgroundColor: '$gray100',
+        '&:hover': {
+          backgroundColor: '$gray200',
+        },
       },
     },
 

@@ -3,9 +3,12 @@ import { Text } from './Text';
 import moment from 'moment';
 import React, { ReactNode, useContext, useMemo } from 'react';
 import { Button } from './Button';
-import { FriendlyEventSuggestion, FriendlyUser, Location } from '../utils/types';
+import { FriendlyEventSuggestion, FriendlyUser, Location, ProposalType } from '../utils/types';
 import { UserContext } from '../contexts/auth-context';
 import { FlexWrapper } from './FlexWrapper';
+import { type } from 'os';
+import { useLocationInfo } from '../hooks/use-location-info';
+import { LocationInformation } from './LocationInfo';
 
 interface Props {
   data: {
@@ -16,10 +19,13 @@ interface Props {
     downvotes: string[];
     userId?: string;
     user?: FriendlyUser;
+    reference?: string;
   };
+  type: ProposalType;
   onUpvote?: () => void;
   onDownvote?: () => void;
   onUndoVote?: () => void;
+  onDelete?: () => void;
 }
 
 export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
@@ -42,6 +48,13 @@ export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
   const isUserNewSuggestion = createdAt == null;
   const isUserPreviousSuggestion = data.userId === user?.id;
 
+  const {
+    locationInfo,
+    isExpanded,
+    setExpanded,
+  } = useLocationInfo({name: title, reference: data.reference as string});
+
+
   return (
     <EventSuggestionCardWrapper id={id}>
       <RowWrapper>
@@ -49,7 +62,7 @@ export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
       </RowWrapper>
       
       {
-        isUserNewSuggestion && <RowWrapper>Draft - you are suggesting</RowWrapper>
+        isUserNewSuggestion && <RowWrapper>Draft - you are suggesting. {props.onDelete && <a onClick={props.onDelete}>Delete</a>} </RowWrapper>
       }
       {
         !isUserNewSuggestion && (
@@ -90,6 +103,16 @@ export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
           }
         </RowWrapper>
       )}
+      {
+        props.type === 'location' && (
+          <>
+            { locationInfo && isExpanded &&
+              <LocationInformation locationInfo={locationInfo}  />
+            }
+            <Button sentiment='secondary' onClick={() => setExpanded(!isExpanded)}>{isExpanded ? 'Hide info' : "Show more info"}</Button>
+          </>
+        )
+      }
     </EventSuggestionCardWrapper>
   );
 };

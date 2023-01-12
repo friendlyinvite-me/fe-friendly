@@ -5,59 +5,29 @@ import { Text } from './Text';
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import { Button } from './Button';
 import { useWindowSize } from '../hooks/use-window-resize';
+import { useLocationInfo } from '../hooks/use-location-info';
+import { LocationInformation } from './LocationInfo';
 
 interface Props {
   location: Location;
 }
 
 export const LocationPreview: React.FC<Props> = (props: Props) => {
-  const [locationInfo, setLocationInfo] = useState<LocationInfo | null>(null);
-  const { name, reference } = props.location;
-  const [isExpanded, setExpanded] = useState(false);
-
-  const { 
-    placesService,
-  } = usePlacesService({
-    apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
-  });
   
-  useEffect(() => {
-    if (isExpanded && !locationInfo) {
+  const {
+    locationInfo,
+    isExpanded,
+    setExpanded,
+    name,
+  } = useLocationInfo(props.location);
 
-      placesService?.getDetails({
-        placeId: reference,
-      }, (location: Location) => {  
-        setLocationInfo(location);
-      });
-    }
-  }, [isExpanded, reference, locationInfo]);
-  
-  const { width } = useWindowSize();
   
   return (
     <LocationPreviewWrapper>
       <Text typography='h3' color='$contentPrimary'>{name}</Text>
       
       { locationInfo && isExpanded &&
-        <>
-          <Text typography='h4' color='$gray300'>{locationInfo.formatted_address}</Text>
-          {
-            locationInfo.rating && locationInfo.user_ratings_total && <Text typography='h4' color='$gray300'>{locationInfo.rating} stars ({locationInfo.user_ratings_total} reviews)</Text>
-          }
-          {
-            locationInfo.photos?.length && (
-              <PhotosWrapper>
-                {
-                  locationInfo.photos.slice(0, width < 500 ? 3 : 4).map((photo, index) => (
-                    <Photo key={index} css={{
-                      backgroundImage: `url(${photo.getUrl()})`,
-                    }}/>
-                  ))
-                }
-              </PhotosWrapper>
-            )
-          }
-        </>
+        <LocationInformation locationInfo={locationInfo}  />
       }
       <Button sentiment='secondary' onClick={() => setExpanded(!isExpanded)}>{isExpanded ? 'Hide info' : "Show more info"}</Button>
     </LocationPreviewWrapper>

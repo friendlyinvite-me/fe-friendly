@@ -2,6 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import { styled } from '../styles';
 import { FriendlyEventResponse } from '../utils/types';
+import { Text } from './Text';
 
 interface Props {
   response: FriendlyEventResponse;
@@ -11,7 +12,7 @@ export const EventResponseCard: React.FC<Props> = (props: Props) => {
   const { response } = props;
   return (
     <EventResponseCardWrapper>
-      <div>{response.user?.name}</div>
+      <Text typography='h3'>{response.user?.name}</Text>
       <div>{moment(response.createdAt).fromNow()}</div>
       <div>{response.comments}</div>
       <div>did the following actions</div>

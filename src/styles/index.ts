@@ -15,6 +15,7 @@ export const { styled, css } = createStitches({
       green500: 'hsl(148,60%,60%)',
       red500: 'hsl(352,100%,62%)',
       yellow500: '#E9E70D',
+      yellow600: '#dedc04',
 
       appBackground: "$gray100",
 

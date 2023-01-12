@@ -203,8 +203,11 @@ export const useEventInfo = (eventId: string) => {
     });
   };
 
+
   const onAddDateTimeSuggestions = (suggestions: FriendlyEventResponseActionDateTime[], userId: string) => {
+    // clean up all the date time
     const actions = eventResponse.actions.filter(action => action.type !== 'datetime');
+    // add the date time suggestions again
     suggestions.forEach(suggestion => {
       actions.push({
         id: suggestion.id ?? uuidv4(),
@@ -220,8 +223,20 @@ export const useEventInfo = (eventId: string) => {
     });
   };
 
+  const onDeleteSuggestion = (suggestionId: string, userId: string) => {
+    const actions = eventResponse.actions.filter(action => action.id !== suggestionId);
+    setEventResponse({
+      ...eventResponse,
+      actions,
+      userId,
+    });
+  };
+
+
   const onAddLocationSuggestions = (suggestions: FriendlyEventResponseActionLocation[], userId: string) => {
+    // clean up all the location suggestions
     const actions = eventResponse.actions.filter(action => action.type !== 'location');
+    // add them again
     suggestions.forEach(suggestion => {
       actions.push({
         id: suggestion.id ?? uuidv4(),
@@ -253,6 +268,7 @@ export const useEventInfo = (eventId: string) => {
     onAddLocationSuggestions,
     onDeleteEvent: deleteEvent,
     onCreateEventResponse: createEventResponse,
+    onDeleteSuggestion,
   };
 
 };

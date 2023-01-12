@@ -16,6 +16,7 @@ import { LocationStep } from '../create-an-event/steps/LocationStep';
 import { AddNewSuggestionCard } from '../../components/AddNewSuggestionCard';
 import { EventInfoHeader } from './EventInfoHeader';
 import { EventResponseCard } from '../../components/EventResponseCard';
+import { LocationPreview } from '../../components/LocationPreview';
 
 export const EventInfo: React.FC = () => {
   const { eventId } = useLoaderData() as { eventId: string };
@@ -39,6 +40,7 @@ export const EventInfo: React.FC = () => {
     onAddDateTimeSuggestions,
     onAddLocationSuggestions,
     isCreatedByUser,
+    onDeleteSuggestion,
   } = useEventInfo(eventId);
 
   const [addingNewProposal, setAddingNewProposal] = useState<ProposalType | undefined>(undefined);
@@ -95,6 +97,7 @@ export const EventInfo: React.FC = () => {
               {
                 dateTimeSuggestions.map((suggestion) => (
                   <EventSuggestionCard
+                    type='datetime'
                     key={suggestion.id}
                     data={{
                       ...suggestion,
@@ -109,7 +112,9 @@ export const EventInfo: React.FC = () => {
               {
                 myDateTimeSuggestions.map(suggestion => (
                   <EventSuggestionCard
+                    type='datetime'
                     key={suggestion.id}
+                    onDelete={() => onDeleteSuggestion(suggestion.id, user?.id ?? '')}
                     data={{
                       ...suggestion,
                       upvotes: [],
@@ -130,10 +135,12 @@ export const EventInfo: React.FC = () => {
               {
                 locationSuggestions.map((suggestion) => (
                   <EventSuggestionCard
+                    type='location'
                     key={suggestion.id}
                     data={{
                       ...suggestion,
                       title: (suggestion.value as Location).name,
+                      reference: (suggestion.value as Location).reference,
                     }}
                     onUpvote={() => onUpvote(suggestion.id, user?.id ?? '')}
                     onDownvote={() => onDownvote(suggestion.id, user?.id ?? '')}
@@ -145,14 +152,18 @@ export const EventInfo: React.FC = () => {
               {
                 myLocationSuggestions.map(suggestion => (
                   <EventSuggestionCard
+                    type='location'
                     key={suggestion.id}
+                    onDelete={() => onDeleteSuggestion(suggestion.id, user?.id ?? '')}
                     data={{
                       ...suggestion,
                       upvotes: [],
                       downvotes: [],
                       title: suggestion.value.name,
+                      reference: suggestion.value.reference,
                     }}
                   />
+                  
                 ))
               }
               <AddNewSuggestionCard onClick={() => addNewProposal('location')} type='location' />

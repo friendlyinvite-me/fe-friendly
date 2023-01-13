@@ -1,20 +1,38 @@
-import React from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import { styled } from '../../styles';
 import { FriendlyEventData, NewEventResponseData } from '../../utils/types';
 import moment from 'moment';
 import { Button, Card, Text } from '../../components';
 import { FlexWrapper } from '../../components/FlexWrapper';
+import { Popover } from '../../components/Popover';
 
 interface Props {
   event: FriendlyEventData;
   eventResponse: NewEventResponseData;
   isCreatedByUser: boolean;
   onDeleteEvent: () => Promise<void>;
-  onSubmitEventResponse: () => void;
 }
 
 export const EventInfoHeader: React.FC<Props> = (props: Props) => {
-  const { event, isCreatedByUser, onDeleteEvent, eventResponse, onSubmitEventResponse } = props;
+  const { event, isCreatedByUser, onDeleteEvent } = props;
+
+  const userOptions: ReactNode[] = useMemo(() => {
+    const options: ReactNode[] = [];
+    options.push(
+      <a>Share event link</a>,
+    );
+    if (isCreatedByUser) {
+      options.push(
+        <Button size='small' sentiment='secondary' onClick={onDeleteEvent}>Delete Event</Button>,
+      );
+    }
+    return options;
+  }, [isCreatedByUser]);
+
+  console.log(userOptions);
+  
+
+  
   return (
     <EventInfoHeaderWrapper>
       <div>
@@ -27,12 +45,8 @@ export const EventInfoHeader: React.FC<Props> = (props: Props) => {
           <span>{` ${moment(event.createdAt).fromNow()}`}</span>
         </Text>
       </div>
-      <FlexWrapper>
-        { isCreatedByUser &&
-              <Button sentiment='secondary' onClick={onDeleteEvent}>Delete Event</Button>
-        }
-        <Button disabled={eventResponse.actions.length === 0} onClick={onSubmitEventResponse}>Submit</Button>
-      </FlexWrapper>
+      <Popover activator={<EventOptionsActivator>Options</EventOptionsActivator>} items={userOptions} />
+
     </EventInfoHeaderWrapper>
   );
 };
@@ -42,4 +56,16 @@ const EventInfoHeaderWrapper = styled('div', {
   alignItems: 'start',
   justifyContent: 'space-between',
   width: '100%',
+});
+
+const EventOptionsActivator = styled('div', {
+  border: '2px solid $contentPrimary',
+  typography: 'p',
+  cursor: 'pointer',
+  fontWeight: 700,
+  outline: 0,
+  padding: '$1 $2',
+  borderRadius: '20px',
+  backgroundColor: 'transparent',
+  color: '$contentPrimary',
 });

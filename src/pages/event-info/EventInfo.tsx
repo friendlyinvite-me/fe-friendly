@@ -1,22 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import { Button, Card, Text } from '../../components';
+import { Button, Card } from '../../components';
 import { Tab, Tabs } from '../../components/Tabs';
 import { UserContext } from '../../contexts/auth-context';
 import { styled } from '../../styles';
-import moment from 'moment';
 import toast from 'react-hot-toast';
 
-import { FriendlyEventResponse, FriendlyEventResponseActionDateTime, FriendlyEventResponseActionLocation, Location, ProposalType  } from '../../utils/types';
-import { EventSuggestionCard } from '../../components/EventSuggestionCard';
+import { FriendlyEventResponseActionDateTime, FriendlyEventResponseActionLocation, Location, ProposalType  } from '../../utils/types';
 import { useEventInfo } from '../../hooks/use-event-info';
 import { Modal } from '../../components/Modal';
 import { DateTimeStep } from '../create-an-event/steps/DateTimeStep';
 import { LocationStep } from '../create-an-event/steps/LocationStep';
-import { AddNewSuggestionCard } from '../../components/AddNewSuggestionCard';
 import { EventInfoHeader } from './EventInfoHeader';
-import { EventResponseCard } from '../../components/EventResponseCard';
-import { LocationPreview } from '../../components/LocationPreview';
 import { LoadingSpinner } from '../../components/LoadingSpinner';
 import { EventOverview } from './tabs/EventOverview';
 import { EventDateTimes } from './tabs/EventDateTimes';
@@ -89,7 +84,7 @@ export const EventInfo: React.FC = () => {
           event={event}
           eventResponse={eventResponse}
           onDeleteEvent={onDeleteEventHandler}
-          onSubmitEventResponse={submitEventResponse}
+          
         />
         <Tabs>
           <Tab sentiment={tab === 'summary' ? 'selected' : 'default'} onClick={() => setTab('summary')}>Overview</Tab>
@@ -141,6 +136,12 @@ export const EventInfo: React.FC = () => {
             </TabListWrapper>
           )
         }
+        <Button size='large' disabled={eventResponse.actions.length === 0} onClick={submitEventResponse}>
+          {
+            eventResponse.actions.length ? 'Submit my response' : 'Respond by adding suggestions or upvote/downvoting existing suggestions'
+          }
+        </Button>
+
         {
           addingNewProposal && (
             <Modal
@@ -190,6 +191,9 @@ export const EventInfo: React.FC = () => {
 
 const EventInfoWrapper = styled('div', {
   width: '100%',
+  display: 'grid',
+  flexDirection: 'column',
+  gap: '$3',
 });
 
 

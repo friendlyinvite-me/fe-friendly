@@ -24,7 +24,7 @@ const ButtonWrapper = styled('button', {
   transition: '0.25s ease',
 
   '&:disabled': {
-    backgroundColor: '$gray500 !important',
+    backgroundColor: '$gray200 !important',
     cursor: 'not-allowed !important',
   },
 

@@ -53,7 +53,7 @@ export const EventInfo: React.FC = () => {
       eventId: event?.id ?? '',
     });
     if (deleted) {
-      alert('deleted! Redirecting...');
+      toast.success('Deleted! Redirecting...');
       navigate('/dashboard');
     }
   };

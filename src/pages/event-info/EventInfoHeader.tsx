@@ -3,8 +3,9 @@ import { styled } from '../../styles';
 import { FriendlyEventData, NewEventResponseData } from '../../utils/types';
 import moment from 'moment';
 import { Button, Card, Text } from '../../components';
-import { FlexWrapper } from '../../components/FlexWrapper';
 import { Popover } from '../../components/Popover';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+import toast from 'react-hot-toast';
 
 interface Props {
   event: FriendlyEventData;
@@ -19,7 +20,11 @@ export const EventInfoHeader: React.FC<Props> = (props: Props) => {
   const userOptions: ReactNode[] = useMemo(() => {
     const options: ReactNode[] = [];
     options.push(
-      <a>Share event link</a>,
+      <CopyToClipboard text={window.location.href} onCopy={() => {
+        toast.success('Event URL copied!');
+      }}>
+        <a>Share event link</a>
+      </CopyToClipboard>,
     );
     if (isCreatedByUser) {
       options.push(

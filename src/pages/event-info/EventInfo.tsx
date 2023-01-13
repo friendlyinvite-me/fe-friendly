@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { Button, Card } from '../../components';
 import { Tab, Tabs } from '../../components/Tabs';
@@ -60,6 +60,11 @@ export const EventInfo: React.FC = () => {
 
 
   const submitEventResponse = async () => {
+    if (!user) {
+      navigate(`/login?redirectTo=${window.location.href}`);
+      return;
+    }
+
     await onCreateEventResponse({...eventResponse, userId: user!.id});
     toast.success('Thank you for your submission. Your response will be sent to everyone else!');
   };
@@ -68,6 +73,30 @@ export const EventInfo: React.FC = () => {
     setAddingNewProposal(type);
   };
 
+  const submitCopy = useMemo(() => {
+    if (!user) {
+      return "Log in to collaborate and add your suggestions";
+    }
+
+    const hasSuggestions = eventResponse.actions.some(a => a.type === 'datetime' || a.type === 'location');
+    const hasVotes = eventResponse.actions.some(a => a.type === 'upvote' || a.type === 'downvote'  || a.type === 'undovote');
+
+    if (hasSuggestions && hasVotes) {
+      return "Submit your suggestions & votes";
+    }
+    if (hasSuggestions) {
+      return "Submit your suggestions";
+    }
+
+    if (hasVotes) {
+      return "Submit your votes";
+    }
+
+    return "Start collaborating by voting or making new suggestions";
+
+    
+  }, [eventResponse]);
+
   if (isLoading) {
     return (
       <Card>
@@ -75,6 +104,8 @@ export const EventInfo: React.FC = () => {
       </Card>
     );
   }
+
+  
 
   return (
     <Card>
@@ -136,11 +167,7 @@ export const EventInfo: React.FC = () => {
             </TabListWrapper>
           )
         }
-        <Button size='large' disabled={eventResponse.actions.length === 0} onClick={submitEventResponse}>
-          {
-            eventResponse.actions.length ? 'Submit my response' : 'Respond by adding suggestions or upvote/downvoting existing suggestions'
-          }
-        </Button>
+        <Button size='large' disabled={user != null &&  eventResponse.actions.length === 0} onClick={submitEventResponse}>{ submitCopy }</Button>
 
         {
           addingNewProposal && (

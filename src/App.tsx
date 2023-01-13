@@ -33,6 +33,15 @@ function App() {
           name: friendlyUser?.name as string,
           email: friendlyUser?.email as string,
         });
+
+        /**
+         * if has redirectTo somewhere
+         * redirect there
+         */
+        const redirectTo = new URLSearchParams(window.location.search).get('redirectTo');
+        if (redirectTo) {
+          window.location.href = redirectTo;
+        }
       } else {
         setCurrentUser(null);
       }

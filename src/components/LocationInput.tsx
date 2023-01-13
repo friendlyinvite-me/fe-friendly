@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
-import { Location } from '../utils/types';
+import { Location, LocationInfo } from '../utils/types';
 import { Size } from '.';
 import { Combobox } from '@headlessui/react';
 import { styled, css } from '../styles';
@@ -36,8 +36,13 @@ export const LocationInput: React.FC<Props> = (props: Props) => {
     if (selectedSearchResult)
       placesService?.getDetails({
         placeId: selectedSearchResult.place_id,
-      }, (location: Location) => {  
-        props.onSelectLocation(location);
+      }, (location: LocationInfo) => {  
+        const firstPhoto = location.photos ? location.photos[0] : null;
+
+        props.onSelectLocation({
+          ...location, 
+          thumbnail: firstPhoto ? firstPhoto.getUrl() : undefined,
+        });
       },
       );
   }, [selectedSearchResult]);

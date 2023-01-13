@@ -10,6 +10,7 @@ import { FriendlyEventRow } from '../../utils/types';
 import { EmptyState } from '../../components/EmptyState';
 import { EventCard } from '../../components/EventCard';
 import { Tab, Tabs } from '../../components/Tabs';
+import { LoadingSpinner } from '../../components/LoadingSpinner';
 
 export const Dashboard: React.FC = () => {
   const {user, isLoading: isLoadingUser} = useContext(UserContext); 
@@ -49,7 +50,7 @@ export const Dashboard: React.FC = () => {
       </DashboardHeader>
       <Card>
         {
-          isLoadingEvents && <div>Loading...</div>
+          isLoadingEvents && <LoadingSpinner title="Loading your events..." />
         }
         {
           !isLoadingEvents &&
@@ -111,7 +112,4 @@ const EventCardsWrapper = styled('div', {
     gridTemplateColumns: "repeat(2, 1fr)",
   },
 
-  '@lg': {
-    gridTemplateColumns: 'repeat(3, 1fr)',
-  },
 });

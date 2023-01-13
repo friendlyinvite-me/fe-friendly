@@ -90,6 +90,7 @@ export interface NewEventData {
 export interface Location {
   name: string;
   reference: string;
+  thumbnail?: string;
 }
 
 export interface LocationInfo extends Location {

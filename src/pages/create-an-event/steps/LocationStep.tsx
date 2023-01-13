@@ -18,11 +18,13 @@ export const LocationStep: React.FC<Props> = (props: Props) => {
   return (
     <Wrapper>
       <LocationInput
-        onSelectLocation={(location) => {
+        onSelectLocation={(location: Location) => {
+          // add if not exist already
           if (!locations.find(l => l.value.reference === location.reference)) {
             const {
               name, 
               reference, 
+              thumbnail,
             } = location;
 
             onSetLocations([...locations, {
@@ -30,6 +32,7 @@ export const LocationStep: React.FC<Props> = (props: Props) => {
               value: {
                 name, 
                 reference, 
+                thumbnail,
               },
             }]);
           }

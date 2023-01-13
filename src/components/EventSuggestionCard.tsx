@@ -20,6 +20,7 @@ interface Props {
     userId?: string;
     user?: FriendlyUser;
     reference?: string;
+    thumbnail?: string;
   };
   type: ProposalType;
   onUpvote?: () => void;
@@ -57,13 +58,17 @@ export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
 
   return (
     <EventSuggestionCardWrapper id={id}>
+      {
+        data.thumbnail != null && (
+          <SuggestionThumbnail alt={data.title} src={data.thumbnail}/>
+        )
+      }
+
       <RowWrapper>
         <Text typography='h3'>{title}</Text>
       </RowWrapper>
       
-      {
-        isUserNewSuggestion && <RowWrapper>Draft - you are suggesting. {props.onDelete && <a onClick={props.onDelete}>Delete</a>} </RowWrapper>
-      }
+      
       {
         !isUserNewSuggestion && (
           <RowWrapper>
@@ -92,7 +97,12 @@ export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
           </RowWrapper>
         )
       }
-      {eventCreator && (
+      {
+        isUserNewSuggestion && <RowWrapper>
+          <Text typography='p' color='contentTertiary'>Draft - you are suggesting. {props.onDelete && <a onClick={props.onDelete}>Delete</a>}</Text>
+        </RowWrapper>
+      }
+      {eventCreator && !isUserNewSuggestion && (
         <RowWrapper>
           {
             isUserPreviousSuggestion ? (
@@ -131,4 +141,13 @@ const RowWrapper = styled('div', {
   justifyContent: 'space-between',
   alignItems: 'center',
   gap: '$2',
+});
+
+const SuggestionThumbnail = styled('img', {
+  width: '100%',
+  maxHeight: '200px',
+  borderRadius: '10px',
+  objectFit: 'cover',
+  objectPosition: 'center',
+  marginBottom: '$2',
 });

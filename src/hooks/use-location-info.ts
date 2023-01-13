@@ -15,11 +15,12 @@ export const useLocationInfo = (location: Location) => {
 
   useEffect(() => {
     if (isExpanded && !locationInfo) {
-
       placesService?.getDetails({
         placeId: reference,
-      }, (location: Location) => {
-        setLocationInfo(location);
+      }, (locationInfo: LocationInfo) => {
+        console.log(locationInfo);
+
+        setLocationInfo(locationInfo);
       });
     }
   }, [isExpanded, reference, locationInfo]);

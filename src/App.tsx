@@ -98,6 +98,7 @@ const AppWrapper = styled('div', {
   backgroundColor: '$appBackground',
   minHeight: '100vh',
   display: 'flex',
+  justifyContent: 'center',
 
   '&:after': {
     content: '',
@@ -118,6 +119,7 @@ const AppContent = styled('div', {
   gap: '$5',
   flex: 1,
   zIndex: 1,
+  maxWidth: '800px',
 });
 
 const ToastText = styled('div', {

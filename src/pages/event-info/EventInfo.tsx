@@ -17,6 +17,7 @@ import { AddNewSuggestionCard } from '../../components/AddNewSuggestionCard';
 import { EventInfoHeader } from './EventInfoHeader';
 import { EventResponseCard } from '../../components/EventResponseCard';
 import { LocationPreview } from '../../components/LocationPreview';
+import { LoadingSpinner } from '../../components/LoadingSpinner';
 
 export const EventInfo: React.FC = () => {
   const { eventId } = useLoaderData() as { eventId: string };
@@ -71,7 +72,7 @@ export const EventInfo: React.FC = () => {
   if (isLoading) {
     return (
       <Card>
-        <Text typography='h1'>Loading...</Text>
+        <LoadingSpinner title="Loading event information..." />
       </Card>
     );
   }
@@ -141,6 +142,7 @@ export const EventInfo: React.FC = () => {
                       ...suggestion,
                       title: (suggestion.value as Location).name,
                       reference: (suggestion.value as Location).reference,
+                      thumbnail: (suggestion.value as Location).thumbnail,
                     }}
                     onUpvote={() => onUpvote(suggestion.id, user?.id ?? '')}
                     onDownvote={() => onDownvote(suggestion.id, user?.id ?? '')}
@@ -161,6 +163,7 @@ export const EventInfo: React.FC = () => {
                       downvotes: [],
                       title: suggestion.value.name,
                       reference: suggestion.value.reference,
+                      thumbnail: suggestion.value.thumbnail,
                     }}
                   />
                   
@@ -239,7 +242,7 @@ const EventInfoWrapper = styled('div', {
 
 
 const TabListWrapper = styled('div', {
-  display: 'flex',
+  display: 'grid',
   flexDirection: 'column',
   gap: '$3',
 });

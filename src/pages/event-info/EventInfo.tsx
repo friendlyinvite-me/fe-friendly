@@ -65,8 +65,8 @@ export const EventInfo: React.FC = () => {
         toast.success('Thank you for your submission. Your response will be sent to everyone else!');
         window.location.reload();
       })
-      .catch(() => {
-        toast.error('Something went wrong.');
+      .catch((err: any) => {
+        toast.error(err.response.data ?? 'Something went wrong.');
       });
   };
 

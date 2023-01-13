@@ -115,7 +115,7 @@ export const EventInfo: React.FC = () => {
     }
 
     if (eventResponse.actions.length === 0) {
-      if (tab === 'overview') {
+      if (tab === 'overview' || tab === 'history') {
         setTab('datetime');
         return;
       }

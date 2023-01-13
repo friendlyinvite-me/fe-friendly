@@ -18,10 +18,14 @@ import { EventInfoHeader } from './EventInfoHeader';
 import { EventResponseCard } from '../../components/EventResponseCard';
 import { LocationPreview } from '../../components/LocationPreview';
 import { LoadingSpinner } from '../../components/LoadingSpinner';
+import { EventOverview } from './tabs/EventOverview';
+import { EventDateTimes } from './tabs/EventDateTimes';
+import { EventLocations } from './tabs/EventLocations';
+import { EventHistory } from './tabs/EventHistory';
 
 export const EventInfo: React.FC = () => {
   const { eventId } = useLoaderData() as { eventId: string };
-  const [tab, setTab] = useState<'datetime' | 'location' | 'history'>('datetime');
+  const [tab, setTab] = useState<'summary' | 'datetime' | 'location' | 'history'>('summary');
   
   const { user } = useContext(UserContext);
 
@@ -88,103 +92,52 @@ export const EventInfo: React.FC = () => {
           onSubmitEventResponse={submitEventResponse}
         />
         <Tabs>
+          <Tab sentiment={tab === 'summary' ? 'selected' : 'default'} onClick={() => setTab('summary')}>Overview</Tab>
           <Tab sentiment={tab === 'datetime' ? 'selected' : 'default'} onClick={() => setTab('datetime')}>Date & Times</Tab>
           <Tab sentiment={tab === 'location' ? 'selected' : 'default'} onClick={() => setTab('location')}>Locations</Tab>
           <Tab sentiment={tab === 'history' ? 'selected' : 'default'} onClick={() => setTab('history')}>History</Tab>
         </Tabs>
         {
+          tab === 'summary' && (
+            <TabListWrapper>
+              <EventOverview event={event} />
+            </TabListWrapper>
+          )
+        }
+        {
           tab === 'datetime' && (
             <TabListWrapper>
-              {
-                dateTimeSuggestions.map((suggestion) => (
-                  <EventSuggestionCard
-                    type='datetime'
-                    key={suggestion.id}
-                    data={{
-                      ...suggestion,
-                      title: moment(suggestion.value as string).format('Do MMM y   h:mm a'),
-                    }}
-                    onUpvote={() => onUpvote(suggestion.id, user?.id ?? '')}
-                    onDownvote={() => onDownvote(suggestion.id, user?.id ?? '')}
-                    onUndoVote={() => onUndoVote(suggestion.id, user?.id ?? '')}
-                  />
-                ))
-              }
-              {
-                myDateTimeSuggestions.map(suggestion => (
-                  <EventSuggestionCard
-                    type='datetime'
-                    key={suggestion.id}
-                    onDelete={() => onDeleteSuggestion(suggestion.id, user?.id ?? '')}
-                    data={{
-                      ...suggestion,
-                      upvotes: [],
-                      downvotes: [],
-                      title: moment(suggestion.value as string).format('Do MMM y   h:mm a'),
-                    }}
-                  />
-                  
-                ))
-              }
-              <AddNewSuggestionCard onClick={() => addNewProposal('datetime')} type='datetime' />
+              <EventDateTimes
+                dateTimeSuggestions={dateTimeSuggestions}
+                myDateTimeSuggestions={myDateTimeSuggestions}
+                onUpvote={onUpvote}
+                onDownvote={onDownvote}
+                onUndoVote={onUndoVote}
+                onDeleteSuggestion={onDeleteSuggestion}
+                onAddNewProposal={addNewProposal}
+              />
             </TabListWrapper>
           )
         }
         {
           tab === 'location' && (
             <TabListWrapper>
-              {
-                locationSuggestions.map((suggestion) => (
-                  <EventSuggestionCard
-                    type='location'
-                    key={suggestion.id}
-                    data={{
-                      ...suggestion,
-                      title: (suggestion.value as Location).name,
-                      reference: (suggestion.value as Location).reference,
-                      thumbnail: (suggestion.value as Location).thumbnail,
-                    }}
-                    onUpvote={() => onUpvote(suggestion.id, user?.id ?? '')}
-                    onDownvote={() => onDownvote(suggestion.id, user?.id ?? '')}
-                    onUndoVote={() => onUndoVote(suggestion.id, user?.id ?? '')}
-                  />
-                    
-                ))
-              }
-              {
-                myLocationSuggestions.map(suggestion => (
-                  <EventSuggestionCard
-                    type='location'
-                    key={suggestion.id}
-                    onDelete={() => onDeleteSuggestion(suggestion.id, user?.id ?? '')}
-                    data={{
-                      ...suggestion,
-                      upvotes: [],
-                      downvotes: [],
-                      title: suggestion.value.name,
-                      reference: suggestion.value.reference,
-                      thumbnail: suggestion.value.thumbnail,
-                    }}
-                  />
-                  
-                ))
-              }
-              <AddNewSuggestionCard onClick={() => addNewProposal('location')} type='location' />
+              <EventLocations
+                locationSuggestions={locationSuggestions}
+                myLocationSuggestions={myLocationSuggestions}
+                onUpvote={onUpvote}
+                onDownvote={onDownvote}
+                onUndoVote={onUndoVote}
+                onDeleteSuggestion={onDeleteSuggestion}
+                onAddNewProposal={addNewProposal}
+              />
             </TabListWrapper>
           )
         }
         {
           tab === 'history' && (
             <TabListWrapper>
-              {
-                ((event?.responses) as FriendlyEventResponse[] ?? []).sort((a,b) => {
-                  return (
-                    new Date(b.createdAt as string).getTime() - new Date(a.createdAt as string).getTime()
-                  );
-                } ).map((response) => (
-                  <EventResponseCard response={response} key={response.id} />
-                ))
-              }
+              <EventHistory event={event} />
             </TabListWrapper>
           )
         }

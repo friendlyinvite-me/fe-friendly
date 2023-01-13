@@ -4,7 +4,7 @@ import { styled } from '../styles';
 interface Props {
   children: ReactNode;
   onClick?: () => void;
-  sentiment?: 'primary' | 'secondary';
+  sentiment?: 'primary' | 'secondary' | 'primary-inverted';
   disabled?: boolean;
   size?: 'small' |'medium' | 'large'
 }
@@ -44,6 +44,10 @@ const ButtonWrapper = styled('button', {
         '&:hover': {
           backgroundColor: '$gray200',
         },
+      },
+      'primary-inverted': {
+        color: '$yellow500',
+        backgroundColor: 'black',
       },
     },
 

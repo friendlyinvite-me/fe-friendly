@@ -60,11 +60,6 @@ export const EventInfo: React.FC = () => {
 
 
   const submitEventResponse = async () => {
-    if (!user) {
-      navigate(`/login?redirectTo=${window.location.href}`);
-      return;
-    }
-
     onCreateEventResponse({...eventResponse, userId: user!.id})
       .then(() => {
         toast.success('Thank you for your submission. Your response will be sent to everyone else!');
@@ -98,10 +93,43 @@ export const EventInfo: React.FC = () => {
       return "Submit your votes";
     }
 
-    return "Start collaborating by voting or making new suggestions";
+    if (tab === 'datetime') {
+      return "Vote on existing dates or make new suggestions";
+    }
 
-    
+    if (tab === 'location') {
+      return "Vote on existing locations or make new suggestions";
+    }
+
+    return "Start collaborating by voting or making new suggestions";
   }, [eventResponse]);
+
+  const isEventReadyForSubmit = useMemo(() => {
+    return eventResponse.actions.length > 0;
+  }, [eventResponse.actions]);
+
+  const ctaAction = () => {
+    if (!user) {
+      navigate(`/login?redirectTo=${window.location.href}`);
+      return;
+    }
+
+    if (eventResponse.actions.length === 0) {
+      if (tab === 'overview') {
+        setTab('datetime');
+        return;
+      }
+
+      if (tab === 'datetime' || tab === 'location') {
+        toast.error('You have not made any suggestions or votes yet.');
+        return;
+      }
+    }
+    
+    
+
+    submitEventResponse();
+  };
 
   if (isLoading) {
     return (
@@ -173,7 +201,7 @@ export const EventInfo: React.FC = () => {
             </TabListWrapper>
           )
         }
-        <Button size='large' disabled={user != null &&  eventResponse.actions.length === 0} onClick={submitEventResponse}>{ submitCopy }</Button>
+        <Button sentiment={isEventReadyForSubmit ? 'primary' : 'primary-inverted'} size='large' onClick={ctaAction}>{ submitCopy }</Button>
 
         {
           addingNewProposal && (

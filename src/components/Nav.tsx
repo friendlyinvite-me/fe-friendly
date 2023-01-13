@@ -52,7 +52,9 @@ export const Nav: React.FC = () => {
         {
           user && (
             <Popover
-              activator={<UserDropdownActivator>Profile</UserDropdownActivator>}
+              activator={<UserDropdownActivator>
+                <img src={user.photoURL ?? ''} alt="" referrerPolicy="no-referrer"  />
+              </UserDropdownActivator>}
               items={
                 [
                   userInfo,
@@ -91,10 +93,18 @@ const UserDropdownActivator = styled('div', {
   cursor: 'pointer',
   fontWeight: 700,
   outline: 0,
-  padding: '$1 $2',
   borderRadius: '20px',
+  width: '34px',
+  height: '34px',
   backgroundColor: '$contentPrimary',
   color: 'white',
+
+  '& > img' : {
+    width: '30px',
+    height: '30px',
+    borderRadius: '50px',
+    objectFit: 'cover',
+  },
 });
 
 const NavLink = styled(Link, {

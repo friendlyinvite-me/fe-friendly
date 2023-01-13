@@ -20,7 +20,7 @@ import { EventHistory } from './tabs/EventHistory';
 
 export const EventInfo: React.FC = () => {
   const { eventId } = useLoaderData() as { eventId: string };
-  const [tab, setTab] = useState<'summary' | 'datetime' | 'location' | 'history'>('summary');
+  const [tab, setTab] = useState<'overview' | 'datetime' | 'location' | 'history'>('overview');
   
   const { user } = useContext(UserContext);
 
@@ -65,8 +65,14 @@ export const EventInfo: React.FC = () => {
       return;
     }
 
-    await onCreateEventResponse({...eventResponse, userId: user!.id});
-    toast.success('Thank you for your submission. Your response will be sent to everyone else!');
+    onCreateEventResponse({...eventResponse, userId: user!.id})
+      .then(() => {
+        toast.success('Thank you for your submission. Your response will be sent to everyone else!');
+        window.location.reload();
+      })
+      .catch(() => {
+        toast.error('Something went wrong.');
+      });
   };
 
   const addNewProposal = (type: ProposalType) => {
@@ -100,7 +106,7 @@ export const EventInfo: React.FC = () => {
   if (isLoading) {
     return (
       <Card>
-        <LoadingSpinner title="Loading event information..." />
+        <LoadingSpinner  title="Loading event information..." />
       </Card>
     );
   }
@@ -118,13 +124,13 @@ export const EventInfo: React.FC = () => {
           
         />
         <Tabs>
-          <Tab sentiment={tab === 'summary' ? 'selected' : 'default'} onClick={() => setTab('summary')}>Overview</Tab>
-          <Tab sentiment={tab === 'datetime' ? 'selected' : 'default'} onClick={() => setTab('datetime')}>Date & Times</Tab>
-          <Tab sentiment={tab === 'location' ? 'selected' : 'default'} onClick={() => setTab('location')}>Locations</Tab>
-          <Tab sentiment={tab === 'history' ? 'selected' : 'default'} onClick={() => setTab('history')}>History</Tab>
+          <Tab sentiment={tab === 'overview' ? 'selected' : 'default'} onClick={() => setTab('overview')}>Overview</Tab>
+          <Tab sentiment={tab === 'datetime' ? 'selected' : 'default'} onClick={() => setTab('datetime')}>Date & Times ({dateTimeSuggestions.length})</Tab>
+          <Tab sentiment={tab === 'location' ? 'selected' : 'default'} onClick={() => setTab('location')}>Locations ({locationSuggestions.length})</Tab>
+          <Tab sentiment={tab === 'history' ? 'selected' : 'default'} onClick={() => setTab('history')}>History ({event.responses.length})</Tab>
         </Tabs>
         {
-          tab === 'summary' && (
+          tab === 'overview' && (
             <TabListWrapper>
               <EventOverview event={event} />
             </TabListWrapper>

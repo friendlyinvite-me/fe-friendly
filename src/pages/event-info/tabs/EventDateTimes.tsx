@@ -28,20 +28,22 @@ export const EventDateTimes: React.FC<Props> = ({
   return (
     <>
       {
-        dateTimeSuggestions.map((suggestion) => (
-          <EventSuggestionCard
-            type='datetime'
-            key={suggestion.id}
-            data={{
-              ...suggestion,
-              title: moment(suggestion.value as string).format('Do MMM y   h:mm a'),
-            }}
-            onUpvote={() => onUpvote(suggestion.id, user?.id ?? '')}
-            onDownvote={() => onDownvote(suggestion.id, user?.id ?? '')}
-            onUndoVote={() => onUndoVote(suggestion.id, user?.id ?? '')}
-          />
+        dateTimeSuggestions
+          .sort((a,b) => new Date(a.value as string).getDate() - new Date(b.value as string).getDate())
+          .map((suggestion) => (
+            <EventSuggestionCard
+              type='datetime'
+              key={suggestion.id}
+              data={{
+                ...suggestion,
+                title: moment(suggestion.value as string).format('Do MMM y @ h:mm a'),
+              }}
+              onUpvote={() => onUpvote(suggestion.id, user?.id ?? '')}
+              onDownvote={() => onDownvote(suggestion.id, user?.id ?? '')}
+              onUndoVote={() => onUndoVote(suggestion.id, user?.id ?? '')}
+            />
                     
-        ))
+          ))
       }
       {
         myDateTimeSuggestions.map(suggestion => (
@@ -53,7 +55,7 @@ export const EventDateTimes: React.FC<Props> = ({
               ...suggestion,
               upvotes: [],
               downvotes: [],
-              title: moment(suggestion.value as string).format('Do MMM y   h:mm a'),
+              title: moment(suggestion.value as string).format('Do MMM y @ h:mm a'),
             }}
           />
                   

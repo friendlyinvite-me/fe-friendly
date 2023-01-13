@@ -126,6 +126,9 @@ const AppContent = styled('div', {
   flexDirection: 'column',
   position: 'relative',
   gap: '$5',
+  '@md': {
+    gap: '$10',
+  },
   flex: 1,
   zIndex: 1,
   maxWidth: '800px',

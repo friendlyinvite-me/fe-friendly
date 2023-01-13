@@ -28,7 +28,7 @@ export const LoadingSpinner: React.FC<Props> = (props: Props) => {
 
 const LoadingSpinnerWrapper = styled('div', {
   display: 'flex',
-  padding: "$3",
+  padding: "$10 $2",
   alignItems: 'center',
   flexDirection: 'column',
   gap: '$2',

@@ -38,6 +38,5 @@ export const deleteEvent = async (data: DeleteEventRequest) => {
 
 export const createEventResponse = async (data: NewEventResponseData) => {
   const eventResponse = await axios.post(formatApiUrl('createeventresponse'), data);
-  debugger;
   return eventResponse.data as boolean;
 };

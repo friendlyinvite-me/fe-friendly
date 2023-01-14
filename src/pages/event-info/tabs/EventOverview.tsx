@@ -11,19 +11,25 @@ interface Props {
 
 export const EventOverview: React.FC<Props> = ({event}: Props) => {
   
+  const { user } = useContext(UserContext);
+  
   const eventParticipants = useMemo(() => {
     const participants: {[key: string]: FriendlyUser} = {};
-    const { user } = useContext(UserContext);
-
+    
     event.responses.forEach(r => {
       participants[r.userId] = r.user!;
     });
 
     const count = Object.keys(participants).length;
 
+    let usersArray = Object.values(participants);
     // sort by You first
+    if (user != null) {
+      usersArray = usersArray.sort((a,b) => (b.id.localeCompare(user.id)));
+    }
     // then put "and "prefix before last person if there are 2 +
-    const namesArr = Object.values(participants).sort((a,b) => (b.id.localeCompare(user!.id))).map(p => p.id === user!.id ? 'You' : p.name);
+    // and replace your name with You
+    const namesArr = usersArray.map(p => user != null && p.id === user.id ? 'You' : p.name);
     const commaSeparatedNameStrings = namesArr.map((p, i) => i === namesArr.length - 1 && namesArr.length > 1 ? `and ${p}` : p ).join(', ');
 
     return { count, participants: commaSeparatedNameStrings };

@@ -5,7 +5,8 @@ export interface FriendlyEventRow {
   name: string;
   id: string;
   createdAt: Date;
-  status: 'draft' | 'planning' | 'finalized'
+  status: 'draft' | 'planning' | 'finalized';
+  user?: FriendlyUser;
 }
 
 export type ProposalType = 'datetime' | 'location';

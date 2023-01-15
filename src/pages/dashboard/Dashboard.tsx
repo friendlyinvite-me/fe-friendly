@@ -27,12 +27,12 @@ export const Dashboard: React.FC = () => {
   useAsyncEffect(async () => {
     if (user) {
       const userCreatedEvents = await fetchUserEvents(user.id, true);
-      const userParticipatedEvents = await fetchUserEvents(user.id, false);
+      const allEvents = await fetchUserEvents(user.id, false);
       if (userCreatedEvents.length) {
-        setEvents(userCreatedEvents);
+        setMyEvents(userCreatedEvents);
       }
-      if (userParticipatedEvents.length) {
-        setMyEvents(userParticipatedEvents);
+      if (allEvents.length) {
+        setEvents(allEvents);
       }
       setIsLoadingEvents(false);
     }
@@ -48,7 +48,7 @@ export const Dashboard: React.FC = () => {
 
   const eventsToShow = useMemo(() => {
     return tab === 'all-events' ? events : myEvents;
-  }, [tab]);
+  }, [tab, isLoadingEvents]);
   
   return (
     <>

@@ -17,7 +17,8 @@ export const EventCard: React.FC<Props> = (props: Props) => {
     <EventCardWrapper>
       <Text typography='h3'>{event.name}</Text>
       <Text typography='p' color='$gray300'>Status: {event.status}</Text>
-      <Text typography='p' color='$gray300'>Created: {moment(event.createdAt).format('ll')}</Text>
+      <Text typography='p' color='$gray300'>Created at: {moment(event.createdAt).format('ll')}</Text>
+      { event.user != null && <Text typography='p' color='$gray300'>Created by: {event.user.name}</Text>}
       <Button size='medium' onClick={() => navigate(`/events/${event.id}`)}>View</Button>
     </EventCardWrapper>
   );

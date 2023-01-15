@@ -106,7 +106,7 @@ export const EventInfo: React.FC = () => {
 
   const isEventReadyForSubmit = useMemo(() => {
     return eventResponse.actions.length > 0;
-  }, [eventResponse.actions]);
+  }, [eventResponse.actions.length]);
 
   const ctaAction = () => {
     if (!user) {
@@ -201,7 +201,10 @@ export const EventInfo: React.FC = () => {
             </TabListWrapper>
           )
         }
-        <Button sentiment={isEventReadyForSubmit ? 'primary' : 'primary-inverted'} size='large' onClick={ctaAction}>{ submitCopy }</Button>
+        
+        <FloatingButtonWrapper>
+          <Button sentiment={isEventReadyForSubmit ? 'primary' : 'primary-inverted'} size='large' onClick={ctaAction}>{ submitCopy }</Button>
+        </FloatingButtonWrapper>
 
         {
           addingNewProposal && (
@@ -214,7 +217,7 @@ export const EventInfo: React.FC = () => {
             >
               {
                 addingNewProposal === 'datetime' && (
-                  <>
+                  <AddNewProposalModalWrapper>
                     <Text typography='h3'>Pick times you would like to suggest</Text>
                     <DateTimeStep
                       dateTimes={eventResponse.actions.filter(action => action.type === 'datetime').map(d => ({...d, value: new Date(d.value as string)}))} 
@@ -226,12 +229,12 @@ export const EventInfo: React.FC = () => {
                         } as FriendlyEventResponseActionDateTime)), user?.id ?? '');
                       }}
                     />
-                  </>
+                  </AddNewProposalModalWrapper>
                 )
               }
               {
                 addingNewProposal === 'location' && (
-                  <>
+                  <AddNewProposalModalWrapper>
                     <Text typography='h3'>Pick locations you would like to suggest</Text>
                     <LocationStep
                       locations={eventResponse.actions.filter(action => action.type === 'location').map(a => a as FriendlyEventResponseActionLocation)} 
@@ -243,7 +246,7 @@ export const EventInfo: React.FC = () => {
                         } as FriendlyEventResponseActionLocation)), user?.id ?? '');
                       }}
                     />
-                  </>
+                  </AddNewProposalModalWrapper>
                 )
               }
 
@@ -261,6 +264,7 @@ const EventInfoWrapper = styled('div', {
   display: 'grid',
   flexDirection: 'column',
   gap: '$3',
+  paddingBottom: '70px',
 });
 
 
@@ -269,4 +273,24 @@ const TabListWrapper = styled('div', {
   display: 'grid',
   flexDirection: 'column',
   gap: '$3',
+});
+
+const FloatingButtonWrapper = styled('div', {
+  position: 'fixed',
+  bottom: 0,
+  margin: 'auto',
+  width: '100%',
+  left: 0,
+  padding: "$3",
+
+  '& > button' : {
+    width: '100%',
+  },
+});
+
+const AddNewProposalModalWrapper = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '$3',
+  textAlign: 'center',
 });

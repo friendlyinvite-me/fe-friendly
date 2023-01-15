@@ -101,7 +101,7 @@ function App() {
 }
 
 const AppWrapper = styled('div', {
-  paddingInline: '5%',
+  paddingInline: '3%',
   paddingBlock: '3%',
   paddingBlockEnd: '0',
   backgroundColor: '$appBackground',

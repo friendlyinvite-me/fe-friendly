@@ -69,7 +69,7 @@ const ButtonWrapper = styled('button', {
         fontSize: '16px',
         fontWeight: '700',
         paddingBlock: '$5',
-        paddingInline: '$7',
+        paddingInline: '$3',
       },
     },
   },

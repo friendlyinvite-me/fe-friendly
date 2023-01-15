@@ -2,8 +2,11 @@ import { styled } from '../styles';
 
 export const Tabs = styled('div', {
   display: 'flex',
-  gap: '$4',
+  gap: '$2',
   marginBlock: '$6',
+  '@lg': {
+    gap: '$4',
+  },
 });
 
 

@@ -1,12 +1,8 @@
 import { styled } from '../styles';
 
 export const Tabs = styled('div', {
-  display: 'grid',
+  display: 'flex',
   gap: '$4',
-  alignItems: 'start',
-  justifyContent: 'start',
-  textAlign: 'left',
-  gridTemplateColumns: 'repeat(1, auto)',
   marginBlock: '$6',
 });
 

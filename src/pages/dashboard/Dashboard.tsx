@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react';
+/* eslint-disable react/no-unescaped-entities */
+import React, { useContext, useMemo, useState } from 'react';
 import { UserContext } from '../../contexts/auth-context';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Card, Text } from '../../components';
@@ -15,9 +16,12 @@ import { LoadingSpinner } from '../../components/LoadingSpinner';
 export const Dashboard: React.FC = () => {
   const {user, isLoading: isLoadingUser} = useContext(UserContext); 
   const [events, setEvents] = useState<FriendlyEventRow[]>([]);
+  const [myEvents, setMyEvents] = useState<FriendlyEventRow[]>([]);
   const navigate = useNavigate();
 
   const [isLoadingEvents, setIsLoadingEvents] = useState(true);
+
+  const [tab, setTab] = useState<'my-events' | 'all-events'>('all-events');
 
   
   useAsyncEffect(async () => {
@@ -26,6 +30,9 @@ export const Dashboard: React.FC = () => {
       const userParticipatedEvents = await fetchUserEvents(user.id, false);
       if (userCreatedEvents.length) {
         setEvents(userCreatedEvents);
+      }
+      if (userParticipatedEvents.length) {
+        setMyEvents(userParticipatedEvents);
       }
       setIsLoadingEvents(false);
     }
@@ -38,6 +45,10 @@ export const Dashboard: React.FC = () => {
   const createAnEvent = () => {
     navigate('/create-an-event');
   };
+
+  const eventsToShow = useMemo(() => {
+    return tab === 'all-events' ? events : myEvents;
+  }, [tab]);
   
   return (
     <>
@@ -48,7 +59,16 @@ export const Dashboard: React.FC = () => {
           </Tab>
         </Tabs>
         <Button onClick={createAnEvent}>Create a new event</Button>
+        
       </DashboardHeader>
+      <Tabs>
+        <Tab onClick={() => setTab('all-events')} sentiment={tab === 'all-events' ? 'selected' : 'default'}>
+          <Text typography='h3' color='white'>All events</Text>
+        </Tab>
+        <Tab onClick={() => setTab('my-events')} sentiment={tab === 'my-events' ? 'selected' : 'default'}>
+          <Text typography='h3' color='white'>Events I've created</Text>
+        </Tab>
+      </Tabs>
       <Card>
         {
           isLoadingEvents && <LoadingSpinner title="Loading your events..." />
@@ -56,20 +76,22 @@ export const Dashboard: React.FC = () => {
         {
           !isLoadingEvents &&
           <>
-            {events.length ? (
-              <EventCardsWrapper>
-                {events.map(e => {
-                  return (
-                    <EventCard key={e.id} event={e}/>
-                  );
-                })}
-              </EventCardsWrapper>
-            ) : (
-              <EmptyState
-                title='You have nothing here, create a new event.'
-                action={<Button onClick={createAnEvent}>Create event</Button>}
-              />
-            )}
+            {
+              eventsToShow.length ? (
+                <EventCardsWrapper>
+                  {eventsToShow.map(e => {
+                    return (
+                      <EventCard key={e.id} event={e}/>
+                    );
+                  })}
+                </EventCardsWrapper>
+              ) : (
+                <EmptyState
+                  title='You have nothing here, create a new event.'
+                  action={<Button onClick={createAnEvent}>Create event</Button>}
+                />
+              )
+            }
           </>
         }
         

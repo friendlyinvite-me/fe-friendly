@@ -11,7 +11,7 @@ export const LoadingSpinner: React.FC<Props> = (props: Props) => {
   return (
     <LoadingSpinnerWrapper>
       {
-        title && <Text typography='h2'>{title}</Text>
+        title && <Text typography='h3'>{title}</Text>
       }
       <ColorRing
         visible={true}

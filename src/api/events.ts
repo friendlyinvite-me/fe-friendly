@@ -2,10 +2,11 @@ import axios from 'axios';
 import { formatApiUrl } from '../utils/api';
 import { FriendlyEventData, FriendlyEventRow, NewEventData, NewEventResponseData } from '../utils/types';
 
-export const fetchUserEvents = async (userId: string) => {
+export const fetchUserEvents = async (userId: string, createdByUser = true) => {
   const response = await axios.get(formatApiUrl('getuserevents'), {
     params: {
       'user-id': userId,
+      'created-by-user': createdByUser,
     },
   });
   return response.data as FriendlyEventRow[];

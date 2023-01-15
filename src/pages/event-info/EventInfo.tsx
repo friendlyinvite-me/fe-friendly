@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import { Button, Card } from '../../components';
+import { Button, Card, Text } from '../../components';
 import { Tab, Tabs } from '../../components/Tabs';
 import { UserContext } from '../../contexts/auth-context';
 import { styled } from '../../styles';
@@ -214,30 +214,36 @@ export const EventInfo: React.FC = () => {
             >
               {
                 addingNewProposal === 'datetime' && (
-                  <DateTimeStep
-                    dateTimes={eventResponse.actions.filter(action => action.type === 'datetime').map(d => ({...d, value: new Date(d.value as string)}))} 
-                    onSetDateTimes={(dateTimes) => {
-                      onAddDateTimeSuggestions(dateTimes.map(d => ({
-                        ...d,
-                        type: 'datetime',
-                        value: d.value.toString(),
-                      } as FriendlyEventResponseActionDateTime)), user?.id ?? '');
-                    }}
-                  />
+                  <>
+                    <Text typography='h3'>Pick times you would like to suggest</Text>
+                    <DateTimeStep
+                      dateTimes={eventResponse.actions.filter(action => action.type === 'datetime').map(d => ({...d, value: new Date(d.value as string)}))} 
+                      onSetDateTimes={(dateTimes) => {
+                        onAddDateTimeSuggestions(dateTimes.map(d => ({
+                          ...d,
+                          type: 'datetime',
+                          value: d.value.toString(),
+                        } as FriendlyEventResponseActionDateTime)), user?.id ?? '');
+                      }}
+                    />
+                  </>
                 )
               }
               {
                 addingNewProposal === 'location' && (
-                  <LocationStep
-                    locations={eventResponse.actions.filter(action => action.type === 'location').map(a => a as FriendlyEventResponseActionLocation)} 
-                    onSetLocations={(locations) => {
-                      onAddLocationSuggestions(locations.map(l => ({
-                        ...l,
-                        type: 'location',
-                        value: l.value,
-                      } as FriendlyEventResponseActionLocation)), user?.id ?? '');
-                    }}
-                  />
+                  <>
+                    <Text typography='h3'>Pick locations you would like to suggest</Text>
+                    <LocationStep
+                      locations={eventResponse.actions.filter(action => action.type === 'location').map(a => a as FriendlyEventResponseActionLocation)} 
+                      onSetLocations={(locations) => {
+                        onAddLocationSuggestions(locations.map(l => ({
+                          ...l,
+                          type: 'location',
+                          value: l.value,
+                        } as FriendlyEventResponseActionLocation)), user?.id ?? '');
+                      }}
+                    />
+                  </>
                 )
               }
 

@@ -33,10 +33,6 @@ export const EventInfoHeader: React.FC<Props> = (props: Props) => {
     }
     return options;
   }, [isCreatedByUser]);
-
-  console.log(userOptions);
-  
-
   
   return (
     <EventInfoHeaderWrapper>

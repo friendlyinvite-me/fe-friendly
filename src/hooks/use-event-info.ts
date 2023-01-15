@@ -39,7 +39,6 @@ export const useEventInfo = (eventId: string) => {
   const event: FriendlyEventData = useMemo(() => {
     const event = { ...data } as FriendlyEventData;
     eventResponse.actions.map(action => {
-      console.log('action', action);
 
       switch (action.type) {
         case 'upvote': {

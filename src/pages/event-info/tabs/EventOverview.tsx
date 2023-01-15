@@ -39,8 +39,6 @@ export const EventOverview: React.FC<Props> = ({event}: Props) => {
     const suggestions = event.suggestions.filter(s => s.type === 'datetime');
     const count = suggestions.length;
     const suggestionsSortByMostPopular = suggestions.sort((a,b) => (b.upvotes.length - b.downvotes.length) - (a.upvotes.length - a.downvotes.length));
-    console.log(suggestionsSortByMostPopular);
-    
     
     return {
       count,
@@ -52,8 +50,6 @@ export const EventOverview: React.FC<Props> = ({event}: Props) => {
     const suggestions = event.suggestions.filter(s => s.type === 'location');
     const count = suggestions.length;
     const suggestionsSortByMostPopular = suggestions.sort((a,b) => (b.upvotes.length - b.downvotes.length) - (a.upvotes.length - a.downvotes.length));
-    console.log(suggestionsSortByMostPopular);
-    
     
     return {
       count,
@@ -74,10 +70,10 @@ export const EventOverview: React.FC<Props> = ({event}: Props) => {
         So far, {eventParticipants.count} {eventParticipants.count === 1 ? 'person has' : 'people have'} added their responses on this event: {eventParticipants.participants}
       </Text>
       <Text typography='h4'>
-        There are {dateTimes.count} suggestions for when to meet. {moment(dateTimes.mostPopular.value as string).format('Do MMM y @ h:mm a')} is the most popular with {dateTimes.mostPopular.upvotes.length} upvotes and {dateTimes.mostPopular.downvotes.length} downvotes.
+        There are {dateTimes.count} suggestions for when to meet. {dateTimes.mostPopular && (<span>{moment(dateTimes.mostPopular.value as string).format('Do MMM y @ h:mm a')} is the most popular with {dateTimes.mostPopular.upvotes.length} upvotes and {dateTimes.mostPopular.downvotes.length} downvotes.</span>)}
       </Text>
       <Text typography='h4'>
-        There are {locations.count} suggestions for where to meet. {(locations.mostPopular.value as Location).name} is the most popular with {locations.mostPopular.upvotes.length} upvotes and {dateTimes.mostPopular.downvotes.length} downvotes.
+        There are {locations.count} suggestions for where to meet. {locations.mostPopular && <span>{(locations.mostPopular.value as Location).name} is the most popular with {locations.mostPopular.upvotes.length} upvotes and {dateTimes.mostPopular.downvotes.length} downvotes.</span> }
       </Text>
 
     </EventOverviewWrapper>

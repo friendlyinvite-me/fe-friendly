@@ -1,22 +1,24 @@
 import { styled } from '../styles';
 
 export const Tabs = styled('div', {
-  display: 'flex',
-  flexDirection: 'row',
+  display: 'grid',
   gap: '$4',
-  alignItems: 'center',
+  alignItems: 'start',
   justifyContent: 'start',
+  textAlign: 'left',
+  gridTemplateColumns: 'repeat(1, auto)',
   marginBlock: '$6',
 });
 
 
 export const Tab = styled('button', {
   display: 'inline-block',
-  typography: 'h3',
+  typography: 'h4',
   margin: 0,
   backgroundColor: 'transparent',
   padding: 0,
   border: 0,
+  textAlign: 'left',
   outline: 0,
   cursor: 'pointer',
   position: 'relative',

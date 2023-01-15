@@ -18,8 +18,6 @@ export const useLocationInfo = (location: Location) => {
       placesService?.getDetails({
         placeId: reference,
       }, (locationInfo: LocationInfo) => {
-        console.log(locationInfo);
-
         setLocationInfo(locationInfo);
       });
     }

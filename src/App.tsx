@@ -131,7 +131,7 @@ const AppContent = styled('div', {
   },
   flex: 1,
   zIndex: 1,
-  maxWidth: '800px',
+  maxWidth: '650px',
 });
 
 const ToastText = styled('div', {

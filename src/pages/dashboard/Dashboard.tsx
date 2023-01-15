@@ -22,9 +22,10 @@ export const Dashboard: React.FC = () => {
   
   useAsyncEffect(async () => {
     if (user) {
-      const events = await fetchUserEvents(user.id);
-      if (events.length) {
-        setEvents(events);
+      const userCreatedEvents = await fetchUserEvents(user.id, true);
+      const userParticipatedEvents = await fetchUserEvents(user.id, false);
+      if (userCreatedEvents.length) {
+        setEvents(userCreatedEvents);
       }
       setIsLoadingEvents(false);
     }

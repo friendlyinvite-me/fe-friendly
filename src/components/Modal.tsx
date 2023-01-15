@@ -40,6 +40,7 @@ export const Modal: React.FC<Props> = ({
       shouldCloseOnOverlayClick={!!onDismiss}
       onRequestClose={onDismiss}
       style={customStyles}
+      overlayClassName="ModalOverlay"
     >
       {children}
     </ReactModal>

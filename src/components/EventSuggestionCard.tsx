@@ -101,11 +101,11 @@ export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
       )}
       { isUserNewSuggestion || isUserPreviousSuggestion ? <></> :
         <CardVotesWrapper>
-          <Button onClick={props.onUpvote} size='medium' sentiment={upvotedByUser ? 'primary' : 'secondary'}>
+          <Button onClick={upvotedByUser ? props.onUndoVote : props.onUpvote} size='medium' sentiment={upvotedByUser ? 'primary' : 'secondary'}>
             { upvotedByUser ? 'Liked' : 'Like'}
             <FontAwesomeIcon icon={faThumbsUp} />
           </Button>
-          <Button onClick={props.onDownvote} size='medium' sentiment={downvotedByUser ? 'primary' : 'secondary'}>
+          <Button onClick={downvotedByUser ? props.onUndoVote : props.onDownvote} size='medium' sentiment={downvotedByUser ? 'primary' : 'secondary'}>
             { downvotedByUser ? 'Disliked' : 'Dislike'}
             <FontAwesomeIcon icon={faThumbsDown} />
           </Button>

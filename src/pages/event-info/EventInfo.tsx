@@ -17,6 +17,8 @@ import { EventOverview } from './tabs/EventOverview';
 import { EventDateTimes } from './tabs/EventDateTimes';
 import { EventLocations } from './tabs/EventLocations';
 import { EventHistory } from './tabs/EventHistory';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleRight, faCircleUp } from '@fortawesome/free-regular-svg-icons';
 
 export const EventInfo: React.FC = () => {
   const { eventId } = useLoaderData() as { eventId: string };
@@ -203,7 +205,10 @@ export const EventInfo: React.FC = () => {
         }
         
         <FloatingButtonWrapper>
-          <Button sentiment={isEventReadyForSubmit ? 'primary' : 'primary-inverted'} size='large' onClick={ctaAction}>{ submitCopy }</Button>
+          <Button sentiment={isEventReadyForSubmit ? 'primary' : 'primary-inverted'} size='large' onClick={ctaAction}>
+            { submitCopy }
+            <FontAwesomeIcon icon={isEventReadyForSubmit ? faCircleRight : faCircleUp} />
+          </Button>
         </FloatingButtonWrapper>
 
         {
@@ -281,10 +286,10 @@ const FloatingButtonWrapper = styled('div', {
   margin: 'auto',
   width: '100%',
   left: 0,
-  padding: "$3",
 
   '& > button' : {
     width: '100%',
+    borderRadius: 0,
   },
 });
 

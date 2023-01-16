@@ -9,6 +9,8 @@ import { FlexWrapper } from './FlexWrapper';
 import { type } from 'os';
 import { useLocationInfo } from '../hooks/use-location-info';
 import { LocationInformation } from './LocationInfo';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faThumbsUp, faThumbsDown, faArrowAltCircleDown, faArrowAltCircleUp } from '@fortawesome/free-regular-svg-icons';
 
 interface Props {
   data: {
@@ -77,23 +79,7 @@ export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
               <div>{ downvotes.length} downvotes</div>
               {/* <div>{ counts.comments} comments</div> */}
             </RowWrapper>
-            { isUserNewSuggestion || isUserPreviousSuggestion ? <></> :
-              <>
-                {
-                  upvotedByUser || downvotedByUser ? (
-                    <RowWrapper>
-                      <Button size='small' sentiment='primary'>{upvotedByUser ? 'Liked' : 'Disliked'}</Button>
-                      <Button onClick={props.onUndoVote} size='small' sentiment='secondary'>Undo</Button>
-                    </RowWrapper>
-                  ) : (
-                    <RowWrapper>
-                      <Button onClick={props.onUpvote} disabled={upvotedByUser} size='small' sentiment='primary'>Like</Button>
-                      <Button onClick={props.onDownvote} disabled={downvotedByUser} size='small' sentiment='secondary'>Dislike</Button>
-                    </RowWrapper>
-                  )
-                }
-              </>
-            }
+            
           </RowWrapper>
         )
       }
@@ -113,16 +99,33 @@ export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
           }
         </RowWrapper>
       )}
+      { isUserNewSuggestion || isUserPreviousSuggestion ? <></> :
+        <CardVotesWrapper>
+          <Button onClick={props.onUpvote} size='medium' sentiment={upvotedByUser ? 'primary' : 'secondary'}>
+            { upvotedByUser ? 'Liked' : 'Like'}
+            <FontAwesomeIcon icon={faThumbsUp} />
+          </Button>
+          <Button onClick={props.onDownvote} size='medium' sentiment={downvotedByUser ? 'primary' : 'secondary'}>
+            { downvotedByUser ? 'Disliked' : 'Dislike'}
+            <FontAwesomeIcon icon={faThumbsDown} />
+          </Button>
+        </CardVotesWrapper>
+      }
       {
         props.type === 'location' && (
           <>
             { locationInfo && isExpanded &&
               <LocationInformation locationInfo={locationInfo}  />
             }
-            <Button sentiment='secondary' onClick={() => setExpanded(!isExpanded)}>{isExpanded ? 'Hide info' : "Show more info"}</Button>
+            <Button sentiment='secondary' size='small' onClick={() => setExpanded(!isExpanded)}>
+              {isExpanded ? 'Hide info' : "Show more info"}
+              <FontAwesomeIcon icon={isExpanded ? faArrowAltCircleUp : faArrowAltCircleDown} />
+            </Button>
+
           </>
         )
       }
+      
     </EventSuggestionCardWrapper>
   );
 };
@@ -141,6 +144,14 @@ const RowWrapper = styled('div', {
   justifyContent: 'space-between',
   alignItems: 'center',
   gap: '$2',
+});
+
+const CardVotesWrapper = styled(RowWrapper, {
+  justifyContent: 'stretch',
+
+  '& > *' : {
+    flex: 1,
+  },
 });
 
 const SuggestionThumbnail = styled('img', {

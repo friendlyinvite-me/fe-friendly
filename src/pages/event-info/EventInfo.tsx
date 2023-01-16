@@ -291,6 +291,7 @@ const FloatingButtonWrapper = styled('div', {
 const AddNewProposalModalWrapper = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  gap: '$3',
+  gap: '$5',
+  paddingBlock: '$2',
   textAlign: 'center',
 });

@@ -10,7 +10,11 @@ interface Props {
 }
 
 export const Button: React.FC<Props> = (props: Props) => {
-  return <ButtonWrapper size={props.size ?? 'medium'} disabled={props.disabled ?? false} sentiment={props.sentiment} onClick={props.onClick}>{props.children}</ButtonWrapper>;
+  return (
+    <ButtonWrapper size={props.size ?? 'medium'} disabled={props.disabled ?? false} sentiment={props.sentiment} onClick={props.onClick}>
+      <ButtonContentWrapper>{props.children}</ButtonContentWrapper>
+    </ButtonWrapper>
+  );
 };
 
 const ButtonWrapper = styled('button', {
@@ -77,4 +81,12 @@ const ButtonWrapper = styled('button', {
     sentiment: 'primary',
     size: 'medium',
   },
+});
+
+const ButtonContentWrapper = styled('span', {
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: "$2",
 });

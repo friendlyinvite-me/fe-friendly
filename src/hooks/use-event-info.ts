@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 
 export const useEventInfo = (eventId: string) => {
 
+
+
   const navigate = useNavigate();
 
   const [data, setData] = useState<FriendlyEventData | undefined>(undefined);
@@ -19,12 +21,28 @@ export const useEventInfo = (eventId: string) => {
     actions: [],
     comment: '',
   });
+  console.log(eventResponse);
+
+  const fetchEventInformation = async () => {
+    const response = await fetchEventInfo(eventId);
+    setData(response);
+    return response;
+  };
+
+  const resetAndRefetch = async () => {
+    await fetchEventInformation();
+    setEventResponse({
+      eventId: eventResponse.eventId,
+      userId: eventResponse.userId,
+      actions: [],
+      comment: '',
+    });
+    setIsLoading(false);
+  };
 
   useAsyncEffect(async () => {
     if (!data) {
-      const response = await fetchEventInfo(eventId);
-      setData(response);
-
+      const response = await fetchEventInformation();
       setEventResponse({
         ...eventResponse,
         eventId: response.id,
@@ -292,6 +310,7 @@ export const useEventInfo = (eventId: string) => {
     onDeleteEvent: deleteEvent,
     onCreateEventResponse: createEventResponse,
     onDeleteSuggestion,
+    resetAndRefetch,
   };
 
 };

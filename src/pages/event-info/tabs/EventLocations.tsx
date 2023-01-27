@@ -28,7 +28,7 @@ export const EventLocations: React.FC<Props> = ({
   return (
     <>
       {
-        locationSuggestions.map((suggestion) => (
+        locationSuggestions.sort((a,b) => ((a.value as Location).name).localeCompare((b.value as Location).name)).map((suggestion) => (
           <EventSuggestionCard
             type='location'
             key={suggestion.id}

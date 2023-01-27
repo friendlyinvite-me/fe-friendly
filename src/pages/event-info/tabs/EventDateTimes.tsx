@@ -29,7 +29,7 @@ export const EventDateTimes: React.FC<Props> = ({
     <>
       {
         dateTimeSuggestions
-          .sort((a,b) => new Date(a.value as string).getDate() - new Date(b.value as string).getDate())
+          .sort((a,b) => new Date(a.value as string).getTime() - new Date(b.value as string).getTime())
           .map((suggestion) => (
             <EventSuggestionCard
               type='datetime'

@@ -26,6 +26,8 @@ export const EventInfo: React.FC = () => {
   
   const { user } = useContext(UserContext);
 
+  const [isBusy, setIsBusy] = useState(false);
+
   const {
     isLoading,
     event,
@@ -43,6 +45,7 @@ export const EventInfo: React.FC = () => {
     onAddLocationSuggestions,
     isCreatedByUser,
     onDeleteSuggestion,
+    resetAndRefetch,
   } = useEventInfo(eventId);
 
   const [addingNewProposal, setAddingNewProposal] = useState<ProposalType | undefined>(undefined);
@@ -62,10 +65,10 @@ export const EventInfo: React.FC = () => {
 
 
   const submitEventResponse = async () => {
-    onCreateEventResponse({...eventResponse, userId: user!.id})
-      .then(() => {
+    await onCreateEventResponse({...eventResponse, userId: user!.id})
+      .then(async () => {
         toast.success('Thank you for your submission. Your response will be sent to everyone else!');
-        window.location.reload();
+        await resetAndRefetch();
       })
       .catch((err: any) => {
         toast.error(err.response.data ?? 'Something went wrong.');
@@ -110,7 +113,7 @@ export const EventInfo: React.FC = () => {
     return eventResponse.actions.length > 0;
   }, [eventResponse.actions.length]);
 
-  const ctaAction = () => {
+  const ctaAction = async () => {
     if (!user) {
       navigate(`/login?redirectTo=${window.location.href}`);
       return;
@@ -129,8 +132,9 @@ export const EventInfo: React.FC = () => {
     }
     
     
-
-    submitEventResponse();
+    setIsBusy(true);
+    await submitEventResponse();
+    setIsBusy(false);
   };
 
   if (isLoading) {
@@ -205,8 +209,8 @@ export const EventInfo: React.FC = () => {
         }
         
         <FloatingButtonWrapper>
-          <Button sentiment={isEventReadyForSubmit ? 'primary' : 'primary-inverted'} size='large' onClick={ctaAction}>
-            { submitCopy }
+          <Button disabled={isBusy} sentiment={isEventReadyForSubmit ? 'primary' : 'primary-inverted'} size='large' onClick={ctaAction}>
+            { isBusy ? 'Please wait...' : submitCopy }
             <FontAwesomeIcon icon={isEventReadyForSubmit ? faCircleRight : faCircleUp} />
           </Button>
         </FloatingButtonWrapper>

@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "friendly-356420"
-  }
+    "default": "friendly-356420",
+    "friendly": "friendly-356420"
+  },
+  "targets": {},
+  "etags": {}
 }

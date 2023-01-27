@@ -6,9 +6,13 @@ import { useWindowSize } from '../../hooks/use-window-resize';
 import { styled } from '../../styles';
 import toast from 'react-hot-toast';
 import { isValidEmail } from '../../utils/validate';
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleRight } from '@fortawesome/free-regular-svg-icons';
 
 export const Landing: React.FC = () => {
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
   const {width} = useWindowSize();
   const [isBusy, setIsBusy] = useState(false);
@@ -37,10 +41,15 @@ export const Landing: React.FC = () => {
         <Text typography='h1' color='$contentPrimary'>Collaboration tool for your upcoming events</Text>
         <Text typography='h4' color='$contentSecondary'>Take the stress out of event planning with your friends and family. Diss the infinite scrolling and back-and-forth communication between different availabilities and preferences.</Text>
         <Text typography='h4' color='$contentSecondary'>Friendly provides an intuitive and centralized experience for you and your friends to plan your upcoming events, from planning a Saturday brunch, a big game day, your next Europe trip and much more.</Text>
-        <Text typography='h4' color='$contentSecondary'>We are working hard on building Friendly from the ground up. If you are interested in staying in the know, let us know in the email! We will share monthly updates and give you early access when Friendly is ready!</Text>
+        <Button onClick={() => navigate('/login')} size='large' sentiment='primary'>
+          {"Start planning (beta)"}
+          <FontAwesomeIcon icon={faCircleRight} />
+        </Button>
+
+        <Text typography='h4' color='$contentSecondary'>We are working hard on building Friendly from the ground up. If you are interested in staying in the know, let us know in the email! We will share monthly updates and give you early access when Friendly is fully ready!</Text>
 
         <TextInput type="email" size='medium' placeholder='hello@friend.com' value={email} onChange={setEmail} />
-        <Button disabled={isBusy} onClick={signupToNewsletter} size='large' sentiment='primary'>{isBusy? 'Please wait...' : 'Keep me posted!'}</Button>
+        <Button disabled={isBusy} onClick={signupToNewsletter} size='large' sentiment='secondary'>{isBusy? 'Please wait...' : 'Keep me posted!'}</Button>
 
       </LandingWrapper>
     </Card>

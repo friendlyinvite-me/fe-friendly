@@ -4,8 +4,12 @@ import useAsyncEffect from 'use-async-effect';
 import { createEventResponse, deleteEvent, fetchEventInfo } from '../api';
 import { UserContext } from '../contexts/auth-context';
 import { FriendlyEventData, FriendlyEventResponseActionDateTime, FriendlyEventResponseActionLocation, FriendlyEventSuggestion, NewEventResponseData, ProposalType, ResponseValue } from '../utils/types';
+import { useNavigate } from 'react-router-dom';
+
 
 export const useEventInfo = (eventId: string) => {
+
+  const navigate = useNavigate();
 
   const [data, setData] = useState<FriendlyEventData | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
@@ -102,6 +106,10 @@ export const useEventInfo = (eventId: string) => {
   const myDateTimeSuggestions: FriendlyEventResponseActionDateTime[] = eventResponse.actions.filter(a => a.type === 'datetime').map(a => a as FriendlyEventResponseActionDateTime);
 
   const onUpvote = (suggestionId: string, userId: string) => {
+    if (!userId) {
+      navigate(`/login?redirectTo=${window.location.href}`);
+      return;
+    }
     let actions = eventResponse.actions;
     actions = actions.filter(action => {
       if (action.type === 'downvote' || action.type === 'upvote' || action.type === 'undovote') {
@@ -129,6 +137,10 @@ export const useEventInfo = (eventId: string) => {
     });
   };
   const onDownvote = (suggestionId: string, userId: string) => {
+    if (!userId) {
+      navigate(`/login?redirectTo=${window.location.href}`);
+      return;
+    }
     let actions = eventResponse.actions;
     actions = actions.filter(action => {
       if (action.type === 'downvote' || action.type === 'upvote' || action.type === 'undovote') {
@@ -162,6 +174,10 @@ export const useEventInfo = (eventId: string) => {
   };
 
   const onUndoVote = (suggestionId: string, userId: string) => {
+    if (!userId) {
+      navigate(`/login?redirectTo=${window.location.href}`);
+      return;
+    }
     /**
      * If undoing action from previous response
      * explicitly set an undo
@@ -204,6 +220,10 @@ export const useEventInfo = (eventId: string) => {
 
 
   const onAddDateTimeSuggestions = (suggestions: FriendlyEventResponseActionDateTime[], userId: string) => {
+    if (!userId) {
+      navigate(`/login?redirectTo=${window.location.href}`);
+      return;
+    }
     // clean up all the date time
     const actions = eventResponse.actions.filter(action => action.type !== 'datetime');
     // add the date time suggestions again
@@ -233,6 +253,10 @@ export const useEventInfo = (eventId: string) => {
 
 
   const onAddLocationSuggestions = (suggestions: FriendlyEventResponseActionLocation[], userId: string) => {
+    if (!userId) {
+      navigate(`/login?redirectTo=${window.location.href}`);
+      return;
+    }
     // clean up all the location suggestions
     const actions = eventResponse.actions.filter(action => action.type !== 'location');
     // add them again

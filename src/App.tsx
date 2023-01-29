@@ -115,7 +115,7 @@ const AppWrapper = styled('div', {
     top: 0,
     left: 0,
     width: '100%',
-    height: '40%',
+    height: '60%',
     backgroundColor: '#030511',
     zIndex: 0,
   },

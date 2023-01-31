@@ -26,6 +26,15 @@ export const createEvent = async (data: NewEventData) => {
   return event.data as FriendlyEventData;
 };
 
+export const updateEvent = async (eventId: string, data: Partial<FriendlyEventData>) => {
+  const event = await axios.post(formatApiUrl('updateevent'), data, {
+    params: {
+      'event-id': eventId,
+    },
+  });
+  return event.data as FriendlyEventData;
+};
+
 
 export interface DeleteEventRequest {
   userId: string;

@@ -6,6 +6,7 @@ type FirestoreFunctionNames = |
   'newslettersignup' |
   'createuser' |
   'deleteevent' |
+  'updateevent' |
   'createeventresponse';
 
 export const formatApiUrl = (functionName: FirestoreFunctionNames) => {

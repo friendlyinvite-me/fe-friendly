@@ -166,7 +166,11 @@ export const EventInfo: React.FC = () => {
         {
           tab === 'overview' && (
             <TabListWrapper>
-              <EventOverview event={event} />
+              <EventOverview 
+                isCreatedByUser={isCreatedByUser}
+                event={event}
+                refetchEventInfo={resetAndRefetch}
+              />
             </TabListWrapper>
           )
         }

@@ -1,5 +1,4 @@
 import { User as FirebaseUser } from 'firebase/auth';
-import { type } from 'os';
 
 export interface FriendlyEventRow {
   name: string;
@@ -15,6 +14,10 @@ export interface FriendlyEventData extends FriendlyEventRow {
   responses: FriendlyEventResponse[];
   suggestions: FriendlyEventSuggestion[];
   user: FriendlyUser;
+  finalizedInfo?: {
+    dateTimeSuggestionId: string;
+    locationSuggestionId: string;
+  }
 }
 
 export interface FriendlyEventSuggestion {

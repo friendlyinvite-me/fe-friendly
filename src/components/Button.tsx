@@ -30,6 +30,7 @@ const ButtonWrapper = styled('button', {
   '&:disabled': {
     backgroundColor: '$gray200 !important',
     cursor: 'not-allowed !important',
+    color: '$contentSecondary',
   },
 
   variants: {

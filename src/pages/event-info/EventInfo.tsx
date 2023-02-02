@@ -178,6 +178,7 @@ export const EventInfo: React.FC = () => {
           tab === 'datetime' && (
             <TabListWrapper>
               <EventDateTimes
+                readonly={event.status === 'finalized'}
                 dateTimeSuggestions={dateTimeSuggestions}
                 myDateTimeSuggestions={myDateTimeSuggestions}
                 onUpvote={onUpvote}
@@ -193,6 +194,7 @@ export const EventInfo: React.FC = () => {
           tab === 'location' && (
             <TabListWrapper>
               <EventLocations
+                readonly={event.status === 'finalized'}
                 locationSuggestions={locationSuggestions}
                 myLocationSuggestions={myLocationSuggestions}
                 onUpvote={onUpvote}
@@ -212,12 +214,14 @@ export const EventInfo: React.FC = () => {
           )
         }
         
-        <FloatingButtonWrapper>
-          <Button disabled={isBusy} sentiment={isEventReadyForSubmit ? 'primary' : 'primary-inverted'} size='large' onClick={ctaAction}>
-            { isBusy ? 'Please wait...' : submitCopy }
-            <FontAwesomeIcon icon={isEventReadyForSubmit ? faCircleRight : faCircleUp} />
-          </Button>
-        </FloatingButtonWrapper>
+        { event.status !== 'finalized' && 
+          <FloatingButtonWrapper>
+            <Button disabled={isBusy} sentiment={isEventReadyForSubmit ? 'primary' : 'primary-inverted'} size='large' onClick={ctaAction}>
+              { isBusy ? 'Please wait...' : submitCopy }
+              <FontAwesomeIcon icon={isEventReadyForSubmit ? faCircleRight : faCircleUp} />
+            </Button>
+          </FloatingButtonWrapper>
+        }
 
         {
           addingNewProposal && (

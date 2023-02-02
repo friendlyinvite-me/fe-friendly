@@ -29,10 +29,11 @@ interface Props {
   onDownvote?: () => void;
   onUndoVote?: () => void;
   onDelete?: () => void;
+  readonly?: boolean;
 }
 
 export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
-  const { data } = props;
+  const { data, readonly } = props;
 
   const { createdAt, title, id, upvotes, downvotes, user: eventCreator } = data;
 
@@ -85,7 +86,7 @@ export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
       }
       {
         isUserNewSuggestion && <RowWrapper>
-          <Text typography='p' color='contentTertiary'>Draft - you are suggesting. {props.onDelete && <a onClick={props.onDelete}>Delete</a>}</Text>
+          <Text typography='p' color='contentTertiary'>Draft - you are suggesting. {props.onDelete && !readonly && <a onClick={props.onDelete}>Delete</a>}</Text>
         </RowWrapper>
       }
       {eventCreator && !isUserNewSuggestion && (
@@ -99,7 +100,7 @@ export const EventSuggestionCard: React.FC<Props> = (props: Props) => {
           }
         </RowWrapper>
       )}
-      { isUserNewSuggestion || isUserPreviousSuggestion ? <></> :
+      { isUserNewSuggestion || isUserPreviousSuggestion || readonly ? <></> :
         <CardVotesWrapper>
           <Button onClick={upvotedByUser ? props.onUndoVote : props.onUpvote} size='medium' sentiment={upvotedByUser ? 'primary' : 'secondary'}>
             { upvotedByUser ? 'Liked' : 'Like'}

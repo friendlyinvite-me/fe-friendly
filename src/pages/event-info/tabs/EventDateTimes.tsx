@@ -13,6 +13,7 @@ interface Props {
   onUndoVote: (suggestionId: string, userId: string) => void;
   onDeleteSuggestion: (suggestionId: string, userId: string) => void;
   onAddNewProposal: (type: ProposalType) => void;
+  readonly?: boolean;
 }
 
 export const EventDateTimes: React.FC<Props> = ({
@@ -23,6 +24,7 @@ export const EventDateTimes: React.FC<Props> = ({
   myDateTimeSuggestions, 
   onDeleteSuggestion,
   onAddNewProposal,
+  readonly,
 }: Props) => {
   const { user } = useContext(UserContext);
   return (
@@ -33,6 +35,7 @@ export const EventDateTimes: React.FC<Props> = ({
           .map((suggestion) => (
             <EventSuggestionCard
               type='datetime'
+              readonly={readonly}
               key={suggestion.id}
               data={{
                 ...suggestion,
@@ -49,6 +52,7 @@ export const EventDateTimes: React.FC<Props> = ({
         myDateTimeSuggestions.map(suggestion => (
           <EventSuggestionCard
             type='datetime'
+            readonly={readonly}
             key={suggestion.id}
             onDelete={() => onDeleteSuggestion(suggestion.id, user?.id ?? '')}
             data={{
@@ -61,7 +65,9 @@ export const EventDateTimes: React.FC<Props> = ({
                   
         ))
       }
-      <AddNewSuggestionCard onClick={() => onAddNewProposal('datetime')} type='datetime' />
+      {
+        !readonly && <AddNewSuggestionCard onClick={() => onAddNewProposal('datetime')} type='datetime' />
+      }
     </>
   );
 };

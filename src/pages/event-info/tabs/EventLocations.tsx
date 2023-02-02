@@ -13,6 +13,7 @@ interface Props {
   onUndoVote: (suggestionId: string, userId: string) => void;
   onDeleteSuggestion: (suggestionId: string, userId: string) => void;
   onAddNewProposal: (type: ProposalType) => void;
+  readonly?: boolean;
 }
 
 export const EventLocations: React.FC<Props> = ({
@@ -23,6 +24,7 @@ export const EventLocations: React.FC<Props> = ({
   myLocationSuggestions, 
   onDeleteSuggestion,
   onAddNewProposal,
+  readonly,
 }: Props) => {
   const { user } = useContext(UserContext);
   return (
@@ -30,6 +32,7 @@ export const EventLocations: React.FC<Props> = ({
       {
         locationSuggestions.sort((a,b) => ((a.value as Location).name).localeCompare((b.value as Location).name)).map((suggestion) => (
           <EventSuggestionCard
+            readonly={readonly}
             type='location'
             key={suggestion.id}
             data={{
@@ -49,6 +52,7 @@ export const EventLocations: React.FC<Props> = ({
         myLocationSuggestions.map(suggestion => (
           <EventSuggestionCard
             type='location'
+            readonly={readonly}
             key={suggestion.id}
             onDelete={() => onDeleteSuggestion(suggestion.id, user?.id ?? '')}
             data={{
@@ -63,7 +67,7 @@ export const EventLocations: React.FC<Props> = ({
                   
         ))
       }
-      <AddNewSuggestionCard onClick={() => onAddNewProposal('location')} type='location' />
+      { !readonly && <AddNewSuggestionCard onClick={() => onAddNewProposal('location')} type='location' />}
     </>
   );
 };

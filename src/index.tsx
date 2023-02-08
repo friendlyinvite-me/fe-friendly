@@ -14,37 +14,59 @@ import App from './App';
 import { Landing } from './pages/landing/Landing';
 import { CreateAnEvent } from './pages/create-an-event/CreateAnEvent';
 import ReactModal from 'react-modal';
+import { PodpalApp } from './podpal/PodpalApp';
+import { Pokemons } from './podpal/Pokemons';
+import { PokemonInfo } from './podpal/Pokemon';
 
 ReactModal.setAppElement('#root');
 
 const router = createBrowserRouter([
+  // {
+  //   path: "/",
+  //   element: <App />,
+  //   children: [
+  //     {
+  //       path: '/',
+  //       element: <Landing />,
+  //     },
+  //     {
+  //       path: '/login',
+  //       element: <Login />,
+  //     },
+
+  //     {
+  //       path: "/dashboard",
+  //       element: <Dashboard />,
+  //     },
+  //     {
+  //       path: '/create-an-event',
+  //       element: <CreateAnEvent />,
+  //     },
+  //     {
+  //       path: "/events/:id",
+  //       element: <EventInfo />,
+  //       loader: async (data) => {
+  //         const eventId = data.params.id;
+  //         return {eventId};
+  //       },
+  //     },
+  //   ],
+  // },
   {
-    path: "/",
-    element: <App />,
+    path: '/',
+    element: <PodpalApp />,
     children: [
       {
-        path: '/',
-        element: <Landing />,
+        path: '/pokemons',
+        element: <Pokemons />,
+       
       },
       {
-        path: '/login',
-        element: <Login />,
-      },
-
-      {
-        path: "/dashboard",
-        element: <Dashboard />,
-      },
-      {
-        path: '/create-an-event',
-        element: <CreateAnEvent />,
-      },
-      {
-        path: "/events/:id",
-        element: <EventInfo />,
+        path: "/pokemon/:name",
+        element: <PokemonInfo />,
         loader: async (data) => {
-          const eventId = data.params.id;
-          return {eventId};
+          const pokemonName = data.params.name;
+          return { pokemonName };
         },
       },
     ],

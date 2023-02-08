@@ -4,6 +4,7 @@ import { styled } from '../../../styles';
 import moment from 'moment';
 import { DeleteRow, SuggestAnotherButton } from './shared';
 import { v4 as uuidv4 } from 'uuid';
+import { Button, Text } from '../../../components';
 
 interface Props {
   dateTimes: {id: string; value: Date}[],
@@ -23,7 +24,18 @@ export const DateTimeStep: React.FC<Props> = (props: Props) => {
   return (
     <Wrapper>
       {
-        dateTimes.map((item, index) => (
+        dateTimes.length === 0 && (
+          <>
+            <Text typography='h3'>Quick Creations</Text>
+            <Button>Tomorrow</Button>
+            <Button>Next coming days in the evenings</Button>
+            <Button>This weekend during the day</Button>
+            <Button>This weekend during the evenings</Button>
+          </>
+        )
+      }
+      {
+        dateTimes.map((item) => (
           <DateTimeStepItemWrapper key={item.id}>
             <DateTimePicker
               value={item}
@@ -43,12 +55,14 @@ export const DateTimeStep: React.FC<Props> = (props: Props) => {
           </DateTimeStepItemWrapper>
         ))
       }
-      <SuggestAnotherButton onClick={() => {
-        onSetDateTimes([...dateTimes, {
-          id: uuidv4(),
-          value: newDateSuggested,
-        }]);
-      }}>Suggest another</SuggestAnotherButton>
+      <>
+        <SuggestAnotherButton onClick={() => {
+          onSetDateTimes([...dateTimes, {
+            id: uuidv4(),
+            value: newDateSuggested,
+          }]);
+        }}>Suggest a new date & time</SuggestAnotherButton>
+      </>
     </Wrapper>
   );
 };

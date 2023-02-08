@@ -5,6 +5,7 @@ import { updateEvent } from '../../../api';
 import { Button, Text } from '../../../components';
 import { UserContext } from '../../../contexts/auth-context';
 import { styled } from '../../../styles';
+import { DATETIME_FORMAT } from '../../../utils/constants';
 import { FriendlyEventData, FriendlyUser, Location } from '../../../utils/types';
 
 interface Props {
@@ -123,7 +124,7 @@ export const EventOverview: React.FC<Props> = ({event, isCreatedByUser, refetchE
                       type='radio'
                       value={dateTime.id}
                     />
-                    <label htmlFor={dateTime.id}>{moment(dateTime.value as string).format('Do MMM y @ h:mm a') }</label>
+                    <label htmlFor={dateTime.id}>{moment(dateTime.value as string).format(DATETIME_FORMAT) }</label>
                   </div>
                 ))
               }
@@ -171,7 +172,7 @@ export const EventOverview: React.FC<Props> = ({event, isCreatedByUser, refetchE
         So far, {eventParticipants.count} {eventParticipants.count === 1 ? 'person has' : 'people have'} added their responses on this event: {eventParticipants.participants}
             </Text>
             <Text typography='h4'>
-        There are {dateTimes.count} suggestions for when to meet. {dateTimes.mostPopular && (<b>{moment(dateTimes.mostPopular.value as string).format('Do MMM y @ h:mm a')} is the most popular with {dateTimes.mostPopular.upvotes.length} upvotes and {dateTimes.mostPopular.downvotes.length} downvotes.</b>)}
+        There are {dateTimes.count} suggestions for when to meet. {dateTimes.mostPopular && (<b>{moment(dateTimes.mostPopular.value as string).format(DATETIME_FORMAT)} is the most popular with {dateTimes.mostPopular.upvotes.length} upvotes and {dateTimes.mostPopular.downvotes.length} downvotes.</b>)}
             </Text>
             <Text typography='h4'>
         There are {locations.count} suggestions for where to meet. {locations.mostPopular && <b>{(locations.mostPopular.value as Location).name} is the most popular with {locations.mostPopular.upvotes.length} upvotes and {dateTimes.mostPopular.downvotes.length} downvotes.</b> }
@@ -189,7 +190,7 @@ export const EventOverview: React.FC<Props> = ({event, isCreatedByUser, refetchE
               {event.user.name} created {event.name} {moment(event.createdAt).fromNow()}. It is currently in the {event.status} status.
             </Text>
             <Text typography='h4'>
-              {dateTimes.finalChoice && (<b>{moment(dateTimes.finalChoice.value as string).format('Do MMM y @ h:mm a')} is the finalized date & time with {dateTimes.mostPopular.upvotes.length} upvotes and {dateTimes.mostPopular.downvotes.length} downvotes.</b>)}
+              {dateTimes.finalChoice && (<b>{moment(dateTimes.finalChoice.value as string).format(DATETIME_FORMAT)} is the finalized date & time with {dateTimes.mostPopular.upvotes.length} upvotes and {dateTimes.mostPopular.downvotes.length} downvotes.</b>)}
             </Text>
             <Text typography='h4'>
               {locations.finalChoice && <b>{(locations.finalChoice.value as Location).name} is the finalized location with {locations.mostPopular.upvotes.length} upvotes and {dateTimes.mostPopular.downvotes.length} downvotes.</b> }

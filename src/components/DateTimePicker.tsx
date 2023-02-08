@@ -22,7 +22,7 @@ export const DateTimePicker: React.FC<Props> = (props: Props) => {
       <DateTimePickerInput disabled={props.disabled} format='dd MMM y   h:mm a' clearIcon={null} disableClock disableCalendar onChange={(val) => {
         onChange(val);
       }} value={value} />
-      <Text typography='h4' color="$gray300">{moment(value).fromNow()}</Text>
+      <Text typography='h4' color="$gray300">{moment(value).fromNow()}, {moment(value).format('dddd')}</Text>
     </DateTimePickerWrapper>
   );
 };

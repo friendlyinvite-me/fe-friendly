@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { AddNewSuggestionCard } from '../../../components/AddNewSuggestionCard';
 import { EventSuggestionCard } from '../../../components/EventSuggestionCard';
 import { UserContext } from '../../../contexts/auth-context';
+import { DATETIME_FORMAT } from '../../../utils/constants';
 import { FriendlyEventResponseActionDateTime, FriendlyEventSuggestion, Location, ProposalType } from '../../../utils/types';
 
 interface Props {
@@ -39,7 +40,7 @@ export const EventDateTimes: React.FC<Props> = ({
               key={suggestion.id}
               data={{
                 ...suggestion,
-                title: moment(suggestion.value as string).format('Do MMM y @ h:mm a'),
+                title: moment(suggestion.value as string).format(DATETIME_FORMAT),
               }}
               onUpvote={() => onUpvote(suggestion.id, user?.id ?? '')}
               onDownvote={() => onDownvote(suggestion.id, user?.id ?? '')}
@@ -59,7 +60,7 @@ export const EventDateTimes: React.FC<Props> = ({
               ...suggestion,
               upvotes: [],
               downvotes: [],
-              title: moment(suggestion.value as string).format('Do MMM y @ h:mm a'),
+              title: moment(suggestion.value as string).format(DATETIME_FORMAT),
             }}
           />
                   

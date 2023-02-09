@@ -71,19 +71,23 @@ export const Pokemons: React.FC = () => {
 
 
     <div>
-      <FlexWrapper>
+      <div>
         <h1>Pokedex</h1>
         <FlexWrapper>
-
-
-          <Badge sentiment={filter === 'all' ? 'filled' : "outline"} type="all" onClick={() => onFetchAll()}>All</Badge>
-          <Badge sentiment={filter === 'fire' ? 'filled' : "outline"} type={'fire'} onClick={() => onFilterType('fire')}>Fire</Badge>
-          <Badge sentiment={filter === 'water' ? 'filled' : "outline"} type={'water'} onClick={() => onFilterType('water')}>Water</Badge>
-          <Badge sentiment={filter === 'grass' ? 'filled' : "outline"} type={'grass'} onClick={() => onFilterType('grass')}>Grass</Badge>
-          <Badge sentiment={filter === 'bug' ? 'filled' : "outline"} type={'bug'} onClick={() => onFilterType('bug')}>Bug</Badge>
-          <Badge sentiment={filter === 'normal' ? 'filled' : "outline"} type={'normal'} onClick={() => onFilterType('normal')}>Normal</Badge>
+          <FlexWrapper>
+            <Badge sentiment={filter === 'all' ? 'filled' : "outline"} type="all" onClick={() => onFetchAll()}>All</Badge>
+            <Badge sentiment={filter === 'fire' ? 'filled' : "outline"} type={'fire'} onClick={() => onFilterType('fire')}>Fire</Badge>
+            <Badge sentiment={filter === 'water' ? 'filled' : "outline"} type={'water'} onClick={() => onFilterType('water')}>Water</Badge>
+            <Badge sentiment={filter === 'grass' ? 'filled' : "outline"} type={'grass'} onClick={() => onFilterType('grass')}>Grass</Badge>
+            <Badge sentiment={filter === 'bug' ? 'filled' : "outline"} type={'bug'} onClick={() => onFilterType('bug')}>Bug</Badge>
+            <Badge sentiment={filter === 'normal' ? 'filled' : "outline"} type={'normal'} onClick={() => onFilterType('normal')}>Normal</Badge>
+          </FlexWrapper>
+          
         </FlexWrapper>
-      </FlexWrapper>
+      </div>
+      <br />
+      <br />
+      <br />
       <ListWrapper>
         {
           pokemons.map((p: any) => (

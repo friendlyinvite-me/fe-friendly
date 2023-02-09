@@ -30,7 +30,7 @@ export const PokemonCard: React.FC<Props> = (props: Props) => {
       {
         pokemon && (
           <div>
-            <Thumbnail src={pokemon.sprites.back_default} />
+            <Thumbnail src={Object.values(pokemon.sprites).find(a => a != null && typeof a === 'string')} />
           </div>
         )
       }
@@ -70,32 +70,100 @@ const Thumbnail = styled('img', {
 export const FlexWrapper = styled('div', {
   display: 'flex',
   alignItems: 'center',
+  gap: '$2',
   justifyContent: 'space-between',
 });
 
 export const Badge = styled('div', {
   padding: '2px 12px 4px',
   borderRadius: '20px',
-  color: 'white',
-  backgroundColor: 'gray',
+  textTransform: 'capitalize',
+  border: '1px solid #969696',
+  backgroundColor: 'transparent',
+  color: 'gray',
+  cursor: 'pointer',
 
   variants: {
     type: {
       grass: {
-        backgroundColor: '#20be73',
+        borderColor: '#20be73',
+        color: '#20be73',
       },
       fire: {
-        backgroundColor: '#f25959',
+        borderColor: '#f25959',
+        color: '#f25959',
       },
       water: {
-        backgroundColor: '#4389f6',
+        borderColor: '#4389f6',
+        color: '#4389f6',
       },
       bug: {
-        backgroundColor: '#20be73',
+        borderColor: '#20be73',
+        color: '#20be73',
       },
       normal: {
-        backgroundColor: '##969696',
+        borderColor: '#969696',
+        color: '#969696',
+      },
+      all: {
+        borderColor: '#969696',
+        color: '#969696',
       },
     },
+    sentiment: {
+      "filled": {},
+      "oultine": {},
+    },
   },
+
+  compoundVariants: [
+    {
+      type: 'all',
+      sentiment: 'filled',
+      css: {
+        backgroundColor: '#969696',
+        color: 'white',
+      },
+    },
+    {
+      type: 'grass',
+      sentiment: 'filled',
+      css: {
+        backgroundColor: '#20be73',
+        color: 'white',
+      },
+    },
+    {
+      type: 'fire',
+      sentiment: 'filled',
+      css: {
+        backgroundColor: '#f25959',
+        color: 'white',
+      },
+    },
+    {
+      type: 'water',
+      sentiment: 'filled',
+      css: {
+        backgroundColor: '#4389f6',
+        color: 'white',
+      },
+    },
+    {
+      type: 'bug',
+      sentiment: 'filled',
+      css: {
+        backgroundColor: '#20be73',
+        color: 'white',
+      },
+    },
+    {
+      type: 'normal',
+      sentiment: 'filled',
+      css: {
+        backgroundColor: '#969696',
+        color: 'white',
+      },
+    },
+  ],
 });

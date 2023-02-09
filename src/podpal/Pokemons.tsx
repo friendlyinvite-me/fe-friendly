@@ -2,20 +2,19 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAsyncEffect from 'use-async-effect';
 import { styled } from '../styles';
-import { fetchAllPokemons, fetchPokemon } from './api/pokemon';
+import { fetchAllPokemons, fetchPokemon, fetchType } from './api/pokemon';
 import { Pokemon, PokemonSnippet } from './PodpalApp';
 import { Button } from './Pokemon';
-import { PokemonCard } from './PokemonCard';
+import { Badge, FlexWrapper, PokemonCard } from './PokemonCard';
 
 export const Pokemons: React.FC = () => {
   const [pokemons, setPokemons] = useState<PokemonSnippet[]>([]);
   const [cursors, setCursors] = useState<string[]>([]);
   const navigate = useNavigate();
+  const [filter, setFilter] = useState('all');
 
   useAsyncEffect(async () => {
-    const { data: { results, next }} = await fetchAllPokemons();
-    setPokemons(results);
-    setCursors([next]);
+    onFetchAll();
   }, []);
 
   const onLoadMore = async () => {
@@ -26,39 +25,55 @@ export const Pokemons: React.FC = () => {
     }
   };
 
+  const onFetchAll = async () => {
+    const { data: { results, next }} = await fetchAllPokemons();
+    setPokemons(results);
+    setCursors([next]);
+    setFilter('all');
+  };
+
+  const onFilterType = async (type: string) => {
+    setFilter(type);
+    const { data: { pokemon }} = await fetchType(type);
+    setPokemons(pokemon.map((p: {pokemon: PokemonSnippet}) => p.pokemon));
+    setCursors([]);
+  };
+
   const onSetPokemon = async (pokemon: PokemonSnippet) => {
     navigate(`/pokemon/${pokemon.name}`);
   };
 
-  return (
-    <PokemonsImpl list={pokemons} setCurrentPokemon={onSetPokemon} onLoadMore={onLoadMore}/>
-  );
-};
+  console.log(filter);
+  
 
-interface Props {
-  list: any[];
-  setCurrentPokemon: (pokemon: PokemonSnippet) => void;
-  onLoadMore: () => Promise<void>;
-}
-
-export const PokemonsImpl: React.FC<Props> = ({list, setCurrentPokemon, onLoadMore}: Props) => {
   return (
     <div>
-      <div>
+      <FlexWrapper>
         <h1>Pokedex</h1>
-      </div>
+        <FlexWrapper>
+          <Badge sentiment={filter === 'all' ? 'filled' : "outline"} type="all" onClick={() => onFetchAll()}>All</Badge>
+          <Badge sentiment={filter === 'fire' ? 'filled' : "outline"} type={'fire'} onClick={() => onFilterType('fire')}>Fire</Badge>
+          <Badge sentiment={filter === 'water' ? 'filled' : "outline"} type={'water'} onClick={() => onFilterType('water')}>Water</Badge>
+          <Badge sentiment={filter === 'grass' ? 'filled' : "outline"} type={'grass'} onClick={() => onFilterType('grass')}>Grass</Badge>
+          <Badge sentiment={filter === 'bug' ? 'filled' : "outline"} type={'bug'} onClick={() => onFilterType('bug')}>Bug</Badge>
+          <Badge sentiment={filter === 'normal' ? 'filled' : "outline"} type={'normal'} onClick={() => onFilterType('normal')}>Normal</Badge>
+        </FlexWrapper>
+      </FlexWrapper>
       <ListWrapper>
         {
-          list.map((p: any) => (
-            <PokemonCard onClick={setCurrentPokemon} key={p.name} pokemonSnippet={p} />
+          pokemons.map((p: any) => (
+            <PokemonCard onClick={onSetPokemon} key={p.name} pokemonSnippet={p} />
           ))
         }
       </ListWrapper>
       <br />
-      <Button onClick={() => onLoadMore()}>Load More</Button>
+      {
+        cursors.length > 0 && cursors[cursors.length - 1] != null && <Button onClick={() => onLoadMore()}>Load More</Button>
+      }
     </div>
   );
 };
+
 
 const ListWrapper = styled('div', {
   display: 'grid',

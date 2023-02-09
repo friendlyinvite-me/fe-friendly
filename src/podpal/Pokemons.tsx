@@ -43,14 +43,39 @@ export const Pokemons: React.FC = () => {
     navigate(`/pokemon/${pokemon.name}`);
   };
 
+
+
+
+
+
+
+
+
+
+
+
   console.log(filter);
+
+
+
   
 
+
+
+
+
+
+
   return (
+
+
+
     <div>
       <FlexWrapper>
         <h1>Pokedex</h1>
         <FlexWrapper>
+
+
           <Badge sentiment={filter === 'all' ? 'filled' : "outline"} type="all" onClick={() => onFetchAll()}>All</Badge>
           <Badge sentiment={filter === 'fire' ? 'filled' : "outline"} type={'fire'} onClick={() => onFilterType('fire')}>Fire</Badge>
           <Badge sentiment={filter === 'water' ? 'filled' : "outline"} type={'water'} onClick={() => onFilterType('water')}>Water</Badge>

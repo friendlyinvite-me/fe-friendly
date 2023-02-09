@@ -112,7 +112,7 @@ export const Badge = styled('div', {
     },
     sentiment: {
       "filled": {},
-      "oultine": {},
+      "outline": {},
     },
   },
 

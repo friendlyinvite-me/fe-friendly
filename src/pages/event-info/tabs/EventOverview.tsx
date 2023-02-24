@@ -21,6 +21,8 @@ interface FinalizedPlan {
 
 export const EventOverview: React.FC<Props> = ({event, isCreatedByUser, refetchEventInfo}: Props) => {
 
+  const [isFinalizing, setIsFinalizing] = useState(false);
+
   const [finalizedPlan, setFinalizedPlan] = useState<FinalizedPlan>({
     dateTimeId: null,
     locationId: null,
@@ -31,7 +33,8 @@ export const EventOverview: React.FC<Props> = ({event, isCreatedByUser, refetchE
   const onFinalizePlan = async () => {
     const { dateTimeId, locationId } = finalizedPlan;
     if (!dateTimeId || !locationId) return;
-
+    
+    setIsFinalizing(true);
     const updated = await updateEvent(
       event.id, 
       {
@@ -42,6 +45,8 @@ export const EventOverview: React.FC<Props> = ({event, isCreatedByUser, refetchE
         status: 'finalized',
       },
     );
+    
+    setIsFinalizing(false);
 
     if (updated) {
       toast.success('Great job finalizing your plan! We will send the final details to all the participants!');
@@ -88,14 +93,33 @@ export const EventOverview: React.FC<Props> = ({event, isCreatedByUser, refetchE
     const suggestions = event.suggestions.filter(s => s.type === 'location');
     const count = suggestions.length;
     const suggestionsSortByMostPopular = suggestions.sort((a,b) => (b.upvotes.length - b.downvotes.length) - (a.upvotes.length - a.downvotes.length));
+    const finalChoice = suggestions.find(s => s.id === event.finalizedInfo?.locationSuggestionId);
+    const finalChoiceLink = finalChoice && (finalChoice.value as Location).url;
     
     return {
       count,
       suggestions,
-      finalChoice: suggestions.find(s => s.id === event.finalizedInfo?.locationSuggestionId),
+      finalChoice,
+      finalChoiceLink,
       mostPopular: suggestionsSortByMostPopular[0],
     };
   }, [event.suggestions]);
+
+  const addToCalendarLink = useMemo(() => {
+    if (!dateTimes.finalChoice || !locations.finalChoice) return null;
+
+    const formatDate = (date: Date) => {
+      const month = `0${date.getUTCMonth()}`.slice(-2);
+      const day = `0${date.getUTCDate()}`.slice(-2);
+      return `${date.getUTCFullYear()}${month}${day}T${date.getUTCHours()}${date.getUTCMinutes()}00`;
+    };
+
+    const startTime = formatDate(new Date(dateTimes.finalChoice.value as string));
+    const endTime = formatDate(moment(dateTimes.finalChoice.value as string).add(1, 'h').toDate());
+
+    const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&dates=${startTime}Z/${endTime}Z&location=${(locations.finalChoice?.value as Location).name}&output=xml&sf=true&text=${event.name}`;
+    return url;
+  }, []);
 
   return (
     <EventOverviewWrapper>
@@ -156,26 +180,26 @@ export const EventOverview: React.FC<Props> = ({event, isCreatedByUser, refetchE
               }
             </div>
           </div>
-          <Button onClick={onFinalizePlan} sentiment='primary-inverted' disabled={!finalizedPlan.dateTimeId || !finalizedPlan.locationId}>Finalize your choices</Button>
+          <Button onClick={onFinalizePlan} sentiment='primary-inverted' disabled={!finalizedPlan.dateTimeId || !finalizedPlan.locationId || isFinalizing}>Finalize your choices</Button>
         </EventAdminActions>
       }
       {
         event.status !== 'finalized' && (
           <EventSummary>
             <Text typography='h3'>
-        Here is a summary of what is going on:
+        💬 Here is a summary of what is going on:
             </Text>
             <Text typography='h4'>
-              {event.user.name} created {event.name} {moment(event.createdAt).fromNow()}. It is currently in the {event.status} status.
+              👋 <b>{event.user.name}</b> created <b>{event.name}</b> {moment(event.createdAt).fromNow()}. It is currently in the <b>{event.status}</b> status.
             </Text>
             <Text typography='h4'>
-        So far, {eventParticipants.count} {eventParticipants.count === 1 ? 'person has' : 'people have'} added their responses on this event: {eventParticipants.participants}
+        🧑‍🤝‍🧑 So far, {eventParticipants.count} {eventParticipants.count === 1 ? 'person has' : 'people have'} added their responses on this event: {eventParticipants.participants}
             </Text>
             <Text typography='h4'>
-        There are {dateTimes.count} suggestions for when to meet. {dateTimes.mostPopular && (<b>{moment(dateTimes.mostPopular.value as string).format(DATETIME_FORMAT)} is the most popular with {dateTimes.mostPopular.upvotes.length} upvotes and {dateTimes.mostPopular.downvotes.length} downvotes.</b>)}
+        🕒 There are {dateTimes.count} suggestions for when to meet. {dateTimes.mostPopular && (<b>{moment(dateTimes.mostPopular.value as string).format(DATETIME_FORMAT)} is the most popular with {dateTimes.mostPopular.upvotes.length} upvotes and {dateTimes.mostPopular.downvotes.length} downvotes.</b>)}
             </Text>
             <Text typography='h4'>
-        There are {locations.count} suggestions for where to meet. {locations.mostPopular && <b>{(locations.mostPopular.value as Location).name} is the most popular with {locations.mostPopular.upvotes.length} upvotes and {dateTimes.mostPopular.downvotes.length} downvotes.</b> }
+        📍 There are {locations.count} suggestions for where to meet. {locations.mostPopular && <b>{(locations.mostPopular.value as Location).name} is the most popular with {locations.mostPopular.upvotes.length} upvotes and {dateTimes.mostPopular.downvotes.length} downvotes.</b> }
             </Text>
           </EventSummary>
         )
@@ -184,17 +208,22 @@ export const EventOverview: React.FC<Props> = ({event, isCreatedByUser, refetchE
         event.status === 'finalized' && (
           <EventSummary>
             <Text typography='h3'>
-        Here is a summary of finalized plan:
+        ✅ Here is a summary of finalized plan:
             </Text>
             <Text typography='h4'>
-              {event.user.name} created {event.name} {moment(event.createdAt).fromNow()}. It is currently in the {event.status} status.
+              👋 <b>{event.user.name}</b> created <b>{event.name}</b> {moment(event.createdAt).fromNow()}. It is currently in the <b>{event.status}</b> status.
             </Text>
             <Text typography='h4'>
-              {dateTimes.finalChoice && (<b>{moment(dateTimes.finalChoice.value as string).format(DATETIME_FORMAT)} is the finalized date & time with {dateTimes.mostPopular.upvotes.length} upvotes and {dateTimes.mostPopular.downvotes.length} downvotes.</b>)}
+              🕒 {dateTimes.finalChoice && (<b>{moment(dateTimes.finalChoice.value as string).format(DATETIME_FORMAT)} is the finalized date & time with {dateTimes.mostPopular.upvotes.length} upvotes and {dateTimes.mostPopular.downvotes.length} downvotes.</b>)}
             </Text>
             <Text typography='h4'>
-              {locations.finalChoice && <b>{(locations.finalChoice.value as Location).name} is the finalized location with {locations.mostPopular.upvotes.length} upvotes and {dateTimes.mostPopular.downvotes.length} downvotes.</b> }
+              📍 {locations.finalChoice && <b>{(locations.finalChoice.value as Location).name} is the finalized location with {locations.mostPopular.upvotes.length} upvotes and {dateTimes.mostPopular.downvotes.length} downvotes.</b> }
             </Text>
+            {
+              addToCalendarLink && (
+                <div>📅 <a href={addToCalendarLink} target="_blank" rel="noreferrer" ><b>Add to Google Calendar</b></a></div>
+              )
+            }
           </EventSummary>
         )
       }

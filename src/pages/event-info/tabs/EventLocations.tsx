@@ -39,7 +39,6 @@ export const EventLocations: React.FC<Props> = ({
               ...suggestion,
               title: (suggestion.value as Location).name,
               reference: (suggestion.value as Location).reference,
-              thumbnail: (suggestion.value as Location).thumbnail,
             }}
             onUpvote={() => onUpvote(suggestion.id, user?.id ?? '')}
             onDownvote={() => onDownvote(suggestion.id, user?.id ?? '')}
@@ -61,7 +60,6 @@ export const EventLocations: React.FC<Props> = ({
               downvotes: [],
               title: suggestion.value.name,
               reference: suggestion.value.reference,
-              thumbnail: suggestion.value.thumbnail,
             }}
           />
                   

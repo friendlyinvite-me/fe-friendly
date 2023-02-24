@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { styled } from '../styles';
 import { Location, LocationInfo } from '../utils/types';
 import { Text } from './Text';
-import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import { Button } from './Button';
-import { useWindowSize } from '../hooks/use-window-resize';
 import { useLocationInfo } from '../hooks/use-location-info';
 import { LocationInformation } from './LocationInfo';
 
@@ -21,7 +19,6 @@ export const LocationPreview: React.FC<Props> = (props: Props) => {
     name,
   } = useLocationInfo(props.location);
 
-  
   return (
     <LocationPreviewWrapper>
       <Text typography='h3' color='$contentPrimary'>{name}</Text>

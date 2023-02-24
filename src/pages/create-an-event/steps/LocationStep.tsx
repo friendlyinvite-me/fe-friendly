@@ -23,8 +23,8 @@ export const LocationStep: React.FC<Props> = (props: Props) => {
           if (!locations.find(l => l.value.reference === location.reference)) {
             const {
               name, 
-              reference, 
-              thumbnail,
+              reference,
+              url,
             } = location;
 
             onSetLocations([...locations, {
@@ -32,7 +32,7 @@ export const LocationStep: React.FC<Props> = (props: Props) => {
               value: {
                 name, 
                 reference, 
-                thumbnail,
+                url,
               },
             }]);
           }

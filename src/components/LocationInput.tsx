@@ -37,11 +37,10 @@ export const LocationInput: React.FC<Props> = (props: Props) => {
       placesService?.getDetails({
         placeId: selectedSearchResult.place_id,
       }, (location: LocationInfo) => {  
-        const firstPhoto = location.photos ? location.photos[0] : null;
 
         props.onSelectLocation({
-          ...location, 
-          thumbnail: firstPhoto ? firstPhoto.getUrl() : undefined,
+          ...location,
+          url: location.url, 
         });
       },
       );

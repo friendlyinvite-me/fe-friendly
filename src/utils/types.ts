@@ -94,7 +94,7 @@ export interface NewEventData {
 export interface Location {
   name: string;
   reference: string;
-  thumbnail?: string;
+  url?: string;
 }
 
 export interface LocationInfo extends Location {
@@ -121,6 +121,7 @@ export interface LocationInfo extends Location {
     }
   ],
   website?: string;
+  url?: string;
   rating?: number;
   user_ratings_total?: number;
 }

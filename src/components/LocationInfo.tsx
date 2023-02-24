@@ -18,9 +18,9 @@ export const LocationInformation: React.FC<Props> = (props: Props) => {
 
   return (
     <>
-      <Text typography='h4' color='$gray300'>{locationInfo.formatted_address}</Text>
+      📍 {locationInfo.formatted_address}
       {
-        locationInfo.rating && locationInfo.user_ratings_total && <Text typography='h4' color='$gray300'>{locationInfo.rating} stars ({locationInfo.user_ratings_total} reviews)</Text>
+        locationInfo.rating && locationInfo.user_ratings_total && <Text typography='h4' color='$gray300'>⭐ {locationInfo.rating} stars ({locationInfo.user_ratings_total} reviews)</Text>
       }
       {
         locationInfo.photos?.length && (
@@ -33,6 +33,16 @@ export const LocationInformation: React.FC<Props> = (props: Props) => {
               ))
             }
           </PhotosWrapper>
+        )
+      }
+      {
+        locationInfo.url && (
+          <div>📍 <a href={locationInfo.url} target="_blank" rel="noreferrer">Open in Google Maps</a> </div>
+        )
+      }
+      {
+        locationInfo.website && (
+          <div>🔗 <a href={locationInfo.website} target="_blank" rel="noreferrer">Website</a></div>
         )
       }
     </>
